@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Bot v3.2 — Live Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e2e8f0;--muted:#94a3b8;--pos:#4ade80;--neg:#f87171;--accent:#4f8ef7;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;padding:20px;}
+  h1{font-size:1.4rem;font-weight:700;margin-bottom:4px;}
+  .subtitle{color:var(--muted);font-size:.85rem;margin-bottom:20px;}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .stat-val{font-size:1.6rem;font-weight:700;}
+  .stat-label{font-size:.75rem;color:var(--muted);margin-top:2px;}
+  .pos{color:var(--pos);} .neg{color:var(--neg);}
+  .chart-wrap{position:relative;height:240px;}
+  .gauge-row{display:flex;gap:12px;align-items:center;margin-top:8px;}
+  .gauge-bar{flex:1;background:#2a2d3a;border-radius:6px;height:10px;overflow:hidden;}
+  .gauge-fill{height:100%;border-radius:6px;transition:width .4s;}
+  table{width:100%;border-collapse:collapse;font-size:.75rem;}
+  th{background:#2a2d3a;padding:6px 8px;text-align:left;color:var(--muted);position:sticky;top:0;cursor:pointer;user-select:none;}
+  th:hover{color:var(--accent);}
+  td{padding:5px 8px;border-bottom:1px solid #1e2133;}
+  tr:hover td{background:#1e2133;}
+  .section-title{font-size:.9rem;font-weight:600;color:var(--accent);margin-bottom:10px;}
+  ul{padding-left:18px;} li{margin-bottom:6px;font-size:.82rem;line-height:1.5;}
+  .sig-bar{background:#2a2d3a;border-radius:8px;height:22px;overflow:hidden;position:relative;margin-top:6px;}
+  .sig-fill{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:8px;font-size:.7rem;font-weight:700;color:white;min-width:24px;}
+  .sig-label{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:.7rem;color:var(--muted);}
+  .scroll-table{max-height:320px;overflow-y:auto;border-radius:8px;border:1px solid var(--border);}
+  .reload-btn{background:var(--accent);color:white;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-size:.8rem;font-weight:600;margin-left:12px;}
+  .reload-btn:hover{opacity:.85;}
+  .loading-overlay{position:fixed;inset:0;background:rgba(15,17,23,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;gap:16px;}
+  .spinner{width:40px;height:40px;border:4px solid #2a2d3a;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .error-box{background:#2a1a1a;border:1px solid #f87171;border-radius:10px;padding:20px;max-width:600px;margin:40px auto;}
+  .error-box h2{color:#f87171;margin-bottom:12px;}
+  .error-box code{background:#1a0f0f;padding:8px 12px;border-radius:6px;display:block;margin:8px 0;font-family:monospace;font-size:.85rem;color:#4ade80;}
+  .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600;margin:2px;}
+  #loadStatus{font-size:.75rem;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadOverlay">
+  <div class="spinner"></div>
+  <div style="color:var(--muted);font-size:.9rem;" id="loadMsg">Loading log files…</div>
+</div>
+
+<!-- Error box (shown if fetch fails) -->
+<div id="errorBox" class="error-box" style="display:none;">
+  <h2>⚠️ Cannot Load Log Files</h2>
+  <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px;">
+    Your browser blocked local file access (standard security policy). Run a quick local server from your logs folder:
+  </p>
+  <p style="font-size:.8rem;color:var(--muted);">Option 1 — Python (easiest):</p>
+  <code>cd "C:\Users\jashy\Claude\Projects\Investing & Financial\logs"
+python -m http.server 8888</code>
+  <p style="font-size:.8rem;color:var(--muted);">Then open: <strong style="color:var(--accent);">http://localhost:8888/dashboard.html</strong></p>
+  <p style="font-size:.8rem;color:var(--muted);margin-top:12px;">Option 2 — Node:</p>
+  <code>npx serve .</code>
+  <p style="font-size:.75rem;color:var(--muted);margin-top:16px;">Or use Firefox — it allows same-folder file access by default.</p>
+</div>
+
+<!-- Main content (hidden until loaded) -->
+<div id="mainContent" style="display:none;">
+
+<div style="display:flex;align-items:center;margin-bottom:4px;">
+  <h1>📊 Trading Bot v3.2 — Live Dashboard</h1>
+  <button class="reload-btn" onclick="loadAll()">↺ Reload</button>
+</div>
+<p class="subtitle" id="subtitle">Loading…</p>
+
+<!-- Summary Cards -->
+<div class="grid4" id="summaryCards"></div>
+
+<!-- Per-Model Cards -->
+<div class="grid4" id="modelCards"></div>
+
+<!-- Charts -->
+<div class="grid2">
+  <div class="card">
+    <div class="section-title">💹 Balance Curves (All Models)</div>
+    <div class="chart-wrap"><canvas id="balChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="section-title">📊 Daily P&L by Model</div>
+    <div class="chart-wrap"><canvas id="pnlChart"></canvas></div>
+  </div>
+</div>
+
+<!-- Significance Bars -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">🎯 Live-Trading Gate: Signals Toward 30</div>
+  <div id="sigBars"></div>
+  <div id="statsLine" style="margin-top:8px;font-size:.75rem;color:var(--muted);"></div>
+</div>
+
+<!-- Adaptive Rules + Lessons -->
+<div class="grid2" style="margin-bottom:20px;">
+  <div class="card">
+    <div class="section-title">🧠 Adaptive Rules Active</div>
+    <div id="adaptiveTags"></div>
+    <div style="margin-top:14px;" class="section-title">⚠️ Priority Fixes</div>
+    <ul id="priorityFixes"></ul>
+  </div>
+  <div class="card">
+    <div class="section-title">📚 Latest Lessons</div>
+    <ul id="lessonsList"></ul>
+  </div>
+</div>
+
+<!-- Trade Log -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">📋 Full Trade Log <span id="tradeCount" style="color:var(--muted);font-size:.75rem;font-weight:400;"></span></div>
+  <div class="scroll-table">
+    <table id="tradeTable">
+      <thead><tr>
+        <th>Date</th><th>Model</th><th>Ticker</th><th>Dir</th>
+        <th>Entry $</th><th>Exit $</th><th>Qty</th>
+        <th>PnL $</th><th>PnL %</th><th>Conf</th>
+        <th>RSI</th><th>Gap%</th><th>EMA Fast</th>
+        <th>VIX</th><th>Exit Reason</th><th>Data Source</th>
+      </tr></thead>
+      <tbody id="tradeBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<p style="font-size:.65rem;color:#475569;text-align:center;margin-top:10px;" id="footer"></p>
+
+</div><!-- end mainContent -->
+
+<script>
+const MODELS = ['champion_v1','challenger_v1','scalp_champion_v1','scalp_challenger_v1'];
+const MC = {champion_v1:'#4f8ef7',challenger_v1:'#f7a24f',scalp_champion_v1:'#4ff79a',scalp_challenger_v1:'#f74f8e'};
+const ML = {champion_v1:'Champion (Trend)',challenger_v1:'Challenger (Trend)',scalp_champion_v1:'Scalp Champion',scalp_challenger_v1:'Scalp Challenger'};
+
+// Public dashboard repo — safe to fetch from anywhere (no strategy/code exposed)
+const GITHUB_RAW = 'https://raw.githubusercontent.com/JashyardEngDev75/trading-bot-dashboard/main/';
+const LOCAL = './';
+
+let balChartInst = null, pnlChartInst = null;
+
+async function fetchText(file) {
+  // Try GitHub raw first (works from anywhere, no server needed)
+  try {
+    const r = await fetch(GITHUB_RAW + file + '?t=' + Date.now());
+    if (r.ok) {
+      const text = await r.text();
+      if (text.trim()) return text; // non-empty = real data
+    }
+  } catch(e) { /* fall through to local */ }
+  // Fall back to local relative path (when running via local server)
+  const r = await fetch(LOCAL + file + '?t=' + Date.now());
+  if (!r.ok) throw new Error(`${file}: ${r.status}`);
+  return r.text();
+}
+
+function parseJsonl(text) {
+  return text.split('\n').filter(l => l.trim()).map(l => JSON.parse(l));
+}
+
+function fmt$(v) { return v >= 0 ? '+$' + v.toFixed(2) : '-$' + Math.abs(v).toFixed(2); }
+function fmtPct(v) { return v >= 0 ? '+' + v.toFixed(2) + '%' : v.toFixed(2) + '%'; }
+
+async function loadAll() {
+  document.getElementById('loadOverlay').style.display = 'flex';
+  document.getElementById('loadMsg').textContent = 'Loading log files…';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'none';
+
+  let trades, balances, registry, learnings;
+
+  try {
+    document.getElementById('loadMsg').textContent = 'Reading trades.jsonl…';
+    trades = parseJsonl(await fetchText('trades.jsonl'));
+  } catch(e) {
+    showError(e); return;
+  }
+
+  try {
+    document.getElementById('loadMsg').textContent = 'Reading paper_balances.jsonl…';
+    balances = parseJsonl(await fetchText('paper_balances.jsonl'));
+  } catch(e) { balances = []; }
+
+  try {
+    document.getElementById('loadMsg').textContent = 'Reading model_registry.json…';
+    registry = JSON.parse(await fetchText('model_registry.json'));
+  } catch(e) { registry = {}; }
+
+  try {
+    document.getElementById('loadMsg').textContent = 'Reading learnings.jsonl…';
+    learnings = parseJsonl(await fetchText('learnings.jsonl'));
+  } catch(e) { learnings = []; }
+
+  document.getElementById('loadOverlay').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+
+  render(trades, balances, registry, learnings);
+}
+
+function showError(e) {
+  document.getElementById('loadOverlay').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'block';
+  console.error(e);
+}
+
+function render(trades, balances, registry, learnings) {
+  const now = new Date();
+  const todayStr = now.toISOString().slice(0,10);
+
+  // --- Per-model stats ---
+  const stats = {};
+  MODELS.forEach(m => {
+    const mt = trades.filter(t => t.model_id === m && t.exit_price != null);
+    const wins = mt.filter(t => t.pnl_dollar > 0);
+    const totalPnl = mt.reduce((s,t) => s + (t.pnl_dollar||0), 0);
+    const lastBal = balances.filter(b => b.model_id === m).sort((a,b) => a.date > b.date ? -1 : 1)[0];
+    stats[m] = {
+      n: mt.length,
+      wins: wins.length,
+      wr: mt.length ? (wins.length / mt.length * 100) : 0,
+      totalPnl,
+      balance: lastBal ? lastBal.balance : 1000,
+      consecLoss: (registry[m] || {}).consecutive_losses || 0
+    };
+  });
+
+  const totalPnl = Object.values(stats).reduce((s,m) => s + m.totalPnl, 0);
+  const trendPnl = (stats.champion_v1?.totalPnl||0) + (stats.challenger_v1?.totalPnl||0);
+  const scalpPnl = (stats.scalp_champion_v1?.totalPnl||0) + (stats.scalp_challenger_v1?.totalPnl||0);
+  const allN = Object.values(stats).reduce((s,m) => s + m.n, 0);
+  const allWins = Object.values(stats).reduce((s,m) => s + m.wins, 0);
+  const overallWR = allN ? (allWins / allN * 100).toFixed(1) : '0.0';
+
+  // Subtitle
+  const lastLearning = learnings.length ? learnings[learnings.length-1] : null;
+  const vix = lastLearning?.market_conditions?.vix_current;
+  const dayN = lastLearning?.day_number || trades.length;
+  document.getElementById('subtitle').textContent =
+    `Updated: ${now.toLocaleString()} | PAPER TRADE | Day ${dayN}${vix ? ' | VIX: ' + vix : ''} | Data auto-loaded from logs/`;
+
+  // Summary cards
+  document.getElementById('summaryCards').innerHTML = `
+    <div class="card">
+      <div class="stat-val ${totalPnl>=0?'pos':'neg'}">${fmt$(totalPnl)}</div>
+      <div class="stat-label">Total Inception PnL</div>
+    </div>
+    <div class="card">
+      <div class="stat-val ${trendPnl>=0?'pos':'neg'}">${fmt$(trendPnl)}</div>
+      <div class="stat-label">Trend Lane PnL</div>
+    </div>
+    <div class="card">
+      <div class="stat-val ${scalpPnl>=0?'pos':'neg'}">${fmt$(scalpPnl)}</div>
+      <div class="stat-label">Scalp Lane PnL</div>
+    </div>
+    <div class="card">
+      <div class="stat-val">${allWins}/${allN}</div>
+      <div class="stat-label">Win Rate: ${overallWR}% | ${allN} trades</div>
+    </div>`;
+
+  // Model cards
+  document.getElementById('modelCards').innerHTML = MODELS.map(m => {
+    const s = stats[m];
+    const pnlClass = s.totalPnl >= 0 ? 'pos' : 'neg';
+    return `<div class="card">
+      <div style="font-size:.75rem;color:${MC[m]};font-weight:600;margin-bottom:6px;">${ML[m]}</div>
+      <div class="stat-val ${pnlClass}">${fmt$(s.totalPnl)}</div>
+      <div class="stat-label">Balance: $${s.balance.toFixed(2)} | WR: ${s.wr.toFixed(1)}%</div>
+      <div class="stat-label" style="margin-top:4px;">N=${s.n} | ConsecLoss: ${s.consecLoss}</div>
+      <div class="gauge-row"><div class="gauge-bar"><div class="gauge-fill" style="width:${s.wr}%;background:${MC[m]};"></div></div></div>
+    </div>`;
+  }).join('');
+
+  // Balance chart
+  const balByModel = {};
+  MODELS.forEach(m => {
+    const rows = balances.filter(b => b.model_id === m).sort((a,b) => a.date < b.date ? -1 : 1);
+    balByModel[m] = [{ x: 'Start', y: 1000 }, ...rows.map(r => ({ x: r.date, y: r.balance }))];
+  });
+  const balLabels = [...new Set(Object.values(balByModel).flatMap(s => s.map(p => p.x)))];
+
+  if (balChartInst) balChartInst.destroy();
+  balChartInst = new Chart(document.getElementById('balChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: balLabels,
+      datasets: MODELS.map(m => ({
+        label: ML[m],
+        data: balByModel[m].map(p => p.y),
+        borderColor: MC[m],
+        backgroundColor: MC[m] + '22',
+        tension: 0.3, pointRadius: 5, fill: false
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } },
+      scales: {
+        x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { color: '#2a2d3a' } },
+        y: { ticks: { color: '#94a3b8', font: { size: 9 }, callback: v => '$'+v }, grid: { color: '#2a2d3a' } }
+      }
+    }
+  });
+
+  // PnL bar chart
+  const pnlByModel = {};
+  MODELS.forEach(m => {
+    const byDate = {};
+    balances.filter(b => b.model_id === m).forEach(b => { byDate[b.date] = b.pnl_today; });
+    pnlByModel[m] = byDate;
+  });
+  const pnlDates = [...new Set(balances.map(b => b.date))].sort();
+
+  if (pnlChartInst) pnlChartInst.destroy();
+  pnlChartInst = new Chart(document.getElementById('pnlChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: pnlDates,
+      datasets: MODELS.map(m => ({
+        label: ML[m],
+        data: pnlDates.map(d => pnlByModel[m][d] ?? null),
+        backgroundColor: MC[m] + 'cc', borderColor: MC[m], borderWidth: 1
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#e2e8f0', font: { size: 10 } } } },
+      scales: {
+        x: { ticks: { color: '#94a3b8', font: { size: 9 } }, grid: { color: '#2a2d3a' } },
+        y: { ticks: { color: '#94a3b8', font: { size: 9 }, callback: v => '$'+v }, grid: { color: '#2a2d3a' } }
+      }
+    }
+  });
+
+  // Significance bars
+  document.getElementById('sigBars').innerHTML = MODELS.map(m => {
+    const n = stats[m].n;
+    const pct = Math.min
