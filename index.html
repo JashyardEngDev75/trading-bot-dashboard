@@ -342,4 +342,75 @@ function render(trades, balances, registry, learnings) {
   // Significance bars
   document.getElementById('sigBars').innerHTML = MODELS.map(m => {
     const n = stats[m].n;
-    const pct = Math.min
+    const pct = Math.min(n / 30 * 100, 100);
+    const color = n >= 30 ? '#4ade80' : n >= 20 ? '#f7a24f' : '#4f8ef7';
+    return `<div style="margin-bottom:8px;">
+      <div style="font-size:.75rem;color:${MC[m]};margin-bottom:2px;">${ML[m]}: ${n}/30 signals</div>
+      <div class="sig-bar">
+        <div class="sig-fill" style="width:${pct}%;background:${color};">${n}</div>
+        <div class="sig-label">${n >= 30 ? '✅ READY' : (30-n) + ' more needed'}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Stats line
+  const allConsec = Math.max(...MODELS.map(m => stats[m].consecLoss));
+  document.getElementById('statsLine').textContent =
+    `Total trades: ${allN} | Win rate: ${overallWR}% | Max consec losses: ${allConsec} | Going live at 30+ signals per model`;
+
+  // Adaptive rules
+  const lastL = learnings.length ? learnings[learnings.length-1] : null;
+  const rules = lastL?.adaptive_rules_triggered || {};
+  const tags = [];
+  if (rules.require_higher_confidence_on_longs) tags.push({label:'↑ Confidence Threshold on Longs', color:'#f7a24f'});
+  if (rules.gap_filter_should_activate) tags.push({label:'⚡ Gap Filter Active', color:'#f87171'});
+  if (rules.reduce_position_size) tags.push({label:'↓ Reduced Position Size', color:'#f87171'});
+  if (!tags.length) tags.push({label:'✓ No overrides — normal params', color:'#4ade80'});
+  document.getElementById('adaptiveTags').innerHTML = tags.map(t =>
+    `<span class="tag" style="background:${t.color}22;color:${t.color};border:1px solid ${t.color}44;">${t.label}</span>`
+  ).join('');
+
+  // Priority fixes
+  const fixes = lastL?.priority_fixes || ['No priority fixes recorded yet'];
+  document.getElementById('priorityFixes').innerHTML = fixes.map(f => `<li>${f}</li>`).join('');
+
+  // Lessons
+  const lessons = [...learnings].reverse().slice(0,5);
+  document.getElementById('lessonsList').innerHTML = lessons.length
+    ? lessons.map(l => `<li><strong>${l.date}</strong>: ${Object.values(l.lessons||{}).filter(Boolean).slice(0,2).join(' • ')}</li>`).join('')
+    : '<li>No lessons recorded yet</li>';
+
+  // Trade table — sortable
+  const sorted = [...trades].sort((a,b) => (b.date||'') > (a.date||'') ? 1 : -1);
+  document.getElementById('tradeCount').textContent = `(${sorted.length} trades)`;
+  document.getElementById('tradeBody').innerHTML = sorted.map(t => {
+    const pnlClass = (t.pnl_dollar||0) >= 0 ? 'pos' : 'neg';
+    return `<tr>
+      <td>${t.date||''}</td>
+      <td style="color:${MC[t.model_id]||'#fff'}">${(t.model_id||'').replace('_v1','')}</td>
+      <td>${t.ticker||''}</td>
+      <td>${t.direction||''}</td>
+      <td>$${(t.entry_price||0).toFixed(2)}</td>
+      <td>${t.exit_price != null ? '$'+t.exit_price.toFixed(2) : '—'}</td>
+      <td>${t.quantity||''}</td>
+      <td class="${pnlClass}">${t.pnl_dollar != null ? fmt$(t.pnl_dollar) : '—'}</td>
+      <td class="${pnlClass}">${t.pnl_pct != null ? fmtPct(t.pnl_pct) : '—'}</td>
+      <td>${t.confidence_score||''}</td>
+      <td>${t.rsi_at_entry != null ? t.rsi_at_entry.toFixed(1) : '—'}</td>
+      <td>${t.gap_pct_at_entry != null ? t.gap_pct_at_entry.toFixed(2)+'%' : '—'}</td>
+      <td>${t.ema_fast_at_entry != null ? '$'+t.ema_fast_at_entry.toFixed(2) : '—'}</td>
+      <td>${t.vix_at_entry != null ? t.vix_at_entry.toFixed(1) : '—'}</td>
+      <td>${t.exit_reason||'—'}</td>
+      <td>${t.data_source||'—'}</td>
+    </tr>`;
+  }).join('');
+
+  // Footer
+  document.getElementById('footer').textContent =
+    `Trading Bot v3.2 | PAPER TRADE ONLY | Data: ${trades.length} trades across ${[...new Set(trades.map(t=>t.date))].length} days | ↺ Reload for latest data`;
+}
+
+loadAll();
+</script>
+</body>
+</html>
