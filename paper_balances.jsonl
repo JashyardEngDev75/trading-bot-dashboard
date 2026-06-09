@@ -1,0 +1,4 @@
+{"model_id": "champion_v1", "date": "2026-06-09", "balance": 970.89, "pnl_today": -29.11, "inception_pnl": -29.110000000000014, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-09T19:59:53"}
+{"model_id": "challenger_v1", "date": "2026-06-09", "balance": 985.45, "pnl_today": -14.55, "inception_pnl": -14.549999999999955, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-09T19:59:53"}
+{"model_id": "scalp_champion_v1", "date": "2026-06-09", "balance": 986.1, "pnl_today": -13.9, "inception_pnl": -13.899999999999977, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-09T19:59:53"}
+{"model_id": "scalp_challenger_v1", "date": "2026-06-09", "balance": 991.66, "pnl_today": -8.34, "inception_pnl": -8.340000000000032, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-09T19:59:53"}
