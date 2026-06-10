@@ -42,6 +42,13 @@
   .error-box code{background:#1a0f0f;padding:8px 12px;border-radius:6px;display:block;margin:8px 0;font-family:monospace;font-size:.85rem;color:#4ade80;}
   .tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600;margin:2px;}
   #loadStatus{font-size:.75rem;color:var(--muted);}
+  .run-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .run-card{background:#141720;border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .run-status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.72rem;font-weight:700;margin-top:6px;}
+  .run-ok{background:#4ade8022;color:#4ade80;border:1px solid #4ade8044;}
+  .run-fail{background:#f8717122;color:#f87171;border:1px solid #f8717144;}
+  .run-partial{background:#f7a24f22;color:#f7a24f;border:1px solid #f7a24f44;}
+  .run-pending{background:#94a3b822;color:#94a3b8;border:1px solid #94a3b844;}
 </style>
 </head>
 <body>
@@ -99,6 +106,13 @@ python -m http.server 8888</code>
   <div class="section-title">🎯 Live-Trading Gate: Signals Toward 30</div>
   <div id="sigBars"></div>
   <div id="statsLine" style="margin-top:8px;font-size:.75rem;color:var(--muted);"></div>
+</div>
+
+<!-- Routine Health / Runs -->
+<div class="card" style="margin-bottom:20px;">
+  <div class="section-title">🔄 Routine Health</div>
+  <div class="run-grid" id="runCards"></div>
+  <div id="runsLastUpdated" style="margin-top:10px;font-size:.72rem;color:var(--muted);"></div>
 </div>
 
 <!-- Adaptive Rules + Lessons -->
@@ -199,10 +213,16 @@ async function loadAll() {
     learnings = parseJsonl(await fetchText('learnings.jsonl'));
   } catch(e) { learnings = []; }
 
+  let runs = [];
+  try {
+    document.getElementById('loadMsg').textContent = 'Reading runs.jsonl…';
+    runs = parseJsonl(await fetchText('runs.jsonl'));
+  } catch(e) { runs = []; }
+
   document.getElementById('loadOverlay').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
 
-  render(trades, balances, registry, learnings);
+  render(trades, balances, registry, learnings, runs);
 }
 
 function showError(e) {
@@ -211,7 +231,7 @@ function showError(e) {
   console.error(e);
 }
 
-function render(trades, balances, registry, learnings) {
+function render(trades, balances, registry, learnings, runs) {
   const now = new Date();
   const todayStr = now.toISOString().slice(0,10);
 
@@ -408,9 +428,68 @@ function render(trades, balances, registry, learnings) {
   // Footer
   document.getElementById('footer').textContent =
     `Trading Bot v3.2 | PAPER TRADE ONLY | Data: ${trades.length} trades across ${[...new Set(trades.map(t=>t.date))].length} days | ↺ Reload for latest data`;
+
+  renderRuns(runs);
+}
+
+function renderRuns(runs) {
+  const ROUTINES = [
+    { key: 'r1', name: 'R1 — Morning Scan', sched: '6:43am AZ',  steps: 11 },
+    { key: 'r3', name: 'R3 — Scalp 10:15',  sched: '7:15am AZ',  steps: 5  },
+    { key: 'r4', name: 'R4 — Scalp 11:00',  sched: '8:00am AZ',  steps: 5  },
+    { key: 'r2', name: 'R2 — EOD Safety',   sched: '12:53pm AZ', steps: 11 },
+  ];
+
+  function toAZ(isoStr) {
+    if (!isoStr) return null;
+    const d = new Date(isoStr);
+    if (isNaN(d)) return isoStr;
+    const az = new Date(d.getTime() - 7*60*60*1000);
+    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let h = az.getUTCHours(), m = az.getUTCMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${DAYS[az.getUTCDay()]} ${MONS[az.getUTCMonth()]} ${az.getUTCDate()} at ${h}:${m.toString().padStart(2,'0')}${ampm} AZ`;
+  }
+
+  document.getElementById('runCards').innerHTML = ROUTINES.map(r => {
+    const completed = runs
+      .filter(x => x.routine_key === r.key && x.type === 'complete')
+      .sort((a,b) => (b.timestamp_utc||b.completed_at||'') > (a.timestamp_utc||a.completed_at||'') ? 1 : -1);
+    const latest = completed[0];
+
+    let cls = 'run-pending', label = '— Not yet run', timeStr = 'No record', stepsStr = '';
+    if (latest) {
+      const ts = latest.timestamp_utc || latest.completed_at || '';
+      timeStr = toAZ(ts) || ts;
+      const sc = latest.steps_completed, st = latest.steps_total || r.steps;
+      stepsStr = sc != null ? `${sc}/${st} steps` : '';
+      if (latest.error) stepsStr = '⚠ ' + String(latest.error).slice(0,55);
+      if (latest.status === 'success')      { cls = 'run-ok';      label = '✅ Success'; }
+      else if (latest.status === 'failed')  { cls = 'run-fail';    label = '❌ Failed'; }
+      else if (latest.status === 'partial') { cls = 'run-partial'; label = '⚠️ Partial'; }
+      else                                  { cls = 'run-pending'; label = latest.status||'unknown'; }
+    }
+
+    return `<div class="run-card">
+      <div style="font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:3px;">${r.name}</div>
+      <div style="font-size:.67rem;color:var(--muted);">Scheduled ${r.sched}</div>
+      <span class="run-status ${cls}">${label}</span>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:6px;line-height:1.4;">${timeStr}</div>
+      ${stepsStr ? `<div style="font-size:.65rem;color:var(--muted);margin-top:2px;">${stepsStr}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  const allRecs = [...runs].sort((a,b) => (b.timestamp_utc||b.completed_at||'') > (a.timestamp_utc||a.completed_at||'') ? 1 : -1);
+  document.getElementById('runsLastUpdated').textContent = allRecs.length
+    ? `Last activity: ${toAZ(allRecs[0].timestamp_utc || allRecs[0].completed_at)} | ${runs.filter(x=>x.type==='complete').length} completed runs logged`
+    : 'No run records yet — routines will write here once they execute';
 }
 
 loadAll();
 </script>
 </body>
 </html>
+l>
+                              
