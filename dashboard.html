@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Bot v3.3 Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 20px; }
+  h1 { color: #7ec8e3; font-size: 1.5rem; margin-bottom: 4px; }
+  .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .card { background: #1a1a2e; border-radius: 10px; padding: 16px; border: 1px solid #2a2a4a; }
+  .card h3 { font-size: 0.75rem; text-transform: uppercase; color: #888; margin-bottom: 6px; }
+  .card .val { font-size: 1.6rem; font-weight: bold; }
+  .card .sub { font-size: 0.75rem; color: #888; margin-top: 4px; }
+  .green { color: #4caf50; } .red { color: #f44336; } .yellow { color: #ffc107; } .blue { color: #7ec8e3; }
+  .section { background: #1a1a2e; border-radius: 10px; padding: 16px; margin-bottom: 16px; border: 1px solid #2a2a4a; }
+  .section h2 { font-size: 1rem; color: #7ec8e3; margin-bottom: 12px; }
+  canvas { max-width: 100%; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th { background: #0f0f2a; padding: 8px; text-align: left; color: #888; border-bottom: 1px solid #2a2a4a; }
+  td { padding: 6px 8px; border-bottom: 1px solid #1e1e3a; }
+  tr:hover { background: #1e1e3a; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
+  .badge-green { background: #1b3a1b; color: #4caf50; border: 1px solid #4caf50; }
+  .badge-red { background: #3a1b1b; color: #f44336; border: 1px solid #f44336; }
+  .badge-yellow { background: #3a341b; color: #ffc107; border: 1px solid #ffc107; }
+  .badge-gray { background: #2a2a3a; color: #888; border: 1px solid #444; }
+  .progress-bar { background: #0f0f2a; border-radius: 6px; height: 18px; margin-top: 6px; overflow: hidden; position: relative; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #4f81bd, #7ec8e3); transition: width 0.3s; }
+  .progress-label { position: absolute; right: 8px; top: 1px; font-size: 0.75rem; color: #fff; }
+  .learning-card { background: #0f1a2e; border-left: 3px solid #4f81bd; padding: 10px 12px; margin-bottom: 8px; border-radius: 0 6px 6px 0; }
+  .learning-card .date { font-size: 0.7rem; color: #888; }
+  .learning-card .text { font-size: 0.8rem; margin-top: 4px; }
+  .gap-alert { background: #3a2b0f; border: 1px solid #ffc107; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<h1>🤖 Trading Bot v3.3 — Paper Dashboard</h1>
+<p class="subtitle">PAPER_TRADE=True | Account ••••---- | Updated: 2026-06-10 20:02 UTC</p>
+
+<div class="gap-alert">
+  ⚠️ <strong>TODAY (2026-06-10):</strong> Gap filter fired — TQQQ gap -2.75% (≤-2.5% threshold). TQQQ longs blocked. SQQQ confidence not met. <strong>0 trades placed.</strong> SQQQ would have won (+5.77%).
+</div>
+
+<!-- STAT CARDS -->
+<div class="grid">
+  <div class="card">
+    <h3>Total Closed Trades</h3>
+    <div class="val blue">0</div>
+    <div class="sub">v2 models (all-time)</div>
+  </div>
+  <div class="card">
+    <h3>Inception PnL</h3>
+    <div class="val green">$0.00</div>
+    <div class="sub">All 4 models combined</div>
+  </div>
+  <div class="card">
+    <h3>Win Rate</h3>
+    <div class="val yellow">—</div>
+    <div class="sub">Requires ≥1 trade</div>
+  </div>
+  <div class="card">
+    <h3>VIX Today</h3>
+    <div class="val yellow">21.99</div>
+    <div class="sub">+10.7% from 19.87 | Day high: 22.66</div>
+  </div>
+  <div class="card">
+    <h3>TQQQ Close</h3>
+    <div class="val red">$69.71</div>
+    <div class="sub">Gap: -2.75% | Day: -5.77%</div>
+  </div>
+  <div class="card">
+    <h3>What Would've Won</h3>
+    <div class="val green">SQQQ BUY</div>
+    <div class="sub">TQQQ fell -5.77% from prev close</div>
+  </div>
+</div>
+
+<!-- SIGNALS TOWARD 30 -->
+<div class="section">
+  <h2>📊 Signals Toward Live-Trading Gate (30 required per model)</h2>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+
+    <div>
+      <div style="font-size:0.85rem; margin-bottom:4px;">champion_v2 <span style="color:#888;">(0/30)</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #4f81bd, #4f81bdaa);"></div>
+        <span class="progress-label">0/30</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.85rem; margin-bottom:4px;">challenger_v2 <span style="color:#888;">(0/30)</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #f79646, #f79646aa);"></div>
+        <span class="progress-label">0/30</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.85rem; margin-bottom:4px;">scalp_champion_v2 <span style="color:#888;">(0/30)</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #9bbb59, #9bbb59aa);"></div>
+        <span class="progress-label">0/30</span>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:0.85rem; margin-bottom:4px;">scalp_challenger_v2 <span style="color:#888;">(0/30)</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #c0504d, #c0504daa);"></div>
+        <span class="progress-label">0/30</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BALANCE CURVES -->
+<div class="section">
+  <h2>💰 Balance History (Paper)</h2>
+  <canvas id="balanceChart" height="80"></canvas>
+</div>
+
+<!-- MODEL STATUS CARDS -->
+<div class="section">
+  <h2>🔷 Model Status</h2>
+  <div class="grid">
+
+    <div class="card">
+      <h3>📈 champion_v2</h3>
+      <div class="val green">$1,000.00</div>
+      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
+      <div style="margin-top:8px;">
+        <span class="badge badge-green">ACTIVE</span>
+        
+        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📈 challenger_v2</h3>
+      <div class="val green">$1,000.00</div>
+      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
+      <div style="margin-top:8px;">
+        <span class="badge badge-green">ACTIVE</span>
+        
+        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚡ scalp_champion_v2</h3>
+      <div class="val green">$1,000.00</div>
+      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
+      <div style="margin-top:8px;">
+        <span class="badge badge-green">ACTIVE</span>
+        
+        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚡ scalp_challenger_v2</h3>
+      <div class="val green">$1,000.00</div>
+      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
+      <div style="margin-top:8px;">
+        <span class="badge badge-green">ACTIVE</span>
+        
+        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADAPTIVE RULES ACTIVE -->
+<div class="section">
+  <h2>🧠 Adaptive Rules (Active for Tomorrow)</h2>
+  <table>
+    <tr><th>Rule</th><th>Status</th><th>Reason</th></tr>
+    <tr>
+      <td>Gap Filter (SQQQ-only mode)</td>
+      <td><span class="badge badge-yellow">TRIGGERED TODAY</span></td>
+      <td>Gap -2.75% ≤ -2.5% threshold. Monitor for repeat tomorrow.</td>
+    </tr>
+    <tr>
+      <td>Require Higher Confidence on Longs</td>
+      <td><span class="badge badge-gray">INACTIVE</span></td>
+      <td>No losing day streak (no trades today)</td>
+    </tr>
+    <tr>
+      <td>Reduce Position Size (3+ consec losses)</td>
+      <td><span class="badge badge-gray">INACTIVE</span></td>
+      <td>All models at 0 consecutive losses</td>
+    </tr>
+    <tr>
+      <td>SQQQ Confidence Review</td>
+      <td><span class="badge badge-yellow">FLAGGED</span></td>
+      <td>SQQQ thresholds (75-82) may be too high on confirmed gap-down days — missed +5.77% SQQQ move</td>
+    </tr>
+  </table>
+</div>
+
+<!-- RECENT LEARNINGS -->
+<div class="section">
+  <h2>📚 Recent Learnings (Last 5 Days)</h2>
+
+  <div class="learning-card">
+    <div class="date">2026-06-10 | Gap: -2.75% | PnL: <span class="yellow">$0.00</span> | Would've won: SQQQ_BUY</div>
+    <div class="text"><div style='margin-top:4px;'>• SQQQ confidence thresholds (75-82 min) may be too restrictive on confirmed gap-down days — consider separate lower threshold when gap ≤ -2.5% and momentum confirms continuation</div><div style='margin-top:4px;'>• Bar-replay verification shows no monitoring gap issues today (no trades placed)</div></div></div>
+  <div class="learning-card">
+    <div class="date">2026-06-09 | Gap: — | PnL: <span class="red">-$65.90</span> | Would've won: SQQQ_BUY</div>
+    <div class="text"><div style='margin-top:4px;'>• CRITICAL: Load FMP bars FIRST in Routine 1 before confidence scoring — never use 2pt EMA for gap calculation</div><div style='margin-top:4px;'>• CRITICAL: Implement gap filter — if real_gap > +1.5% AND intraday_trend bearish at scan, bias to SQQQ or skip</div></div></div>
+</div>
+
+<!-- TRADE LOG TABLE -->
+<div class="section">
+  <h2>📋 Trade Log (All Time — v2 Models)</h2>
+<p style="color:#888; font-size:0.85rem;">No trades recorded yet for v2 models. Awaiting first entry signal.</p>
+</div>
+
+<div style="color:#444; font-size:0.75rem; margin-top:20px; text-align:center;">
+  Trading Bot v3.3 | PAPER TRADE | Generated 2026-06-10 20:02 UTC | Account ••••----
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script>
+const datasets = [{"label": "champion_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#4f81bd"}, {"label": "challenger_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#f79646"}, {"label": "scalp_champion_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#9bbb59"}, {"label": "scalp_challenger_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#c0504d"}];
+const ctx = document.getElementById('balanceChart').getContext('2d');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: datasets[0]?.labels || [],
+    datasets: datasets.map(d => ({
+      label: d.label,
+      data: d.data,
+      borderColor: d.color,
+      backgroundColor: d.color + '22',
+      tension: 0.3,
+      fill: false,
+      pointRadius: 4
+    }))
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: '#ccc' } },
+      tooltip: { mode: 'index' }
+    },
+    scales: {
+      x: { ticks: { color: '#888' }, grid: { color: '#222' } },
+      y: {
+        ticks: { color: '#888', callback: v => '$' + v.toFixed(0) },
+        grid: { color: '#222' },
+        suggestedMin: 900,
+        suggestedMax: 1100
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>

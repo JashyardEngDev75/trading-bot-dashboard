@@ -26,7 +26,7 @@
   "champion_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-09",
+    "last_updated": "2026-06-10",
     "status": "active",
     "params_version": "v3.3",
     "lineage": "champion_v1"
@@ -34,7 +34,7 @@
   "challenger_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-09",
+    "last_updated": "2026-06-10",
     "status": "active",
     "params_version": "v3.3",
     "lineage": "challenger_v1"
@@ -42,7 +42,7 @@
   "scalp_champion_v2": {
     "thesis": "scalp",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-09",
+    "last_updated": "2026-06-10",
     "status": "active",
     "params_version": "v3.3",
     "lineage": "scalp_champion_v1"
@@ -50,7 +50,7 @@
   "scalp_challenger_v2": {
     "thesis": "scalp",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-09",
+    "last_updated": "2026-06-10",
     "status": "active",
     "params_version": "v3.3",
     "lineage": "scalp_challenger_v1"

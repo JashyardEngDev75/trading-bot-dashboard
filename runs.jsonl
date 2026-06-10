@@ -1,0 +1,9 @@
+{"type":"start","routine_key":"r1","routine_name":"R1 — Morning Scan","timestamp_utc":"2026-06-10T14:45:25Z"}
+{"type":"start","routine_key":"r3","routine_name":"R3 — Scalp 10:15","timestamp_utc":"2026-06-10T14:45:46Z"}
+{"type":"start","routine_key":"r3","routine_name":"R3 — Scalp 10:15","timestamp_utc":"2026-06-10T14:46:22Z"}
+{"type":"complete","routine_key":"r3","routine_name":"R3 — Scalp 10:15","timestamp_utc":"2026-06-10T14:46:33Z","status":"success","steps_completed":1,"steps_total":6,"error":"window_expired: started 10:45:22 ET, outside 10:15-10:45 entry window"}
+{"type":"complete","routine_key":"r3","routine_name":"R3 — Scalp 10:15","timestamp_utc":"2026-06-10T14:46:37Z","status":"success","steps_completed":2,"steps_total":6,"error":null}
+{"type":"complete","routine_key":"r1","routine_name":"R1 — Morning Scan","timestamp_utc":"2026-06-10T14:49:37Z","status":"success","steps_completed":10,"steps_total":10,"error":null}
+{"type":"start","routine_key":"r4","routine_name":"R4 — Scalp 11:00","timestamp_utc":"2026-06-10T15:05:45Z"}
+{"type":"complete","routine_key":"r4","routine_name":"R4 — Scalp 11:00","timestamp_utc":"2026-06-10T15:12:23Z","status":"success","steps_completed":6,"steps_total":6,"error":null,"session_summary":{"scalp_champion_v2":"NO ENTRY — gap -2.77% TQQQ blocked, SQQQ score=46.2/78","scalp_challenger_v2":"NO ENTRY — gap -2.77% TQQQ blocked, SQQQ score=45.0/82","context":{"vix":21.44,"vix_modifier":1.0,"gap_pct":-2.77,"tqqq_price":72.39,"tqqq_vwap":73.09,"rsi":44.6,"orb_high":72.93,"orb_low":71.15,"mom_pct":0.99}}}
+{"type":"start","routine_key":"r2","routine_name":"R2 — EOD Safety","timestamp_utc":"2026-06-10T19:59:35Z"}
