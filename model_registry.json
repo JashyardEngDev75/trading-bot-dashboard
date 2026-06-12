@@ -26,33 +26,157 @@
   "champion_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-10",
+    "last_updated": "2026-06-12",
     "status": "active",
-    "params_version": "v3.3",
-    "lineage": "champion_v1"
+    "params_version": "v3.5.1",
+    "lineage": "champion_v1",
+    "entry_windows": [
+      "r1",
+      "r3",
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 1,
+    "challenger_wins_streak": 0
   },
   "challenger_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-10",
+    "last_updated": "2026-06-12",
     "status": "active",
-    "params_version": "v3.3",
-    "lineage": "challenger_v1"
+    "params_version": "v3.5.1",
+    "lineage": "challenger_v1",
+    "entry_windows": [
+      "r1",
+      "r3",
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 1,
+    "challenger_wins_streak": 0
   },
   "scalp_champion_v2": {
     "thesis": "scalp",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-10",
+    "last_updated": "2026-06-12",
     "status": "active",
-    "params_version": "v3.3",
-    "lineage": "scalp_champion_v1"
+    "params_version": "v3.5",
+    "lineage": "scalp_champion_v1",
+    "entry_windows": [
+      "r3",
+      "r4",
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 0,
+    "challenger_wins_streak": 0
   },
   "scalp_challenger_v2": {
     "thesis": "scalp",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-10",
+    "last_updated": "2026-06-12",
     "status": "active",
-    "params_version": "v3.3",
-    "lineage": "scalp_challenger_v1"
+    "params_version": "v3.5",
+    "lineage": "scalp_challenger_v1",
+    "entry_windows": [
+      "r3",
+      "r4",
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 0,
+    "challenger_wins_streak": 0
+  },
+  "mean_reversion_v1": {
+    "thesis": "reversion",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-12",
+    "status": "active",
+    "params_version": "v3.5",
+    "lineage": "new",
+    "entry_windows": [
+      "r1",
+      "r3",
+      "r4",
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 0,
+    "challenger_wins_streak": 0,
+    "notes": "anti-correlated; reversion_mode=True; fires when RSI extreme + VWAP deviation"
+  },
+  "afternoon_trend_v1": {
+    "thesis": "trend",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-12",
+    "status": "active",
+    "params_version": "v3.5",
+    "lineage": "new",
+    "entry_windows": [
+      "r5",
+      "r6"
+    ],
+    "trades_all_time": 0,
+    "challenger_wins_streak": 0,
+    "notes": "15/50 EMA; afternoon-only; captures trend continuation after open"
+  },
+  "random_v1": {
+    "thesis": "benchmark_random",
+    "type": "benchmark",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-11",
+    "status": "active",
+    "params_version": "v3.5.3",
+    "lineage": "new",
+    "entry_windows": [
+      "r1"
+    ],
+    "exit": "eod_force_close",
+    "size_dollars": 500,
+    "vix_gate": false,
+    "scoring": false,
+    "eligible_for_live": false,
+    "trades_all_time": 0,
+    "notes": "BENCHMARK: Random TQQQ/SQQQ at open each day, EOD close. Direction seeded by date for reproducibility. Purpose: compare active model alpha vs coin-flip baseline."
+  },
+  "tqqq_always_v1": {
+    "thesis": "benchmark_always_tqqq",
+    "type": "benchmark",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-11",
+    "status": "active",
+    "params_version": "v3.5.3",
+    "lineage": "new",
+    "entry_windows": [
+      "r1"
+    ],
+    "exit": "eod_force_close",
+    "size_dollars": 500,
+    "fixed_direction": "TQQQ",
+    "vix_gate": false,
+    "scoring": false,
+    "eligible_for_live": false,
+    "trades_all_time": 0,
+    "notes": "BENCHMARK: Always long TQQQ at open, EOD close. Pure buy-and-hold-daily baseline. Measures whether active models beat simple TQQQ exposure."
+  },
+  "sqqq_always_v1": {
+    "thesis": "benchmark_always_sqqq",
+    "type": "benchmark",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-11",
+    "status": "active",
+    "params_version": "v3.5.3",
+    "lineage": "new",
+    "entry_windows": [
+      "r1"
+    ],
+    "exit": "eod_force_close",
+    "size_dollars": 500,
+    "fixed_direction": "SQQQ",
+    "vix_gate": false,
+    "scoring": false,
+    "eligible_for_live": false,
+    "trades_all_time": 0,
+    "notes": "BENCHMARK: Always long SQQQ at open, EOD close. Bearish baseline. Measures whether active models beat naive short exposure."
   }
 }
