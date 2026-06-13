@@ -1,0 +1,1944 @@
+{
+  "meta": {
+    "version": "1.1",
+    "last_reviewed": "2026-06-13",
+    "last_reviewed_by": "Jordan (PM Agent)",
+    "review_cycle": "weekly",
+    "mission": "Build a paper-trading bot that consistently beats benchmarks on risk-adjusted returns and earns the right to go live.",
+    "next_review_due": "2026-06-20"
+  },
+  "columns": [
+    "Backlog",
+    "To Do",
+    "In Progress",
+    "Done",
+    "Cancelled"
+  ],
+  "items": [
+    {
+      "id": "RM-001",
+      "title": "Phase 1 Baseline Validation — 10 engine-scored sessions",
+      "description": "Accumulate 10 sessions where vix_proxy > 0 AND engine scores are emitted (no outage flag). Confirms VIX gate calibration before any threshold tuning. Current progress: 2/10 sessions (2026-06-12 outage excluded per BD-04).",
+      "column": "In Progress",
+      "priority": "P0",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 9,
+        "confidence": 95,
+        "effort": 1,
+        "score": 51
+      },
+      "owner": "Bot (automated)",
+      "assigned_to": null,
+      "source": "improvement_phases.json Phase 1",
+      "boardroom_ref": "BD-20260612-04",
+      "created": "2026-06-10",
+      "updated": "2026-06-12",
+      "tags": [
+        "phase-gate",
+        "live-path",
+        "automated"
+      ],
+      "acceptance_criteria": "signal_attempts.jsonl has ≥10 distinct dates with vix_proxy>0 and no outage_session flag"
+    },
+    {
+      "id": "RM-002",
+      "title": "Durability Phase B — Crypto-hash integrity check at FLIP_TO_LIVE",
+      "description": "Full sha256 verification of all critical files before PAPER_TRADE=False. Already anchored in FLIP_TO_LIVE.md. Needed before going live.",
+      "column": "In Progress",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 6,
+        "impact": 10,
+        "confidence": 90,
+        "effort": 3,
+        "score": 18
+      },
+      "owner": "Engineering (Rachel/Omar)",
+      "assigned_to": "Rachel",
+      "source": "BD-20260612-02 Phase B",
+      "boardroom_ref": "BD-20260612-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "durability",
+        "safety"
+      ],
+      "acceptance_criteria": "FLIP_TO_LIVE.md Phase B checklist items all testable and documented. Synthetic corruption drill passes.",
+      "queue_note": "Phase B code SHIPPED + drilled: scripts/safe_io.py (B1 safe-append), scripts/verify_integrity.py (B2 hard-gate; real run ALL MATCH 3 files), scripts/test_durability_phaseb.py (6/6 PASS). FLIP_TO_LIVE Step 4 checklist updated. Remaining deploy: wire safe_append into deployed entry SKILLs (needs Scheduled\\ mount) + B3 reconciliation."
+    },
+    {
+      "id": "RM-003",
+      "title": "GitHub MCP Authentication (option A sync restore)",
+      "description": "Authenticate GitHub MCP so sandbox can push log files via API instead of Chrome web UI. Restores offsite backup. Requires one-time action by Jashyard.",
+      "column": "In Progress",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 1,
+        "score": 48
+      },
+      "owner": "Jashyard (auth action)",
+      "assigned_to": "Jashyard",
+      "source": "BD-20260612-03",
+      "boardroom_ref": "BD-20260612-03",
+      "created": "2026-06-12",
+      "updated": "2026-06-13",
+      "tags": [
+        "reliability",
+        "backup",
+        "blocked-on-human",
+        "github",
+        "sync",
+        "live-path"
+      ],
+      "acceptance_criteria": "One successful automated full-set push via GitHub MCP. N=2 failure escalation tested.",
+      "queue_note": "QUEUED TO JASHYARD — no agent can execute; awaiting your action/decision.",
+      "notes": "GitHub MCP connector (plugin:engineering:github) is installed but cannot self-authenticate: its OAuth server does not support dynamic client registration. RESOLUTION (Jashyard, one-time): run /mcp in the session and authenticate the GitHub connector manually. Once authed, R2/R7 Step 6 push hands-free. Interim: Claude-in-Chrome web-editor upload still works (used for dashboard.html). EOD sync now also publishes roadmap.html + roadmap.json (RM-029 wiring)."
+    },
+    {
+      "id": "RM-004",
+      "title": "Phase 2 — Threshold Tuning from Near-Miss Data",
+      "description": "Use signal_attempts.jsonl near-miss analysis to tune min_confidence thresholds per model. Must follow OOS rule: train on first 20 sessions, validate on next 10 before permanent adoption.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 70,
+        "effort": 4,
+        "score": 8
+      },
+      "owner": "Jordan → Rachel",
+      "assigned_to": "Rachel",
+      "source": "improvement_phases.json Phase 2",
+      "boardroom_ref": null,
+      "created": "2026-06-10",
+      "updated": "2026-06-12",
+      "tags": [
+        "phase-gate",
+        "live-path",
+        "model-tuning"
+      ],
+      "acceptance_criteria": "≥20 training sessions. OOS validation on next 10 sessions. Profit factor or win rate not worse than pre-change baseline.",
+      "queue_note": "Gated: needs 20 training sessions (have ~2). OOS rule mandatory. Holds until Phase 1 (RM-001) completes."
+    },
+    {
+      "id": "RM-005",
+      "title": "VIX Proxy Gate — Enforce Mode Activation",
+      "description": "Switch GATE_MODE from 'shadow' to 'enforce' once shadow-mode data confirms gate value. Currently proxy≥30 flags but doesn't block. Must switch before going live.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 9,
+        "confidence": 75,
+        "effort": 2,
+        "score": 20
+      },
+      "owner": "Engineering → Jashyard approval",
+      "assigned_to": "Omar",
+      "source": "AI-CONTEXT.md v3.6.1",
+      "boardroom_ref": "OQ-20260612-2",
+      "created": "2026-06-10",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "risk",
+        "gate"
+      ],
+      "acceptance_criteria": "R8 gate-cost screener confirms gate blocks net-negative sessions. ≥10 flagged days in shadow data before switching.",
+      "queue_note": "Assigned for prep; ENFORCE flip needs (a) >=10 shadow flagged days and (b) Jashyard approval. Not enough shadow data yet."
+    },
+    {
+      "id": "RM-006",
+      "title": "Complete BD-06 Hygiene Bundle (Boardroom delegated items)",
+      "description": "Remaining items from BD-20260612-06: Tomás event map (06-09 to 06-12), Elena counterfactual pricing of missed setups, tearsheet N=0 enumeration for current models.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "process",
+      "rice": {
+        "reach": 4,
+        "impact": 5,
+        "confidence": 90,
+        "effort": 2,
+        "score": 9
+      },
+      "owner": "Engineering",
+      "assigned_to": "Sam",
+      "source": "BD-20260612-06 status: IMPLEMENTED_PARTIAL",
+      "boardroom_ref": "BD-20260612-06",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "documentation",
+        "analytics",
+        "boardroom"
+      ],
+      "acceptance_criteria": "Event map exists in boardroom/. Counterfactual pricing logged. Tearsheet shows N=0 warning for models with no closed trades.",
+      "queue_note": "Assigned (event map + counterfactual pricing + tearsheet N=0). Not executed this session."
+    },
+    {
+      "id": "RM-007",
+      "title": "Reporting Pack — Public Dashboard Incident Disclosure Policy",
+      "description": "Open Question OQ-20260612-1: Nadia (disclose Sev-1 incidents in public dashboard) vs Victor (keep private, disclose in cycle letter). Jashyard preference decides.",
+      "column": "To Do",
+      "priority": "P3",
+      "category": "reporting",
+      "rice": {
+        "reach": 3,
+        "impact": 4,
+        "confidence": 100,
+        "effort": 1,
+        "score": 12
+      },
+      "owner": "Jashyard (decision)",
+      "assigned_to": "Jashyard",
+      "source": "OQ-20260612-1",
+      "boardroom_ref": "OQ-20260612-1",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reporting",
+        "open-question",
+        "decision-needed",
+        "blocked-on-human"
+      ],
+      "acceptance_criteria": "Jashyard picks A (public disclosure) or B (private only). Policy documented in METRIC-DICTIONARY.md.",
+      "queue_note": "QUEUED TO JASHYARD — no agent can execute; awaiting your action/decision."
+    },
+    {
+      "id": "RM-008",
+      "title": "Phase 3 — Triple-Align Bonus Re-evaluation",
+      "description": "TRIPLE_ALIGN_BONUS is currently 0. After 30 clean sessions, re-evaluate with OOS test whether re-enabling the +8 bonus improves or hurts outcomes.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 60,
+        "effort": 3,
+        "score": 7
+      },
+      "owner": "Quant (Wei/Priya)",
+      "assigned_to": null,
+      "source": "improvement_phases.json Phase 3",
+      "boardroom_ref": null,
+      "created": "2026-06-10",
+      "updated": "2026-06-12",
+      "tags": [
+        "model-tuning",
+        "phase-gate"
+      ],
+      "acceptance_criteria": "30 sessions complete. OOS A/B analysis shows triple-align days have better PF with bonus than without. Human approval required."
+    },
+    {
+      "id": "RM-009",
+      "title": "FUSE Truncation Forensics — Size vs Concurrency Correlation",
+      "description": "OQ-20260612-3: Compare 3 truncation incidents (analytics.db, signal_engine.py ~18906B, improvement_phases.json ~7702B) for size/concurrency pattern. Informs Phase B durability design.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 3,
+        "impact": 6,
+        "confidence": 70,
+        "effort": 2,
+        "score": 6
+      },
+      "owner": "Engineering (Sam/Omar)",
+      "assigned_to": null,
+      "source": "OQ-20260612-3",
+      "boardroom_ref": "OQ-20260612-3",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "research",
+        "forensics"
+      ],
+      "acceptance_criteria": "Incident comparison written to TECH_NOTES.md. Pattern identified or inconclusive stated. Informs Phase B scope."
+    },
+    {
+      "id": "RM-010",
+      "title": "Synthetic Corruption Drill — Validate Step-0 Integrity Gate",
+      "description": "Run a controlled drill: intentionally corrupt a non-production copy of signal_engine.py and verify Step-0 catches it before a routine would execute. Validates the durability Phase A investment.",
+      "column": "In Progress",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 5,
+        "impact": 7,
+        "confidence": 90,
+        "effort": 2,
+        "score": 16
+      },
+      "owner": "Engineering (Rachel)",
+      "assigned_to": null,
+      "source": "BD-20260612-02 pending drill",
+      "boardroom_ref": "BD-20260612-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "testing",
+        "reliability",
+        "durability"
+      ],
+      "acceptance_criteria": "Drill documented. Step-0 fails gracefully (no trade, Slack alert). False-positive check: healthy file passes Step-0.",
+      "queue_note": "Synthetic corruption drill IMPLEMENTED + PASSING (scripts/test_durability_phaseb.py, 6/6). Validates Phase B B1/B2. Wire into RM-023 regression suite."
+    },
+    {
+      "id": "RM-011",
+      "title": "[STRATEGIC] IPS Finalization — Jashyard sign-off",
+      "description": "Investment Policy Statement governing all future live trading. Finalized + signed by Jashyard 2026-06-12 (IPS_SignOff_06.12.2026.docx).",
+      "column": "Done",
+      "priority": "P1",
+      "category": "governance",
+      "rice": {
+        "reach": 9,
+        "impact": 9,
+        "confidence": 95,
+        "effort": 1,
+        "score": 77
+      },
+      "owner": "Jashyard",
+      "assigned_to": "Jashyard",
+      "source": "BD-20260612-06 IPS-DRAFT",
+      "boardroom_ref": "BD-20260612-06",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "governance",
+        "live-path",
+        "personal",
+        "blocked-on-human"
+      ],
+      "acceptance_criteria": "IPS-DRAFT blanks filled. Document signed/dated by Jashyard. Lives in boardroom/. Required before PAPER_TRADE=False.",
+      "queue_note": "SIGNED by Jashyard, 2026-06-12 (IPS_SignOff_06.12.2026.docx). Tolerances: 25% DD auto-revert, 37% tax set-aside, sleeve ≤2%/cap 5% liquid NW. Sleeve $ + sweep destination to be set before first live session. Going-live gate condition MET (still needs the 6 statistical conditions + RM-003/RM-005)."
+    },
+    {
+      "id": "RM-012",
+      "title": "[STRATEGIC] Afternoon Session Performance Analysis",
+      "description": "R5 (12:30pm) and R6 (2:00pm) added in v3.4. Need 20+ sessions of data to analyze whether afternoon windows outperform, underperform, or trade independently of morning windows. Informs whether to keep, tune, or drop afternoon entries.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 5,
+        "impact": 7,
+        "confidence": 60,
+        "effort": 2,
+        "score": 10
+      },
+      "owner": "Quant (Wei)",
+      "assigned_to": null,
+      "source": "Jordan strategic backlog",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "analytics",
+        "model-eval"
+      ],
+      "acceptance_criteria": "R8 tearsheet includes window-sliced PF breakdown. Afternoon models compared to morning across 20+ sessions. Recommendation written."
+    },
+    {
+      "id": "RM-013",
+      "title": "[STRATEGIC] Model Correlation Dashboard — Diversification Health Monitor",
+      "description": "Day 2 lesson: all 4 original models were 100% correlated. mean_reversion_v1 was added as the anti-correlated hedge. Need ongoing monitoring of model correlation in R8 tearsheet to ensure diversification holds.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "analytics",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 3,
+        "score": 8
+      },
+      "owner": "Engineering (Devon/Ingrid)",
+      "assigned_to": null,
+      "source": "Jordan strategic backlog",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "analytics",
+        "risk",
+        "dashboard"
+      ],
+      "acceptance_criteria": "R8 analytics includes pairwise model correlation matrix. Alert if any two active models have correlation > 0.85 over last 20 sessions."
+    },
+    {
+      "id": "RM-014",
+      "title": "[STRATEGIC] Champion/Challenger Promotion Automation — Weekly Friday Eval",
+      "description": "R2 tracks challenger_wins_streak on Fridays. Promotion to champion is currently 100% manual. Explore: should the PM agent auto-propose a promotion candidate after 3 consecutive Friday wins, with Jashyard approving?",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "process",
+      "rice": {
+        "reach": 4,
+        "impact": 6,
+        "confidence": 65,
+        "effort": 3,
+        "score": 5
+      },
+      "owner": "Jordan (PM)",
+      "assigned_to": null,
+      "source": "Jordan strategic backlog",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "automation",
+        "governance"
+      ],
+      "acceptance_criteria": "PM agent weekly review checks model_registry.json for challenger_wins_streak ≥ 3. Posts promotion proposal to Slack for Jashyard approval."
+    },
+    {
+      "id": "RM-015",
+      "title": "[STRATEGIC] SQQQ Threshold Calibration Study",
+      "description": "SQQQ entries have historically performed at 25% win rate vs TQQQ 52%. Thresholds were raised +10 in v3.3. Need 30+ SQQQ attempts to determine if current thresholds (75-82) are correctly calibrated or over-restrictive.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 65,
+        "effort": 2,
+        "score": 16
+      },
+      "owner": "Quant (Wei/Priya)",
+      "assigned_to": null,
+      "source": "Jordan strategic backlog — v3.3 lesson",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "model-tuning",
+        "sqqq"
+      ],
+      "acceptance_criteria": "30+ SQQQ signal attempts in signal_attempts.jsonl. R8 screener reports SQQQ-specific PF and near-miss analysis. Threshold recommendation from quant team."
+    },
+    {
+      "id": "RM-016",
+      "title": "Restore signal_engine.py (v3.6.1) + improvement_phases.json",
+      "description": "Sev-1 outage: ENGINE_TRUNCATED x3 (06-12). Engine and improvement_phases.json restored by parallel QA session. Self-test verified on snapshot_r4.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering (Rachel)",
+      "assigned_to": null,
+      "source": "BD-20260612-01",
+      "boardroom_ref": "BD-20260612-01",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "sev1",
+        "engine",
+        "done"
+      ],
+      "acceptance_criteria": "Engine restored. py_compile OK. Self-test emits scores. sha256 recorded in MANIFEST.json.",
+      "completed": "2026-06-12"
+    },
+    {
+      "id": "RM-017",
+      "title": "Durability Phase A — safe-write + .bak + MANIFEST.json + Step-0 integrity",
+      "description": "Write-time verification catches FUSE truncation before it reaches a trading session. All 9 SKILL.mds updated with Step-0 INTEGRITY section.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering (Omar)",
+      "assigned_to": null,
+      "source": "BD-20260612-02",
+      "boardroom_ref": "BD-20260612-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "durability",
+        "reliability",
+        "done"
+      ],
+      "acceptance_criteria": "MANIFEST.json exists. .bak files for all critical scripts. Step-0 in all SKILL.mds.",
+      "completed": "2026-06-12"
+    },
+    {
+      "id": "RM-018",
+      "title": "Phase 1 Session Definition + Analytics Outage-Exclusion Flag",
+      "description": "Only engine-scored sessions count toward Phase 1 advancement. Outage sessions (no valid scores) flagged in analytics ETL and excluded from screener denominators.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "data",
+      "rice": null,
+      "owner": "Engineering (Sam/Devon)",
+      "assigned_to": null,
+      "source": "BD-20260612-04",
+      "boardroom_ref": "BD-20260612-04",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "analytics",
+        "data-quality",
+        "done"
+      ],
+      "acceptance_criteria": "outage_session flag in ETL. Phase definition in improvement_phases.json. METRIC-DICTIONARY.md updated.",
+      "completed": "2026-06-12"
+    },
+    {
+      "id": "RM-019",
+      "title": "Reporting Pack — Status Headers, Staleness Badges, Escalation Line",
+      "description": "Severity-distinct reporting: status headers in all SKILL.mds, staleness badge on dashboard (amber >24h, red >72h), escalation line for Sev-1 visibility.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "reporting",
+      "rice": null,
+      "owner": "Engineering (Yuki/Rachel)",
+      "assigned_to": null,
+      "source": "BD-20260612-05",
+      "boardroom_ref": "BD-20260612-05",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reporting",
+        "dashboard",
+        "done"
+      ],
+      "acceptance_criteria": "Status headers in all 9 SKILL.mds. Staleness badge visible on dashboard. Generated_at timestamp matches last R2 run.",
+      "completed": "2026-06-12"
+    },
+    {
+      "id": "RM-020",
+      "title": "R5/R6 Scheduler Timing Bug Fix",
+      "description": "R5 (12:30pm ET) and R6 (2:00pm ET) scheduled tasks are firing 2–4 hours late, missing their entry windows entirely. Must fix before Monday market open. Likely a timezone or offset misconfiguration in Cowork scheduled task trigger times.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 2,
+        "score": 28
+      },
+      "owner": "Engineering (assigned: RM-020)",
+      "assigned_to": "Rachel",
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "scheduler",
+        "P0",
+        "urgent"
+      ],
+      "acceptance_criteria": "R5 fires within ±10 min of 12:30pm ET. R6 fires within ±10 min of 2:00pm ET. Both verified across 3 consecutive trading days.",
+      "queue_note": "RESOLVED BY VERIFICATION (Jashyard approve-all). Live cron verified CORRECT (R5=9:30 AZ=12:30 ET, R6=11:00 AZ=14:00 ET; lastRun on-time 06-12). skipped_window records were the EXISTING Step-1 time-gate rejecting late manual reruns. NO cron change — would have broken a correct schedule. tz hypothesis retracted in EngExecDrafts addendum."
+    },
+    {
+      "id": "RM-021",
+      "title": "Routine Reliability Investigation — R7 = 0% Success",
+      "description": "R7 (EOD QA + analytics) has 0 successes across 2 starts. This is systemic, not outage-related — the engine was restored before R7's last run. Root cause unknown. R7 failure means stale analytics and dashboard perpetually. [2026-06-12: Postmortem filed — PostmortemRoutineReliability_06.12.2026.md. Root cause: GitHub sync broken (RM-003) + FUSE truncation (Phase B). 5 action items assigned.] [2026-06-12: FIX APPLIED — deployed R7 SKILL now treats known GitHub auth-pending (RM-003) as non-fatal github_status=\"deferred\" → status \"success_local\" (green), so a degraded external dep no longer marks R7 partial. Measuring: AC requires ≥80% success over next 5 runs.] [2026-06-12] Scope extended (folds idea I2 from agent research drop): generalize success_local/github_status=deferred handling to R2 + add deferred_sync_queue counter surfaced by R8.",
+      "column": "In Progress",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 3,
+        "score": 16
+      },
+      "owner": "Engineering (assigned: RM-021)",
+      "assigned_to": "Rachel",
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "analytics",
+        "P1",
+        "r7",
+        "folds-I2"
+      ],
+      "acceptance_criteria": "Root cause identified and documented in TECH_NOTES.md. R7 success rate ≥ 80% over next 5 runs. errors.jsonl pattern explained.",
+      "queue_note": "Postmortem on file (PostmortemRoutineReliability_06.12.2026.md), 5 action items. Blocked partly on RM-003 (GitHub) + RM-002 (Phase B)."
+    },
+    {
+      "id": "RM-022",
+      "title": "Outage RCA Protocol — Standardized Incident Response",
+      "description": "No formal RCA process exists. Sev-1 incidents (06-12 engine truncation) were handled ad-hoc. Need a lightweight documented protocol: detect → triage → root-cause → fix → verify → post-mortem in TECH_NOTES.md.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 85,
+        "effort": 2,
+        "score": 13
+      },
+      "owner": "Jordan (PM) + Engineering",
+      "assigned_to": "Victor",
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "process",
+        "reliability",
+        "documentation"
+      ],
+      "acceptance_criteria": "RCA template exists in docs/. Next Sev-1 uses template. Post-mortem filed within 24h of resolution.",
+      "queue_note": "SHIPPED this session: boardroom/OUTAGE-RCA-PROTOCOL.md (standardized RCA template + 5-step process + recurring-incident catalog). Complements War Room (RM-031)."
+    },
+    {
+      "id": "RM-023",
+      "title": "QA Automation + Regression Test Suite",
+      "description": "Currently 30 analytics tests exist. No automated regression suite for the full routine pipeline. Synthetic corruption drills, routine smoke tests, and end-to-end session simulation should run automatically before any deployment.",
+      "column": "To Do",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 70,
+        "effort": 5,
+        "score": 7
+      },
+      "owner": "Engineering",
+      "assigned_to": "Rachel",
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "testing",
+        "reliability",
+        "automation"
+      ],
+      "acceptance_criteria": "CI-style test suite runs on each SKILL.md / engine change. Corruption drill automated. Smoke test covers R1 through R8 happy path.",
+      "queue_note": "Assigned. Scope now includes RM-026 drill + RM-002 synthetic-corruption drill as regression cases."
+    },
+    {
+      "id": "RM-024",
+      "title": "[STRATEGIC] Deep Backtesting on Historical Data",
+      "description": "Current models trained/tuned on live paper data (N=4 trades). Deep backtesting on 6–12 months of TQQQ/SQQQ 5-min historical data would provide signal quality priors before committing to threshold tuning in Phase 2.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 60,
+        "effort": 6,
+        "score": 5
+      },
+      "owner": "Quant (Wei/Priya)",
+      "assigned_to": null,
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "backtesting",
+        "model-eval"
+      ],
+      "acceptance_criteria": "6+ months TQQQ/SQQQ historical data sourced via FMP. Each model's signal logic back-tested. Results in CHANGELOG.md. OOS split enforced."
+    },
+    {
+      "id": "RM-025",
+      "title": "[STRATEGIC] Boardroom Agent Org Expansion",
+      "description": "Current boardroom has 17 agent roles. Evaluate whether adding a dedicated Head of Alpha Research or Execution Specialist would improve proposal quality for live-readiness decisions.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "process",
+      "rice": {
+        "reach": 3,
+        "impact": 4,
+        "confidence": 50,
+        "effort": 3,
+        "score": 2
+      },
+      "owner": "Jordan (PM)",
+      "assigned_to": null,
+      "source": "PM Triage 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "strategic",
+        "boardroom",
+        "governance"
+      ],
+      "acceptance_criteria": "Jordan proposes charter. Jashyard approves. New agent role added to boardroom/agents/. First cycle contribution reviewed."
+    },
+    {
+      "id": "RM-026",
+      "title": "Robinhood MCP Graceful Degradation at Open",
+      "description": "No documented fallback if Robinhood MCP is unavailable at 9:43am ET (R1). In paper mode: missed session. In live mode: unexecuted trade. Need: explicit skip protocol, Slack alert, graceful exit with no partial state. Live-path requirement.",
+      "column": "In Progress",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 2,
+        "score": 27
+      },
+      "owner": "Engineering",
+      "assigned_to": "Omar",
+      "source": "Jordan Strategic Session 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "reliability",
+        "mcp",
+        "strategic"
+      ],
+      "acceptance_criteria": "R1 SKILL.md Step 1 includes MCP availability check. On failure: skipped_mcp_unavailable logged to runs.jsonl, Slack alert posted, no partial state. Tested in drill.",
+      "queue_note": "Deploy-ready patch SHIPPED: eng-agent/RM026_MCP_Guard_Patch_06.12.2026.md (exact Step-1.0 guard block + skipped_mcp_unavailable + no-partial-state + acceptance drill). Not applied to live prompts: deployed SKILLs unmounted + mirrors may be drifted — blind-overwrite unsafe. Apply in mounted session."
+    },
+    {
+      "id": "RM-027",
+      "title": "roadmap.json Repair + Write-Validation",
+      "description": "roadmap.json is FUSE-truncated (ends mid-RM-019 at 17,042 bytes). RM-020–025 from PM triage session were NOT persisted to disk. Repair from Slack digest source of truth. Add write-validation (checksum + verify-after-write) identical to MANIFEST.json pattern for signal_engine.py.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering (Jordan flagged, repaired in strategy session)",
+      "assigned_to": null,
+      "source": "Jordan Strategic Session 2026-06-12 — RM-027",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "ops",
+        "done"
+      ],
+      "acceptance_criteria": "roadmap.json passes json.loads(). All 28 items present. Write-validation added to any script that writes roadmap.json.",
+      "completed": "2026-06-12"
+    },
+    {
+      "id": "RM-028",
+      "title": "Afternoon Sessions Phase-1 Eligibility — Jashyard Decision Required",
+      "description": "Once RM-020 (R5/R6 scheduler fix) is live, do afternoon sessions count toward Phase 1's 10-session requirement? Current definition says 'engine-scored sessions' but doesn't specify windows. Decision needed before afternoon data accrues. Option A: all engine-scored sessions count. Option B: Phase 1 is morning-only; afternoons enter a separate track.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "governance",
+      "rice": {
+        "reach": 5,
+        "impact": 7,
+        "confidence": 100,
+        "effort": 1,
+        "score": 35
+      },
+      "owner": "Jashyard (decision)",
+      "assigned_to": "Jashyard",
+      "source": "Jordan Strategic Session 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "governance",
+        "phase-gate",
+        "decision-needed",
+        "blocked-on-human"
+      ],
+      "acceptance_criteria": "Jashyard picks A or B. Decision documented in improvement_phases.json Phase 1 definition. Takes effect before first post-fix R5/R6 session.",
+      "queue_note": "QUEUED TO JASHYARD — no agent can execute; awaiting your action/decision."
+    },
+    {
+      "id": "RM-029",
+      "title": "Roadmap Views (List + Gantt + Kanban) + Never-Stale Auto-Regen",
+      "description": "roadmap.html now renders three views ENTIRELY from roadmap.json: Kanban (status columns), List (What/Why/Impact/Status/LOE/RICE/Target date/Release date/Dependencies/Blockers/Area/Notes), and Gantt (swimlanes by area, color by status, bar dev-start->release, today marker). Generator is wired into validate_roadmap.py safe_write_roadmap() so the HTML regenerates on EVERY roadmap.json write (cannot go stale), plus a client-side freshness sentinel flags any divergence when served next to roadmap.json. Optional schedule fields (target_date/release_date/dev_start/dependencies/blockers/loe) are surfaced when present, derived otherwise.",
+      "column": "Done",
+      "priority": "P2",
+      "category": "reporting",
+      "rice": {
+        "reach": 2,
+        "impact": 5,
+        "confidence": 90,
+        "effort": 2,
+        "score": 5
+      },
+      "owner": "Rachel (Engineering Lead) + Yuki + Sam",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "Boardroom Cycle 2 — consent agenda BD-20260612C2-06",
+      "boardroom_ref": "BD-20260612C2-06",
+      "created": "2026-06-12",
+      "updated": "2026-06-13",
+      "tags": [
+        "reporting",
+        "dashboard",
+        "ux",
+        "list-view",
+        "gantt",
+        "never-stale",
+        "delivered"
+      ],
+      "acceptance_criteria": "GIVEN any write to roadmap.json through the safe-writer, THEN roadmap.html is regenerated with List + Gantt + Kanban views and card/row counts equal to item count; AND the page fetches roadmap.json on load and surfaces a banner if live data is newer (no silent staleness).",
+      "completed": "2026-06-13",
+      "release_date": "2026-06-13",
+      "dev_start": "2026-06-13",
+      "notes": "EOD auto-publish wired 2026-06-13: R7 Step 4 runs generate_roadmap_html.py; R7 Step 6d pushes roadmap.html + roadmap.json to the public repo each session (R2 Step 8 mirrors the regen). Live publish pending RM-003 GitHub auth."
+    },
+    {
+      "id": "RM-030",
+      "title": "Paper Trade P&L Routing to Dedicated Slack Channel",
+      "description": "Route paper trade P&L results from R2 to #trading-bot-paper-trades, keeping #trading-bot-notifications for operational alerts only. Requires Jashyard to create the channel.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "reporting",
+      "rice": {
+        "reach": 2,
+        "impact": 4,
+        "confidence": 95,
+        "effort": 1,
+        "score": 8
+      },
+      "owner": "Sam",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-04",
+      "boardroom_ref": "BD-20260612C2-04",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "slack",
+        "reporting",
+        "noise-reduction"
+      ],
+      "jashyard_action": "Create #trading-bot-paper-trades Slack channel"
+    },
+    {
+      "id": "RM-031",
+      "title": "War Room Incident Response Protocol",
+      "description": "Formalize incident response: trigger conditions (engine exceptions, QA failures, R2 failures), severity levels P0/P1/P2 (P0 = live mode only), Slack alert routing, owner matrix, and escalation ladder. Co-owned by Victor, Omar, Rachel, Dana.",
+      "column": "In Progress",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 3,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 2,
+        "score": 11
+      },
+      "owner": "Victor + Omar + Rachel + Dana",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-02",
+      "boardroom_ref": "BD-20260612C2-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "incident-response",
+        "process",
+        "reliability"
+      ]
+    },
+    {
+      "id": "RM-032",
+      "title": "7-Day Engineering Sprint (Tech Debt)",
+      "description": "Dedicated engineering sprint to address accumulated tech debt: FUSE resilience hardening, unit tests for signal_engine.py, log schema standardization. Deferred to Phase 2 — LOE too high for Phase 1.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "engineering",
+      "rice": {
+        "reach": 4,
+        "impact": 7,
+        "confidence": 70,
+        "effort": 7,
+        "score": 3
+      },
+      "owner": "Rachel",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 — deferred",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "tech-debt",
+        "engineering",
+        "phase-2"
+      ]
+    },
+    {
+      "id": "RM-033",
+      "title": "PM Triage Cadence — R11 (Monday 8am AZ)",
+      "description": "Formalize Jordan's Monday 8am AZ ideas triage as named routine R11. Produces weekly #trading-bot-ideas digest. Prevents ideas backlog accumulation. Includes lightweight intake form format (pinned in channel). [2026-06-12: Cadence is live — trading-bot-pm-triage runs Mon 8am AZ via deployed SKILL-pm-triage.md (canonical). The r11 variant is deprecated; AI-CONTEXT pointer corrected.]",
+      "column": "Done",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 3,
+        "impact": 6,
+        "confidence": 95,
+        "effort": 1,
+        "score": 17
+      },
+      "owner": "Jordan",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-05",
+      "boardroom_ref": "BD-20260612C2-05",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "pm-cadence",
+        "process",
+        "ideas"
+      ]
+    },
+    {
+      "id": "RM-034",
+      "title": "PM Strategy Review — R12 (Saturday noon AZ) + Roadmap Channel",
+      "description": "Formalize Jordan's Saturday noon AZ strategy review as R12. Posts to #trading-bot-roadmap (new channel). Devon's R8 tearsheet shifts to 2pm AZ Saturday to follow Jordan's context. Optional: create #trading-bot-roadmap channel. [2026-06-12: Cadence is live — trading-bot-pm-strategy runs Sat 12pm AZ via deployed SKILL-pm-strategy.md (canonical, correct R8 9am timing). The r12 variant is deprecated.]",
+      "column": "Done",
+      "priority": "P2",
+      "category": "process",
+      "rice": {
+        "reach": 3,
+        "impact": 5,
+        "confidence": 90,
+        "effort": 1,
+        "score": 14
+      },
+      "owner": "Jordan + Devon",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-05",
+      "boardroom_ref": "BD-20260612C2-05",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "pm-cadence",
+        "process",
+        "reporting"
+      ]
+    },
+    {
+      "id": "RM-035",
+      "title": "Co-CEO Biweekly Review with Jashyard",
+      "description": "Atlas facilitates biweekly structured review with Jashyard covering: going-live progress, boardroom health, open escalations, and strategic direction. Consent agenda item — unanimous support.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "governance",
+      "rice": {
+        "reach": 2,
+        "impact": 6,
+        "confidence": 90,
+        "effort": 1,
+        "score": 11
+      },
+      "owner": "Atlas",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-07 — consent agenda",
+      "boardroom_ref": "BD-20260612C2-07",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "governance",
+        "cadence",
+        "jashyard"
+      ]
+    },
+    {
+      "id": "RM-036",
+      "title": "PM Stakeholder Sync (Jordan ↔ Jashyard)",
+      "description": "Structured Jordan-Jashyard sync to pre-align PM proposals before they hit the boardroom. Reduces DECISION-MEMO surprises. Consent agenda item — unanimous support.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "process",
+      "rice": {
+        "reach": 2,
+        "impact": 5,
+        "confidence": 90,
+        "effort": 1,
+        "score": 9
+      },
+      "owner": "Jordan",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-08 — consent agenda",
+      "boardroom_ref": "BD-20260612C2-08",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "governance",
+        "pm-cadence",
+        "jashyard"
+      ]
+    },
+    {
+      "id": "RM-037",
+      "title": "Pre-Market QA Routine — R0 (9:30am ET daily)",
+      "description": "New SKILL-r0.md routine runs at 9:30am ET before R1. Checks: signal_engine.py health, analytics.db writability, Robinhood MCP connectivity. Sets session_validated flag. Alerts Slack on failure. Hard condition: MUST NOT block R2 force-close at 3:50pm ET. [2026-06-12: DEPLOYED — scheduled task trading-bot-routine-0-premarket-qa created, cron 30 6 * * 1-5 AZ (9:30am ET), wrapper reads routines_export/SKILL-r0-premarket-qa.md. R2 independence preserved.]",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 5,
+        "impact": 9,
+        "confidence": 95,
+        "effort": 1,
+        "score": 43
+      },
+      "owner": "Sam + Rachel",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 BD-20260612C2-01 — approved 17/17",
+      "boardroom_ref": "BD-20260612C2-01",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "engineering",
+        "qos",
+        "phase-1-critical"
+      ],
+      "hard_condition": "QA failure MUST NOT block R2 force-close — non-waivable per Dana RISK clause"
+    },
+    {
+      "id": "RM-038",
+      "title": "Multi-Agent Orchestration Layer",
+      "description": "Architectural capability for agent-to-agent communication and state sharing. Requires message bus or state store — significant architectural rework. Deferred to Phase 2. Omar to write design note for Phase 2 planning cycle.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "engineering",
+      "rice": {
+        "reach": 5,
+        "impact": 8,
+        "confidence": 50,
+        "effort": 10,
+        "score": 4
+      },
+      "owner": "Omar",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 — deferred to Phase 2",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "architecture",
+        "agents",
+        "phase-2"
+      ]
+    },
+    {
+      "id": "RM-039",
+      "title": "Per-Model Investment Analyst Agent",
+      "description": "Dedicated analyst agent per model (champion_v1, challenger_v1, scalp_champion_v1, scalp_challenger_v1) to provide model-specific performance narrative. Requires N≥30 per model before meaningful analysis is possible. Deferred to Phase 2.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "analytics",
+      "rice": {
+        "reach": 4,
+        "impact": 7,
+        "confidence": 60,
+        "effort": 5,
+        "score": 3
+      },
+      "owner": "Jordan + Priya",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 — deferred, needs N≥30 per model",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "analytics",
+        "agents",
+        "phase-2"
+      ]
+    },
+    {
+      "id": "RM-040",
+      "title": "Token Usage Monitor / Cost Manager",
+      "description": "Track Claude API token consumption per session and routine. Cost estimate: $600-$1,000/year (Wei + Grace model). Phase 2 — Grace+Wei cost model must be built first to establish urgency. Interim: Devon adds heuristic token estimate to session logs.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 3,
+        "impact": 6,
+        "confidence": 70,
+        "effort": 3,
+        "score": 4
+      },
+      "owner": "Grace + Wei + Devon",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 — deferred pending cost model",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "cost",
+        "operations",
+        "phase-2"
+      ]
+    },
+    {
+      "id": "RM-041",
+      "title": "Prompt Builder Agent",
+      "description": "Wrapper function that takes signal data + model name + regime + time-of-day and returns a structured prompt for scoring interpretation. Improves model output consistency. Phase 2 — wait for signal pipeline to stabilize. Priya + Rachel to co-implement.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 4,
+        "impact": 6,
+        "confidence": 75,
+        "effort": 2,
+        "score": 9
+      },
+      "owner": "Priya + Rachel",
+      "assigned_to": null,
+      "source": "Boardroom Cycle 2 — deferred to Phase 2",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "prompting",
+        "models",
+        "phase-2"
+      ]
+    },
+    {
+      "id": "RM-042",
+      "title": "QA Remediation — improvement_phases.json.bak created (RM-017 .bak gap)",
+      "description": "QA validation of Done items found MANIFEST.json lists logs/improvement_phases.json as critical, but no .bak existed. Created via safe-write (temp->verify->rename); sha256 matches MANIFEST. Closes RM-017 acceptance-criteria gap '.bak files for all critical scripts'.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering (QA session)",
+      "assigned_to": null,
+      "source": "QA Validation + Regression session 2026-06-12",
+      "boardroom_ref": "BD-20260612-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "completed": "2026-06-12",
+      "tags": [
+        "durability",
+        "bug-fix",
+        "qa-remediation",
+        "done"
+      ],
+      "acceptance_criteria": "logs/improvement_phases.json.bak exists and sha256 matches MANIFEST.json. VERIFIED."
+    },
+    {
+      "id": "RM-043",
+      "title": "QA Remediation — roadmap.json write-validation implemented (RM-027 gap)",
+      "description": "RM-027 claimed write-validation but none was implemented (no verify-after-write/checksum; roadmap.json absent from MANIFEST). Added scripts/validate_roadmap.py: safe_write_roadmap() (temp->json round-trip + structural/dup-id/item-floor checks->os.replace->refresh .bak->update MANIFEST). roadmap.json now registered in MANIFEST.json; stale .bak refreshed (17KB->39KB). Negative tests pass (rejects empty/truncated + duplicate ids).",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering (QA session)",
+      "assigned_to": null,
+      "source": "QA Validation + Regression session 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "completed": "2026-06-12",
+      "tags": [
+        "reliability",
+        "ops",
+        "bug-fix",
+        "qa-remediation",
+        "done"
+      ],
+      "acceptance_criteria": "scripts/validate_roadmap.py exists; roadmap.json in MANIFEST.json; safe_write_roadmap verify-after-write + .bak refresh. VERIFIED (this item was written via safe_write_roadmap)."
+    },
+    {
+      "id": "RM-044",
+      "title": "QA Remediation — Step-0 INTEGRITY + status headers backfilled into routine SKILL exports (RM-017/RM-019)",
+      "description": "routines_export/*.md (15:42 snapshots) predated the 23:24 durability work and lacked the Step-0 INTEGRITY block (RM-017) and the green/yellow/red status headers (RM-019). Backfilled verbatim: STEP 0-INTEG into R1,R3,R4,R5,R6,R7,R8(wed+sat) [R2/R0/RP exempt]; STATUS HEADER into all 9 routines R0-R8. Verified via file-tool grep (18 occurrences / 10 files). NOTE: production SKILL.mds at C:\\Users\\jashy\\Claude\\Scheduled\\ are NOT mounted — Jashyard must sync exports->Scheduled (or confirm R0 pre-market QA supersedes per-routine integrity).",
+      "column": "Done",
+      "priority": "P1",
+      "category": "reporting",
+      "rice": null,
+      "owner": "Engineering (QA session)",
+      "assigned_to": null,
+      "source": "QA Validation + Regression session 2026-06-12",
+      "boardroom_ref": "BD-20260612-05",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "completed": "2026-06-12",
+      "tags": [
+        "durability",
+        "reporting",
+        "bug-fix",
+        "qa-remediation",
+        "prod-sync-pending",
+        "done"
+      ],
+      "acceptance_criteria": "STEP 0-INTEG in 8 routine exports (R2/R0/RP exempt); STATUS HEADER in all 9 routine exports. VERIFIED on disk. OPEN: prod SKILL.md sync (Jashyard action)."
+    },
+    {
+      "id": "RM-045",
+      "title": "Engine/MANIFEST version drift — real engine is v3.6.3, MANIFEST + .bak pin v3.6.1 (auto-downgrade risk)",
+      "description": "QA surfaced that scripts/signal_engine.py on real disk is v3.6.3 (27702B, sha 720f315c… — in-engine vix_proxy, PAPER_TRADE VIX hard-guard, GUARANTEE_MIN_TRADE floor entries), and live_gate_stats.py already integrates v3.6.3 floor-exclusion. BUT MANIFEST.json + signal_engine.py.bak still pin v3.6.1 (22316B, sha b96a250d…), and CHANGELOG/AI-CONTEXT stop at v3.6.2. RISK: the RM-017/RM-044 Step-0 INTEGRITY check sees engine sha != MANIFEST and RESTORES the OLDER v3.6.1 from .bak -> silent engine downgrade (reverts VIX-gate fix + floor trades). Bash FUSE mount served a stale v3.6.1 view at session start, masking this. Engine NOT modified by QA. NEEDS JASHYARD: confirm v3.6.3 is approved, then re-sync MANIFEST+.bak to v3.6.3 and document in CHANGELOG/AI-CONTEXT BEFORE syncing integrity-backfilled SKILLs (RM-044) to production. [2026-06-12: RESOLVED — MANIFEST.json re-pinned to live engine (27702B / 720f315c…), signal_engine.py.bak refreshed, version canonicalized to v3.6.3 across AI-CONTEXT/README/TECH_NOTES.]",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": null,
+      "owner": "Engineering + Jashyard approval",
+      "assigned_to": null,
+      "source": "QA Validation + Regression session 2026-06-12",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "sev1-latent",
+        "engine",
+        "durability",
+        "needs-jashyard",
+        "blocker-for-RM-044-prodsync"
+      ],
+      "acceptance_criteria": "Jashyard confirms v3.6.3 approved; MANIFEST.json + signal_engine.py.bak re-synced to real v3.6.3 (sha/bytes match); v3.6.3 added to CHANGELOG.md + AI-CONTEXT.md; THEN integrity-backfilled SKILLs cleared for prod sync."
+    },
+    {
+      "id": "RM-046",
+      "title": "Engine Reliability Lockdown (self-healing auto-restore)",
+      "description": "Mandatory Step 0b in every entry routine: read engine size + SHA-256, compare to MANIFEST, auto-restore from .bak + re-verify BEFORE Step 1 (no human in loop). Copy engine to size-validated stable fallback at R0. Extend safe-write (temp->verify->rename) to all pinned files. Runtime auto-restore layer bridging Durability Phase A (RM-017) and Phase B (RM-002). Source: 06-12 FUSE truncation killed 9/30 attempts into safe-mode no-trade.",
+      "column": "In Progress",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 10,
+        "confidence": 90,
+        "effort": 1,
+        "score": 72
+      },
+      "owner": "Engineering (Rachel/Omar)",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas I1 (Eng/PM/CEO convergent)",
+      "boardroom_ref": "BD-20260612-02",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "durability",
+        "reliability",
+        "self-healing",
+        "advances-RM-002"
+      ],
+      "acceptance_criteria": "GIVEN engine size != MANIFEST pin at R1 start, WHEN Step 0b runs, THEN it restores from .bak, re-verifies, logs engine_restored=true, alerts Slack, and continues — no human, no safe-mode skip.",
+      "notes": [
+        "scripts/self_heal.py + Step 0b in R1/R3/R4/R5/R6 SKILLs. Truncated-engine auto-restore verified vs live MANIFEST. Sim C/D PASS. [2026-06-12 Eng/Rachel] IMPLEMENTED IN REPO + simulated (PM top-3 kickoff). Repo code + routines_export SKILLs done; MANIFEST re-pinned; verify_integrity --strict ALL MATCH. Sim/regression GREEN. PROD deploy to live Claude\\Scheduled\\ SKILLs STAGED pending Jashyard sync (folder not mounted)."
+      ]
+    },
+    {
+      "id": "RM-047",
+      "title": "R5/R6 Window-Coverage Guard + Scheduler Telemetry",
+      "description": "(1) Window-guard: routine aborts + logs if fired outside its ET window. (2) R7 writes window_coverage_rate per routine to scheduler_health.jsonl; <80% over 5 sessions = flagged going-live blocker. (3) Fix hardcoded retired-sandbox path in backtest_v34_signal_frequency.py. Advances RM-020 (tz-offset fix) with the guardrail + measurement layer. afternoon_trend_v1 has 0 scans in 4 days; its 30-signal gate is currently unreachable.",
+      "column": "Backlog",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 1,
+        "score": 57
+      },
+      "owner": "Engineering (Rachel) + Data",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I3 (Data/Eng convergent)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "scheduler",
+        "telemetry",
+        "advances-RM-020"
+      ],
+      "acceptance_criteria": "Window-guard aborts any routine fired outside its ET window. R7 writes window_coverage_rate to scheduler_health.jsonl. R5/R6 coverage reaches ~100% within 10 sessions or the gap is escalated to Jashyard."
+    },
+    {
+      "id": "RM-049",
+      "title": "Score-Pass Counterfactual Near-Miss Ledger",
+      "description": "Add counterfactual mode to signal_engine.py: always run score_model() even when gated/shadow, emit score_tqqq, score_sqqq, per-factor factor_json, tagged counterfactual_score=true. No trades placed; works today under shadow-mode logic. Unblocks Phase 2 threshold tuning (RM-004) — score_* is null in 30/30 attempts today. [2026-06-13 PM-triage fold] Extends to: ALL trade decisions are recorded — buy, sell, AND no-trade — at every 15-min eval window, capturing each point where a decision was possible (covers Jashyard idea 1781332866 'record trades that did not occur').",
+      "column": "In Progress",
+      "priority": "P0",
+      "category": "data",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 1,
+        "score": 65
+      },
+      "owner": "Data (Wei/Priya) + Engineering",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas I5 (Data)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-13",
+      "tags": [
+        "live-path",
+        "data",
+        "instrumentation",
+        "unblocks-RM-004",
+        "folds-record-all-decisions"
+      ],
+      "acceptance_criteria": "Every scan emits score_tqqq, score_sqqq, factor_json with counterfactual_score=true even when gated. After 10 sessions, up-day vs down-day score distributions are plottable. No trades placed.",
+      "notes": [
+        "signal_engine.py counterfactual ledger (counterfactual_score+factor_json; scores emitted on gate-blocked path; NO entry-behavior change). Sim A/B PASS. [2026-06-12 Eng/Rachel] IMPLEMENTED IN REPO + simulated (PM top-3 kickoff). Repo code + routines_export SKILLs done; MANIFEST re-pinned; verify_integrity --strict ALL MATCH. Sim/regression GREEN. PROD deploy to live Claude\\Scheduled\\ SKILLs STAGED pending Jashyard sync (folder not mounted)."
+      ]
+    },
+    {
+      "id": "RM-050",
+      "title": "Per-Model Signal Drought Watchdog",
+      "description": "End of R1, per active model compute days_since_last_signal_attempt + signal_count_last_7d. 2+ sessions with zero attempts -> [DROUGHT] Slack alert + email escalation. R7 writes a signal_velocity block: signals_toward_30 + projected_days_to_30 per model.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 90,
+        "effort": 1,
+        "score": 32
+      },
+      "owner": "Engineering + PM (Jordan)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I4 (PM)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "monitoring",
+        "phase-gate"
+      ],
+      "acceptance_criteria": "GIVEN a model has 0 attempts in last 2 sessions, WHEN R1 finishes scanning, THEN it posts [DROUGHT] with count-toward-30 + projected runway before writing its COMPLETE record. R7 writes signal_velocity block."
+    },
+    {
+      "id": "RM-051",
+      "title": "VIX Proxy Vol-Regime Splitter (instrumentation)",
+      "description": "Engine always emits vol_regime (decay if VIX<0.6x proxy, rising if >1.3x, else stable) + vix_proxy_3d + vix_proxy_10d to every attempt. R8 gets R-VIX-REGIME-SPLIT to disaggregate gate PnL by regime. Pre-register decay-adjust variant in trial_ledger (trial 11) for honest DSR deflation. No threshold change. Resolves H-VIXDECAY. Feeds RM-005 enforce-mode decision.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "data",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 1,
+        "score": 41
+      },
+      "owner": "Data (Wei/Priya) + Engineering",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I6 (Data/PM convergent)",
+      "boardroom_ref": "OQ-20260612-2",
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "data",
+        "vix-gate",
+        "instrumentation",
+        "feeds-RM-005"
+      ],
+      "acceptance_criteria": "Engine emits vol_regime + vix_proxy_3d + vix_proxy_10d on every attempt. R8 R-VIX-REGIME-SPLIT disaggregates gate PnL by regime. trial_ledger trial 11 pre-registered. Decay-adjust promotes shadow->enforce only if decay-day PnL is positive after 10 flagged-day trades."
+    },
+    {
+      "id": "RM-052",
+      "title": "Factor Attribution Time-Series Logging",
+      "description": "score_model() always writes per-factor raw score, weight, and contribution to factor_json for every scan. Weekly R8 query surfaces factor availability rate, mean contribution vs max, and each factor's correlation with same-day TQQQ direction. Pure instrumentation — no weight changes. factor_json is null in 30/30 attempts today.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "data",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 3,
+        "score": 11
+      },
+      "owner": "Data (Wei/Priya) + Engineering",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I7 (Data)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "data",
+        "instrumentation",
+        "model-eval"
+      ],
+      "acceptance_criteria": "factor_json populated (raw/weight/contribution per factor) on every scan. After 20 sessions, factors with information-coefficient <0.05 are flagged for weight reduction BEFORE any Phase 2 threshold bump."
+    },
+    {
+      "id": "RM-053",
+      "title": "SKILL.md <-> Engine Schema Contract Test",
+      "description": "Lightweight contract test run in R0 QA: build a sample snapshot per routine, assert required fields (bars, daily closes, window tags) match the engine input schema; fail R0 session_validated on mismatch + Slack alert. Add deployed-vs-repo SKILL diff check. Closes silent-drift failures. Pin test to same MANIFEST version.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 75,
+        "effort": 3,
+        "score": 12
+      },
+      "owner": "Engineering (Rachel/Omar)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I8 (Eng)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "reliability",
+        "testing",
+        "schema",
+        "drift"
+      ],
+      "acceptance_criteria": "R0 contract test asserts each routine's snapshot schema vs engine input contract; fails session_validated + Slack alert on mismatch. Deployed-vs-repo SKILL diff check included. Test pinned to MANIFEST version."
+    },
+    {
+      "id": "RM-054",
+      "title": "PAPER_TRADE Runtime Integrity Lock",
+      "description": "Last gate before any order step: re-read PAPER_TRADE fresh from disk + re-verify engine SHA vs MANIFEST. Mismatch -> abort step, red-flag Slack, write errors.jsonl, BEFORE any Robinhood call is constructed (<5ms). Detects post-import tampering the existing guard cannot.",
+      "column": "In Progress",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 10,
+        "confidence": 90,
+        "effort": 1,
+        "score": 72
+      },
+      "owner": "Security (Dana/Omar) + Engineering",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas I9 (Security)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "security",
+        "safety",
+        "paper-trade-guard"
+      ],
+      "acceptance_criteria": "GIVEN PAPER_TRADE flipped or engine SHA != MANIFEST mid-session, WHEN any order step begins, THEN the step aborts, posts a red-flag Slack alert, and writes errors.jsonl BEFORE any Robinhood call is constructed.",
+      "notes": [
+        "scripts/runtime_guards.paper_trade_and_engine_guard() + entry-SKILL guard note + FLIP_TO_LIVE Step 4. Sim E/F/G PASS. [2026-06-12 Eng/Rachel] IMPLEMENTED IN REPO + simulated (PM top-3 kickoff). Repo code + routines_export SKILLs done; MANIFEST re-pinned; verify_integrity --strict ALL MATCH. Sim/regression GREEN. PROD deploy to live Claude\\Scheduled\\ SKILLs STAGED pending Jashyard sync (folder not mounted)."
+      ]
+    },
+    {
+      "id": "RM-055",
+      "title": "Account Allowlist Runtime Guard",
+      "description": "account_guard() before every positions/order step: call get_accounts, assert exactly one agentic_allowed=true account and its last-4 == 5722, else raise ForbiddenAccountError + log. Hard-code allowed account ID as a MANIFEST-pinned constant. Add to FLIP_TO_LIVE Step 4. Forbidden accounts (2884/2859) are enforced by prompt text only today.",
+      "column": "In Progress",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 10,
+        "confidence": 90,
+        "effort": 1,
+        "score": 72
+      },
+      "owner": "Security (Dana/Omar) + Engineering",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas I10 (Security)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "security",
+        "safety",
+        "account-allowlist"
+      ],
+      "acceptance_criteria": "account_guard() runs before every positions/order step; raises ForbiddenAccountError + logs unless exactly one agentic_allowed=true account with last-4 5722 is present. Allowed account ID MANIFEST-pinned. Added to FLIP_TO_LIVE Step 4.",
+      "notes": [
+        "scripts/runtime_guards.account_guard() (allowlist last-4 5722; forbidden 2884/2859); allowed last-4 MANIFEST-pinned. Sim H/I/J PASS. [2026-06-12 Eng/Rachel] IMPLEMENTED IN REPO + simulated (PM top-3 kickoff). Repo code + routines_export SKILLs done; MANIFEST re-pinned; verify_integrity --strict ALL MATCH. Sim/regression GREEN. PROD deploy to live Claude\\Scheduled\\ SKILLs STAGED pending Jashyard sync (folder not mounted)."
+      ]
+    },
+    {
+      "id": "RM-056",
+      "title": "Public-Repo Strategy Leak Scanner",
+      "description": "Pre-push scan step before the Chrome upload: block public push if any file matches a blocklist (EMA, ORB, SLIPPAGE_PCT_PER_SIDE, factor_breakdown, threshold_*, weight values, any .py). On match -> abort public push, red alert, private-only fallback. Also strip factor_breakdown + threshold fields from the public copy of signal_attempts.jsonl.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "security",
+      "rice": {
+        "reach": 5,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 3,
+        "score": 13
+      },
+      "owner": "Security (Dana/Omar) + Engineering",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I11 (Security)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "security",
+        "strategy-leak",
+        "public-repo"
+      ],
+      "acceptance_criteria": "Pre-push scan blocks public push on any blocklist match (abort + red alert + private-only fallback). Public copy of signal_attempts.jsonl has factor_breakdown + threshold fields stripped."
+    },
+    {
+      "id": "RM-057",
+      "title": "MANIFEST Atomic Write Lock (race protection)",
+      "description": "Add MANIFEST.json + .bak to the explicit conflict-resource list in every SKILL that updates them; on conflict -> post HOLD and wait for Jashyard. Log every write as a manifest_write_event in runs.jsonl (writer, old SHA, new SHA, file). Concurrent R8 auto-apply + ENG-EXEC can otherwise collide and silently overwrite the SHA pin + .bak.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "security",
+      "rice": {
+        "reach": 4,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 1,
+        "score": 27
+      },
+      "owner": "Security (Dana/Omar) + Engineering",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I12 (Security)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "security",
+        "durability",
+        "race-condition",
+        "manifest"
+      ],
+      "acceptance_criteria": "MANIFEST.json + .bak in conflict-resource list of every SKILL that writes them; conflict -> HOLD + wait for Jashyard. Every write logged as manifest_write_event in runs.jsonl."
+    },
+    {
+      "id": "RM-058",
+      "title": "PDT Day-Trade Counter + Hard Block",
+      "description": "pdt_guard.py — count same-symbol same-day round-trips over trailing 5 business days via get_equity_orders, persist a rolling SQLite counter, BLOCK any opening order that would be trade #4 with a PDT_BLOCK decision-log event, warn in R9/R10 if equity within 10% of $25k. FINRA Rule 4210 — confirm exact rolling-window definition with Robinhood / securities attorney before going live. Informational, not legal advice.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "governance",
+      "rice": {
+        "reach": 6,
+        "impact": 9,
+        "confidence": 80,
+        "effort": 1,
+        "score": 43
+      },
+      "owner": "Engineering + Legal (advisory)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I13 (Legal)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "legal",
+        "pdt",
+        "safety",
+        "pairs-RM-011"
+      ],
+      "acceptance_criteria": "pdt_guard.py blocks any opening order that would be the 4th day-trade in a trailing 5-business-day window with a PDT_BLOCK decision-log event; warns in R9/R10 when equity within 10% of $25k. Rolling-window definition confirmed with Robinhood before live."
+    },
+    {
+      "id": "RM-059",
+      "title": "Wash-Sale Proximity Flag + Tax-Lot Ledger",
+      "description": "tax_lot_tracker.py — log every open (symbol/date/shares/basis) + close (date/proceeds/holding period); flag if same symbol bought within +/-30 days of a loss sale; export monthly TaxLotLedger_MM.YYYY.csv + a YTD short-term gains summary in R10. TQQQ<->SQQQ are distinct securities. Informational, not legal advice — consult a CPA before filing.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "governance",
+      "rice": {
+        "reach": 5,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 3,
+        "score": 9
+      },
+      "owner": "Engineering + Legal (advisory)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I14 (Legal)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "legal",
+        "tax",
+        "wash-sale"
+      ],
+      "acceptance_criteria": "tax_lot_tracker.py logs every open/close with basis + holding period; flags same-symbol buys within +/-30 days of a loss sale; exports monthly TaxLotLedger_MM.YYYY.csv + YTD short-term gains summary in R10."
+    },
+    {
+      "id": "RM-060",
+      "title": "IPS Adherence Audit Log",
+      "description": "Once RM-011 IPS is signed, encode it as ips_constraints.json (max position, max daily loss, instruments=TQQQ/SQQQ, allowed account, max leverage, trade-frequency bounds). ips_audit.py at EOD checks each session vs every constraint -> daily IPSAuditLog_*.jsonl; a breach logs IPS_BREACH, freezes new orders pending Jashyard review (advisory per veto rules), drafts a Gmail alert; monthly adherence report to Finals. Informational, not legal advice.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "governance",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 3,
+        "score": 13
+      },
+      "owner": "Engineering + Legal (advisory)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas I15 (Legal)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "live-path",
+        "governance",
+        "ips",
+        "audit",
+        "pairs-RM-011"
+      ],
+      "acceptance_criteria": "ips_constraints.json encodes signed IPS. ips_audit.py checks each EOD session vs every constraint -> daily IPSAuditLog_*.jsonl. Breach logs IPS_BREACH + advisory order-freeze + Gmail draft. Monthly adherence report to Finals. Depends on RM-011 signed."
+    },
+    {
+      "id": "RM-061",
+      "title": "Pause RP & R7; Simplify the Schedule",
+      "description": "Pause RP (intraday pulse) and R7 (EOD review) until the RM-046 engine lockdown lands; reinstate after 10 clean sessions. RP runs 12x/day logging skip-on-truncated and congests the schedule when the engine is mid-write; R7's only failure is the broken GitHub push. Target daily footprint: R0,R1,R3,R4,R5,R6,R2,R8 (8 tasks); runs.jsonl success-rate >=90%. Decision item — needs Jashyard approval to pause scheduled tasks.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "operations",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 1,
+        "score": 42
+      },
+      "owner": "Jordan (PM) + Engineering",
+      "assigned_to": "Jashyard",
+      "source": "#trading-bot-ideas I16 (CEO)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "operations",
+        "reliability",
+        "schedule",
+        "decision-needed",
+        "blocked-on-human"
+      ],
+      "acceptance_criteria": "RP + R7 paused pending Jashyard approval. Daily footprint = R0,R1,R3,R4,R5,R6,R2,R8. runs.jsonl success-rate >=90%. RP/R7 reinstated only after a clean engine week (10 sessions)."
+    },
+    {
+      "id": "RM-062",
+      "title": "Hard Decide-By Date — Going-Live Forcing Function",
+      "description": "Commit a hard date — ~July 27, 2026 (45 days) — by which either (a) the 6 going-live conditions are met and the flip decision is made, or (b) the strategy is simplified (6->3 models, narrow to 2 windows). Log as a dated decision_log.jsonl event + FLIP_TO_LIVE checkpoint; no new going-live conditions may be added after that date without Jashyard-approved rationale. R12 PM-strategy carries it as a hard checkpoint.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "governance",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 1,
+        "score": 48
+      },
+      "owner": "Jordan (PM) + Atlas (CEO)",
+      "assigned_to": "Jashyard",
+      "source": "#trading-bot-ideas I17 (CEO)",
+      "boardroom_ref": null,
+      "created": "2026-06-12",
+      "updated": "2026-06-12",
+      "tags": [
+        "governance",
+        "live-path",
+        "forcing-function",
+        "decision-needed",
+        "blocked-on-human"
+      ],
+      "acceptance_criteria": "Dated decide-by milestone (~2026-07-27) logged to decision_log.jsonl + FLIP_TO_LIVE checkpoint. R12 PM-strategy carries it. Target: >=30 natural (entry_type=signal) trades across the 6 models by the date."
+    },
+    {
+      "id": "RM-063",
+      "title": "Real-Data Provenance Check on Every Entry Evaluation (FMP + Robinhood)",
+      "description": "Make use of REAL live charts mandatory and auditable on every entry evaluation: each signal_attempts.jsonl / trades.jsonl record must capture the FMP 5-min bar timestamp + Robinhood quote timestamp it scored against, and flag stale/missing data. Maximize use of the paid FMP MCP (bars, EMA, RSI, VIX) and Robinhood MCP quotes; a scan that cannot pull fresh FMP data is logged data_source='rh_only' and surfaced, never silently scored on cached/synthetic values. Merges 'review charts live off real data' + 'use FMP/RH before trades'.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "data",
+      "rice": {
+        "reach": 8,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 2,
+        "score": 22
+      },
+      "owner": "Maya (Data Science) + Rachel (Engineering Lead)",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas (Jashyard) — review charts live (1781332832) + use FMP/RH before trades (1781332737)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "data-integrity",
+        "live-path",
+        "fmp",
+        "robinhood",
+        "provenance",
+        "needs-approval"
+      ],
+      "acceptance_criteria": "GIVEN any entry evaluation, WHEN the engine scores a model, THEN the record logs fmp_bar_ts + rh_quote_ts + data_freshness_sec and sets data_source; AND a scan with no fresh FMP bar is flagged (not scored on synthetic data). No threshold/weight change."
+    },
+    {
+      "id": "RM-064",
+      "title": "Dashboard Data-Integrity Audit — Trace Every Metric to a Real Source",
+      "description": "Audit every number on the dashboard (and roadmap view) and prove it is computed from a real log/dataset, not hard-coded or stale placeholder. Produce a metric->source map (each KPI -> file + field + transform), flag any fixed/mock values, and add a generated-at + source-freshness badge per panel. Recurring check after any dashboard change.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "reporting",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 2,
+        "score": 12
+      },
+      "owner": "Maya (Data Science) + Rachel (Engineering Lead)",
+      "assigned_to": "Rachel (Engineering Lead)",
+      "source": "#trading-bot-ideas (Jashyard) — test the dashboard, every data point tied to a real dataset (1781333248)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "data-integrity",
+        "dashboard",
+        "qa",
+        "reporting",
+        "needs-approval"
+      ],
+      "acceptance_criteria": "GIVEN the dashboard, WHEN audited, THEN a metric->source map exists for 100% of displayed values; AND any hard-coded/placeholder value is flagged + ticketed; AND each panel shows source + generated-at."
+    },
+    {
+      "id": "RM-065",
+      "title": "Dashboard UX/UI Redesign Discovery (Apple-grade)",
+      "description": "Discovery + design-spec phase for a state-of-the-art dashboard redesign. UX/UI design agents review the current dashboard, do deep research on best-in-class trading/ops dashboards, consult other agents for required views, and hand Product clean design specs (layout, hierarchy, components, responsive states) to route to Engineering. Keep all critical functionality + insights visible; prioritize what Jashyard most needs to see. MANDATORY: full regression + QA after every new design ships.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "design",
+      "rice": {
+        "reach": 6,
+        "impact": 5,
+        "confidence": 70,
+        "effort": 4,
+        "score": 5
+      },
+      "owner": "UX/UI Design Agent + Jordan (PM)",
+      "assigned_to": "UX/UI Design Agent",
+      "source": "#trading-bot-ideas (Jashyard) — dashboard could use improvement, UX/UI bots review (1781333167); ties to Redesign the UI (1781303732)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "design",
+        "ux",
+        "dashboard",
+        "discovery",
+        "regression-gate"
+      ],
+      "acceptance_criteria": "GIVEN the current dashboard, WHEN discovery completes, THEN a research-backed design spec (layout, components, states, priority-of-info) is delivered to Engineering via Product; AND a regression+QA gate is defined for every design change."
+    },
+    {
+      "id": "RM-066",
+      "title": "Database Administrator (DBA) Agent — Data Movement & Warehousing Owner",
+      "description": "Create a FANG-grade DBA/data-engineering agent that owns data movement, warehousing, schema/contract integrity, durability (FUSE/.bak/MANIFEST), retention, and the analytics.db pipeline. Accountable owner for log/JSONL integrity, analytics warehouse rebuild, and backup/restore drills. Partners with Engineering (Rachel/Omar) and Data Science.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 75,
+        "effort": 3,
+        "score": 10
+      },
+      "owner": "Recruiting Agent + Atlas (CEO)",
+      "assigned_to": "Jashyard",
+      "source": "#trading-bot-ideas (Jashyard) — create a database administrator engineer (1781333246)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "org",
+        "data",
+        "durability",
+        "new-agent",
+        "governance"
+      ],
+      "acceptance_criteria": "GIVEN the data layer, WHEN the DBA agent is chartered, THEN it owns data movement/warehousing/integrity with a charter, a recurring integrity+backup routine, and clear handoffs with Eng + Data Science."
+    },
+    {
+      "id": "RM-067",
+      "title": "Model Graveyard — Deprecated/Sunset Model History Registry",
+      "description": "Persistent historical record for every model no longer active: final performance stats, lifespan, and reason for deprecation/sunset. Keeps an auditable lineage so retired models (and why) are never lost, and informs future model design. Surfaced as a dashboard 'Model History' view.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "analytics",
+      "rice": {
+        "reach": 5,
+        "impact": 5,
+        "confidence": 85,
+        "effort": 2,
+        "score": 11
+      },
+      "owner": "Maya (Data Science)",
+      "assigned_to": "Maya (Data Science)",
+      "source": "#trading-bot-ideas (Jashyard) — historical record for deprecated/sunset models (1781332759)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "analytics",
+        "reporting",
+        "model-lifecycle",
+        "history"
+      ],
+      "acceptance_criteria": "GIVEN a model is deprecated, WHEN retired, THEN a model_history.jsonl entry records final stats + lifespan + deprecation reason; AND a dashboard view lists all retired models."
+    },
+    {
+      "id": "RM-068",
+      "title": "Data-Science Recurring Review + Recommendation Loop",
+      "description": "Recurring cadence where analyst/data-science/predictive-modeling agents actively capture analytics, keep reports up to date, monitor key metrics/trends, ask questions, and routinely file evidence-based recommendations to #trading-bot-ideas. Closes the loop between R8 quant output and the roadmap so insights consistently become prioritized work.",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "analytics",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 75,
+        "effort": 3,
+        "score": 12
+      },
+      "owner": "Maya (Data Science) + Jordan (PM)",
+      "assigned_to": "Maya (Data Science)",
+      "source": "#trading-bot-ideas (Jashyard) — analytics captured + reports updated (1781332915) + DS team routinely recommends (1781332959)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "analytics",
+        "process",
+        "cadence",
+        "recommendations",
+        "needs-approval"
+      ],
+      "acceptance_criteria": "GIVEN R8 quant output, WHEN the DS cadence runs, THEN analytics + reports are refreshed, metrics monitored vs targets, and >=1 evidence-based recommendation filed to #trading-bot-ideas per cycle (or explicit 'no rec'). Cross-ref RM-039, R8."
+    },
+    {
+      "id": "RM-069",
+      "title": "North Star / Business Plan (OPED) — CEO-Owned Operating Doc",
+      "description": "Author + maintain a single well-written North Star / business-plan doc (what we do, why, how we win, key milestones) any agent can ground into at any time. All agents review/understand and may propose modifications; Atlas (CEO) owns the final polished version. Framing: agents operate as a company/startup serving Jashyard, profit-for-Jashyard is the mission.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "governance",
+      "rice": {
+        "reach": 9,
+        "impact": 6,
+        "confidence": 85,
+        "effort": 2,
+        "score": 23
+      },
+      "owner": "Atlas (CEO)",
+      "assigned_to": "Atlas (CEO)",
+      "source": "#trading-bot-ideas (Jashyard) — business plan / OPED / north star doc, CEO owns final (1781333056)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "governance",
+        "strategy",
+        "north-star",
+        "ceo-owned",
+        "all-agent-review"
+      ],
+      "acceptance_criteria": "GIVEN the need to ground the org, WHEN published, THEN it covers what/why/how-we-win/milestones, has been reviewed by all department heads with a modification window, and Atlas (CEO) signs the final."
+    },
+    {
+      "id": "RM-070",
+      "title": "High-Confidence Opportunity Capture — Embed Take the High-Conviction Trade in Operations",
+      "description": "Encode the principle that when a high-confidence, high-EV money-making opportunity exists, the system takes it every time. Make making money an explicit, measurable objective embedded in operations: surface high-conviction setups, ensure scoring/eligibility never silently suppresses a strong well-supported signal, and report missed high-conviction opportunities. NOTE: respects PAPER_TRADE=True and the OOS-validation rule — no threshold/weight change ships without out-of-sample validation; this item is design + instrumentation, not a parameter override.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 65,
+        "effort": 3,
+        "score": 11
+      },
+      "owner": "Atlas (CEO) + Maya (Data Science)",
+      "assigned_to": "Jashyard",
+      "source": "#trading-bot-ideas (Jashyard) — high opportunity to make money with confidence, take it every time (1781333092)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "strategy",
+        "profit",
+        "conviction",
+        "live-path",
+        "oos-guarded"
+      ],
+      "acceptance_criteria": "GIVEN a high-confidence high-EV setup, WHEN evaluated, THEN it is captured (not suppressed) and missed high-conviction opportunities are logged + reported; ANY threshold change is OOS-validated before adoption. PAPER_TRADE untouched."
+    },
+    {
+      "id": "RM-071",
+      "title": "Org & Operating-Model Review — Best-in-Class Fund/Startup Structure",
+      "description": "End-to-end review of all agents: roles, who they work with, hand-offs, and forums/cadence — validating the org operates like a highly functional hedge fund + lean startup + AI agency + enterprise. Confirm interactions + ownership make sense to deliver the goal (profit for Jashyard), remove redundant collaboration, close role gaps, keep the org chart current. Distinct from RM-025 (org expansion) — this is an operating-model audit.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "governance",
+      "rice": {
+        "reach": 8,
+        "impact": 6,
+        "confidence": 75,
+        "effort": 3,
+        "score": 12
+      },
+      "owner": "Atlas (CEO) + Jordan (PM)",
+      "assigned_to": "Atlas (CEO)",
+      "source": "#trading-bot-ideas (Jashyard) — review all agents/roles/interactions, operate as a highly functional fund/startup/agency/enterprise (1781333322)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "governance",
+        "org",
+        "operating-model",
+        "audit"
+      ],
+      "acceptance_criteria": "GIVEN the current agent roster, WHEN the review completes, THEN every role has clear purpose + collaborators + forum/cadence, role gaps/redundancies documented with recommendations, and the org chart updated. Cross-ref RM-025."
+    }
+  ]
+}
