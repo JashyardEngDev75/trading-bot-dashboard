@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trading Bot v3 — Roadmap Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f3f4f6; color: #111827; }
+  .header { background: linear-gradient(135deg, #1e3a5f, #0f2643); color: white; padding: 20px 32px; }
+  .header h1 { font-size: 22px; font-weight: 800; }
+  .header p { font-size: 12px; opacity: .7; margin-top: 4px; }
+  .badge { display: inline-block; background: #f59e0b; color: #1f2937; padding: 2px 10px; border-radius: 9px; font-size: 11px; font-weight: 700; margin-left: 8px; }
+  .stats { display: flex; gap: 12px; padding: 16px 32px; flex-wrap: wrap; }
+  .stat { background: white; border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px 20px; min-width: 110px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .stat-n { font-size: 28px; font-weight: 800; }
+  .stat-l { font-size: 11px; color: #6b7280; margin-top: 2px; }
+  .section { padding: 0 32px 24px; }
+  .section h2 { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #374151; }
+  .kanban { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  th { background: #f9fafb; padding: 8px 10px; font-size: 12px; color: #374151; text-align: left; border-bottom: 1px solid #e5e7eb; }
+  tr:hover { background: #f9fafb; }
+  .footer { text-align: center; padding: 16px; font-size: 11px; color: #9ca3af; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Trading Bot v3.6.2 — Roadmap Dashboard <span class="badge">PAPER TRADING — Phase 1 (N=4/30)</span></h1>
+  <p>Last updated: 2026-06-13 02:12 · Mission: Build a paper-trading bot that consistently beats benchmarks on risk-adjusted returns and earns the right to go live.</p>
+</div>
+<div class="stats">
+  <div class="stat"><div class="stat-n" style="color:#374151;">41</div><div class="stat-l">Total Items</div></div>
+  <div class="stat"><div class="stat-n" style="color:#22c55e;">5</div><div class="stat-l">Done</div></div>
+  <div class="stat"><div class="stat-n" style="color:#f59e0b;">5</div><div class="stat-l">In Progress</div></div>
+  <div class="stat"><div class="stat-n" style="color:#3b82f6;">11</div><div class="stat-l">To Do</div></div>
+  <div class="stat"><div class="stat-n" style="color:#6b7280;">20</div><div class="stat-l">Backlog</div></div>
+  <div class="stat"><div class="stat-n" style="color:#dc2626;">4</div><div class="stat-l">P0 Critical</div></div>
+  <div class="stat"><div class="stat-n" style="color:#ea580c;">15</div><div class="stat-l">P1 High</div></div>
+  <div class="stat"><div class="stat-n" style="color:#2563eb;">15</div><div class="stat-l">P2 Medium</div></div>
+  <div class="stat"><div class="stat-n" style="color:#6b7280;">7</div><div class="stat-l">P3 Low</div></div>
+</div>
+<div class="section">
+  <h2>🚀 Live Path (P0 + Phase-1-Critical)</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Title</th><th>Priority</th><th>Owner</th><th>Status</th></tr></thead>
+    <tbody><tr><td style="padding:6px 10px;font-size:12px;font-weight:600;">RM-001</td><td style="padding:6px 10px;font-size:12px;">Phase 1 Baseline Validation — 10 engine-scored sessions</td><td style="padding:6px 10px;"><span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">P0</span></td><td style="padding:6px 10px;font-size:12px;color:#6b7280;">Bot (automated)</td><td style="padding:6px 10px;"><span style="background:#f59e0b;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">In Progress</span></td></tr><tr><td style="padding:6px 10px;font-size:12px;font-weight:600;">RM-016</td><td style="padding:6px 10px;font-size:12px;">Restore signal_engine.py (v3.6.1) + improvement_phases.json</td><td style="padding:6px 10px;"><span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">P0</span></td><td style="padding:6px 10px;font-size:12px;color:#6b7280;">Engineering (Rachel)</td><td style="padding:6px 10px;"><span style="background:#22c55e;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">Done</span></td></tr><tr><td style="padding:6px 10px;font-size:12px;font-weight:600;">RM-017</td><td style="padding:6px 10px;font-size:12px;">Durability Phase A — safe-write + .bak + MANIFEST.json + Step-0 integrity</td><td style="padding:6px 10px;"><span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">P0</span></td><td style="padding:6px 10px;font-size:12px;color:#6b7280;">Engineering (Omar)</td><td style="padding:6px 10px;"><span style="background:#22c55e;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">Done</span></td></tr><tr><td style="padding:6px 10px;font-size:12px;font-weight:600;">RM-020</td><td style="padding:6px 10px;font-size:12px;">R5/R6 Scheduler Timing Bug Fix</td><td style="padding:6px 10px;"><span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">P0</span></td><td style="padding:6px 10px;font-size:12px;color:#6b7280;">Engineering (assigned: RM</td><td style="padding:6px 10px;"><span style="background:#3b82f6;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">To Do</span></td></tr><tr><td style="padding:6px 10px;font-size:12px;font-weight:600;">RM-037</td><td style="padding:6px 10px;font-size:12px;">Pre-Market QA Routine — R0 (9:30am ET daily)</td><td style="padding:6px 10px;"><span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">P1</span></td><td style="padding:6px 10px;font-size:12px;color:#6b7280;">Sam + Rachel</td><td style="padding:6px 10px;"><span style="background:#f59e0b;color:white;padding:1px 7px;border-radius:9px;font-size:11px;">In Progress</span></td></tr></tbody>
+  </table>
+</div>
+<div class="section">
+  <h2>📋 Kanban Board</h2>
+  <div class="kanban"><div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="background:#6b7280;color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;display:flex;justify-content:space-between;">
+    <span>Backlog</span><span style="background:rgba(255,255,255,.25);padding:1px 8px;border-radius:9px;">20</span>
+  </div>
+  <div style="background:#f9fafb;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:200px;">
+    <div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-002</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 18</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Durability Phase B — Crypto-hash integrity check at FLIP_TO_LIVE</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Rachel/Omar)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">durability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">safety</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-02</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-004</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 8</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Phase 2 — Threshold Tuning from Near-Miss Data</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan → Rachel</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-gate</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">model-tuning</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-005</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 20</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">VIX Proxy Gate — Enforce Mode Activation</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering → Jashyard approva</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">risk</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">gate</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">OQ-20260612-2</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-022</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 13</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Outage RCA Protocol — Standardized Incident Response</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan (PM) + Engineering</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">process</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">documentation</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-023</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 7</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">QA Automation + Regression Test Suite</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">testing</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">automation</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-026</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 27</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Robinhood MCP Graceful Degradation at Open</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">mcp</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-008</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 7</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Phase 3 — Triple-Align Bonus Re-evaluation</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Quant (Wei/Priya)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">model-tuning</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-gate</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-009</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 6</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">FUSE Truncation Forensics — Size vs Concurrency Correlation</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Sam/Omar)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">research</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">forensics</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">OQ-20260612-3</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-010</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 16</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Synthetic Corruption Drill — Validate Step-0 Integrity Gate</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Rachel)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">testing</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">durability</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-02</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-012</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 10</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] Afternoon Session Performance Analysis</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Quant (Wei)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">model-eval</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-015</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 16</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] SQQQ Threshold Calibration Study</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Quant (Wei/Priya)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">model-tuning</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">sqqq</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-024</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 5</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] Deep Backtesting on Historical Data</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Quant (Wei/Priya)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">backtesting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">model-eval</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-040</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 4</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Token Usage Monitor / Cost Manager</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Grace + Wei + Devon</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">cost</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">operations</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-2</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-041</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 9</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Prompt Builder Agent</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Priya + Rachel</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">prompting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">models</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-2</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-013</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 8</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] Model Correlation Dashboard — Diversification Health Monitor</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Devon/Ingrid)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">risk</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-014</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 5</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] Champion/Challenger Promotion Automation — Weekly Friday Eval</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan (PM)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">automation</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-025</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 2</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] Boardroom Agent Org Expansion</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan (PM)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">strategic</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">boardroom</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-032</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 3</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">7-Day Engineering Sprint (Tech Debt)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Rachel</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">tech-debt</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">engineering</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-2</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-038</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 4</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Multi-Agent Orchestration Layer</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Omar</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">architecture</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">agents</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-2</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-039</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 3</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Per-Model Investment Analyst Agent</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan + Priya</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">agents</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-2</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div>
+  </div>
+</div><div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="background:#3b82f6;color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;display:flex;justify-content:space-between;">
+    <span>To Do</span><span style="background:rgba(255,255,255,.25);padding:1px 8px;border-radius:9px;">11</span>
+  </div>
+  <div style="background:#eff6ff;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:200px;">
+    <div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-020</span>
+    <span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P0</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 28</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">R5/R6 Scheduler Timing Bug Fix</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (assigned: RM-020)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">scheduler</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">P0</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-003</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 48</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">GitHub MCP Authentication (option A sync restore)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jashyard (auth action)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">backup</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">blocked-on-human</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-03</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-011</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 77</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">[STRATEGIC] IPS Finalization — Jashyard & Ashley sign-off</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jashyard</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">personal</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-06</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-021</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 16</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Routine Reliability Investigation — R7 = 0% Success</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (assigned: RM-021)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">P1</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-006</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 9</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Complete BD-06 Hygiene Bundle (Boardroom delegated items)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">documentation</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">boardroom</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-06</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-028</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 35</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Afternoon Sessions Phase-1 Eligibility — Jashyard Decision Required</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jashyard (decision)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-gate</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">decision-needed</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-029</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 5</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Gantt / Kanban Roadmap View</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Yuki + Rachel + Sam</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reporting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">dashboard</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">ux</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-06</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-030</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 8</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Paper Trade P&L Routing to Dedicated Slack Channel</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Sam</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">slack</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reporting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">noise-reduction</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-04</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-035</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 11</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Co-CEO Biweekly Review with Jashyard</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Atlas</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">cadence</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">jashyard</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-07</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-036</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 9</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">PM Stakeholder Sync (Jordan ↔ Jashyard)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">governance</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">pm-cadence</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">jashyard</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-08</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-007</span>
+    <span style="background:#6b7280;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P3</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 12</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Reporting Pack — Public Dashboard Incident Disclosure Policy</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jashyard (decision)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reporting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">open-question</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">decision-needed</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">OQ-20260612-1</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div>
+  </div>
+</div><div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="background:#f59e0b;color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;display:flex;justify-content:space-between;">
+    <span>In Progress</span><span style="background:rgba(255,255,255,.25);padding:1px 8px;border-radius:9px;">5</span>
+  </div>
+  <div style="background:#fffbeb;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:200px;">
+    <div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-001</span>
+    <span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P0</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 51</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Phase 1 Baseline Validation — 10 engine-scored sessions</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Bot (automated)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">phase-gate</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">live-path</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">automated</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-04</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-031</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 11</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">War Room Incident Response Protocol</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Victor + Omar + Rachel + Dana</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">incident-response</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">process</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-02</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-033</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 17</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">PM Triage Cadence — R11 (Monday 8am AZ)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">pm-cadence</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">process</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">ideas</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-05</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-037</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 43</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Pre-Market QA Routine — R0 (9:30am ET daily)</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Sam + Rachel</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">engineering</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">qos</span><div style="margin-top:4px;padding:4px 6px;background:#fef3c7;border-left:3px solid #f59e0b;font-size:10px;color:#92400e;">⚠️ QA failure MUST NOT block R2 force-close — non-waivable per Dana RISK clause...</div>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-01</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-034</span>
+    <span style="background:#2563eb;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P2</span>
+  </div>
+  <span style="font-size:10px;color:#6b7280;float:right;">RICE: 14</span>
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">PM Strategy Review — R12 (Saturday noon AZ) + Roadmap Channel</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Jordan + Devon</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">pm-cadence</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">process</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reporting</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612C2-05</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div>
+  </div>
+</div><div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="background:#22c55e;color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;display:flex;justify-content:space-between;">
+    <span>Done</span><span style="background:rgba(255,255,255,.25);padding:1px 8px;border-radius:9px;">5</span>
+  </div>
+  <div style="background:#f0fdf4;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:200px;">
+    <div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-016</span>
+    <span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P0</span>
+  </div>
+  
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Restore signal_engine.py (v3.6.1) + improvement_phases.json</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Rachel)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">sev1</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">engine</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">done</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-01</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-017</span>
+    <span style="background:#dc2626;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P0</span>
+  </div>
+  
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Durability Phase A — safe-write + .bak + MANIFEST.json + Step-0 integrity</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Omar)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">durability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">done</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-02</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-018</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Phase 1 Session Definition + Analytics Outage-Exclusion Flag</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Sam/Devon)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">analytics</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">data-quality</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">done</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-04</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-019</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">Reporting Pack — Status Headers, Staleness Badges, Escalation Line</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Yuki/Rachel)</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reporting</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">dashboard</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">done</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#7c3aed;">BD-20260612-05</span><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div><div style="background:white;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+    <span style="font-size:10px;color:#9ca3af;font-weight:600;">RM-027</span>
+    <span style="background:#ea580c;color:white;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700;">P1</span>
+  </div>
+  
+  <div style="font-weight:600;font-size:13px;margin:4px 0;line-height:1.3;">roadmap.json Repair + Write-Validation</div>
+  <div style="font-size:11px;color:#6b7280;margin-bottom:6px;">👤 Engineering (Jordan flagged, r</div>
+  <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">reliability</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">ops</span> <span style="background:#e5e7eb;color:#374151;padding:1px 6px;border-radius:9px;font-size:10px;">done</span>
+  <div style="margin-top:6px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;color:#9ca3af;">2026-06-12</span></div>
+</div>
+  </div>
+</div><div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="background:#ef4444;color:white;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:700;font-size:13px;display:flex;justify-content:space-between;">
+    <span>Cancelled</span><span style="background:rgba(255,255,255,.25);padding:1px 8px;border-radius:9px;">0</span>
+  </div>
+  <div style="background:#fff1f2;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:200px;">
+    <div style="color:#9ca3af;font-size:12px;text-align:center;padding:20px;">Empty</div>
+  </div>
+</div></div>
+</div>
+<div class="footer">
+  Trading Bot v3.6.2 · PAPER_TRADE=True · Account ••••---- only · Boardroom Cycle 2 approved + executed 2026-06-12 · 41 roadmap items
+</div>
+</body>
+</html>
