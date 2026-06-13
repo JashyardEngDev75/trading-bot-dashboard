@@ -1,258 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Bot v3.3 Dashboard</title>
+<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+<title>Trading Bot v3.5 -- Paper Dashboard</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 20px; }
-  h1 { color: #7ec8e3; font-size: 1.5rem; margin-bottom: 4px; }
-  .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 20px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
-  .card { background: #1a1a2e; border-radius: 10px; padding: 16px; border: 1px solid #2a2a4a; }
-  .card h3 { font-size: 0.75rem; text-transform: uppercase; color: #888; margin-bottom: 6px; }
-  .card .val { font-size: 1.6rem; font-weight: bold; }
-  .card .sub { font-size: 0.75rem; color: #888; margin-top: 4px; }
-  .green { color: #4caf50; } .red { color: #f44336; } .yellow { color: #ffc107; } .blue { color: #7ec8e3; }
-  .section { background: #1a1a2e; border-radius: 10px; padding: 16px; margin-bottom: 16px; border: 1px solid #2a2a4a; }
-  .section h2 { font-size: 1rem; color: #7ec8e3; margin-bottom: 12px; }
-  canvas { max-width: 100%; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-  th { background: #0f0f2a; padding: 8px; text-align: left; color: #888; border-bottom: 1px solid #2a2a4a; }
-  td { padding: 6px 8px; border-bottom: 1px solid #1e1e3a; }
-  tr:hover { background: #1e1e3a; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; }
-  .badge-green { background: #1b3a1b; color: #4caf50; border: 1px solid #4caf50; }
-  .badge-red { background: #3a1b1b; color: #f44336; border: 1px solid #f44336; }
-  .badge-yellow { background: #3a341b; color: #ffc107; border: 1px solid #ffc107; }
-  .badge-gray { background: #2a2a3a; color: #888; border: 1px solid #444; }
-  .progress-bar { background: #0f0f2a; border-radius: 6px; height: 18px; margin-top: 6px; overflow: hidden; position: relative; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, #4f81bd, #7ec8e3); transition: width 0.3s; }
-  .progress-label { position: absolute; right: 8px; top: 1px; font-size: 0.75rem; color: #fff; }
-  .learning-card { background: #0f1a2e; border-left: 3px solid #4f81bd; padding: 10px 12px; margin-bottom: 8px; border-radius: 0 6px 6px 0; }
-  .learning-card .date { font-size: 0.7rem; color: #888; }
-  .learning-card .text { font-size: 0.8rem; margin-top: 4px; }
-  .gap-alert { background: #3a2b0f; border: 1px solid #ffc107; border-radius: 8px; padding: 12px; margin-bottom: 16px; }
-</style>
-</head>
-<body>
-<h1>🤖 Trading Bot v3.3 — Paper Dashboard</h1>
-<p class="subtitle">PAPER_TRADE=True | Account ••••---- | Updated: 2026-06-10 20:02 UTC</p>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Segoe UI',sans-serif; background:#0f0f1a; color:#e0e0e0; padding:20px; }
+h1 { color:#7ec8e3; font-size:1.5rem; margin-bottom:4px; }
+.subtitle { color:#888; font-size:0.85rem; margin-bottom:20px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; }
+.card { background:#1a1a2e; border-radius:10px; padding:16px; border:1px solid #2a2a4a; }
+.card h3 { font-size:0.75rem; text-transform:uppercase; color:#888; margin-bottom:6px; }
+.card .val { font-size:1.6rem; font-weight:bold; }
+.card .thesis { font-size:0.68rem; color:#444; margin-top:6px; text-transform:uppercase; letter-spacing:0.4px; }
+.section { background:#1a1a2e; border-radius:10px; padding:16px; margin-bottom:16px; border:1px solid #2a2a4a; }
+.section h2 { font-size:1rem; color:#7ec8e3; margin-bottom:12px; }
+canvas { max-width:100%; }
+table { width:100%; border-collapse:collapse; font-size:0.78rem; }
+th { background:#0f0f2a; padding:7px 8px; text-align:left; color:#888; border-bottom:1px solid #2a2a4a; white-space:nowrap; }
+td { padding:5px 8px; border-bottom:1px solid #1e1e3a; }
+tr:hover td { background:#1e1e3a; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.7rem; white-space:nowrap; }
+.badge-green  { background:#1b3a1b; color:#4caf50; border:1px solid #4caf50; }
+.badge-red    { background:#3a1b1b; color:#f44336; border:1px solid #f44336; }
+.badge-yellow { background:#3a341b; color:#ffc107; border:1px solid #ffc107; }
+.badge-gray   { background:#2a2a3a; color:#888;    border:1px solid #444; }
+.badge-purple { background:#2a1f3a; color:#b39ddb; border:1px solid #b39ddb; }
+.progress-bar  { background:#0f0f2a; border-radius:6px; height:18px; margin-top:4px; overflow:hidden; position:relative; }
+.progress-fill { height:100%; background:linear-gradient(90deg,#4f81bd,#7ec8e3); }
+.progress-label { position:absolute; right:8px; top:1px; font-size:0.72rem; color:#fff; line-height:16px; }
+.learning-card { background:#0f1a2e; border-left:3px solid #4f81bd; padding:10px 12px; margin-bottom:8px; border-radius:0 6px 6px 0; }
+.gap-alert { background:#3a2b0f; border:1px solid #ffc107; border-radius:8px; padding:12px; margin-bottom:16px; font-size:0.85rem; }
+.v35-badge { background:#1a2a1a; border:1px solid #4caf50; color:#4caf50; padding:2px 8px; border-radius:4px; font-size:0.7rem; }
+.routine-row { display:flex; align-items:center; gap:8px; padding:7px 0; border-bottom:1px solid #1e1e3a; font-size:0.82rem; flex-wrap:wrap; }
+.routine-time { color:#7ec8e3; font-weight:bold; min-width:130px; }
+.charts-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+@media(max-width:800px) { .charts-grid { grid-template-columns:1fr; } }
+</style></head><body>
+<h1>Trading Bot <span class='v35-badge'>v3.5.2</span> -- Paper Dashboard</h1>
+<p class='subtitle'>PAPER_TRADE=True | Account ---- | 6 Active + 3 Benchmark Models | Updated: <span id='gents' data-ts='2026-06-12T23:41:12.906212+00:00'>2026-06-12 23:41 UTC</span></p>
+<div style="background:#2a1a0f;border:1px solid #f44336;border-radius:8px;padding:12px;margin-bottom:16px;">VIX PROXY GATE ACTIVE -- vix_proxy=40.6 &ge; 35. All active models blocked. (Raised 22 to 35 in v3.5.2. Benchmarks still trade.)</div>
 
-<div class="gap-alert">
-  ⚠️ <strong>TODAY (2026-06-10):</strong> Gap filter fired — TQQQ gap -2.75% (≤-2.5% threshold). TQQQ longs blocked. SQQQ confidence not met. <strong>0 trades placed.</strong> SQQQ would have won (+5.77%).
+<div class='grid'>
+<div class='card'><h3>Active Model PnL</h3><div class='val' style='color:#4caf50;'>+$0.00</div><div style='font-size:0.75rem;color:#888;'>Active models only (6)</div></div>
+<div class='card'><h3>Win Rate</h3><div class='val' style='color:#f44336;'>0%</div><div style='font-size:0.75rem;color:#888;'>0 wins / 0 trades</div></div>
+<div class='card'><h3>Total Trades</h3><div class='val' style='color:#7ec8e3;'>4</div><div style='font-size:0.75rem;color:#888;'>All models incl. benchmarks</div></div>
+<div class='card'><h3>VIX</h3><div class='val' style='color:#4caf50;'>19.51</div><div style='font-size:0.75rem;color:#888;'>vix_proxy: 40.6 (gate=35)</div></div>
+<div class='card'><h3>Signals Today</h3><div class='val' style='color:#7ec8e3;'>9</div><div style='font-size:0.75rem;color:#888;'>Across all active models</div></div>
 </div>
-
-<!-- STAT CARDS -->
-<div class="grid">
-  <div class="card">
-    <h3>Total Closed Trades</h3>
-    <div class="val blue">0</div>
-    <div class="sub">v2 models (all-time)</div>
-  </div>
-  <div class="card">
-    <h3>Inception PnL</h3>
-    <div class="val green">$0.00</div>
-    <div class="sub">All 4 models combined</div>
-  </div>
-  <div class="card">
-    <h3>Win Rate</h3>
-    <div class="val yellow">—</div>
-    <div class="sub">Requires ≥1 trade</div>
-  </div>
-  <div class="card">
-    <h3>VIX Today</h3>
-    <div class="val yellow">21.99</div>
-    <div class="sub">+10.7% from 19.87 | Day high: 22.66</div>
-  </div>
-  <div class="card">
-    <h3>TQQQ Close</h3>
-    <div class="val red">$69.71</div>
-    <div class="sub">Gap: -2.75% | Day: -5.77%</div>
-  </div>
-  <div class="card">
-    <h3>What Would've Won</h3>
-    <div class="val green">SQQQ BUY</div>
-    <div class="sub">TQQQ fell -5.77% from prev close</div>
-  </div>
+<div class='charts-grid'>
+<div class='section'><h2>Balance History -- Active Models</h2><canvas id='balChart' height='140'></canvas></div>
+<div class='section'><h2>Daily PnL by Model</h2><canvas id='pnlChart' height='140'></canvas></div>
 </div>
-
-<!-- SIGNALS TOWARD 30 -->
-<div class="section">
-  <h2>📊 Signals Toward Live-Trading Gate (30 required per model)</h2>
-  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
-
-    <div>
-      <div style="font-size:0.85rem; margin-bottom:4px;">champion_v2 <span style="color:#888;">(0/30)</span></div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #4f81bd, #4f81bdaa);"></div>
-        <span class="progress-label">0/30</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:0.85rem; margin-bottom:4px;">challenger_v2 <span style="color:#888;">(0/30)</span></div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #f79646, #f79646aa);"></div>
-        <span class="progress-label">0/30</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:0.85rem; margin-bottom:4px;">scalp_champion_v2 <span style="color:#888;">(0/30)</span></div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #9bbb59, #9bbb59aa);"></div>
-        <span class="progress-label">0/30</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:0.85rem; margin-bottom:4px;">scalp_challenger_v2 <span style="color:#888;">(0/30)</span></div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width:0.0%; background: linear-gradient(90deg, #c0504d, #c0504daa);"></div>
-        <span class="progress-label">0/30</span>
-      </div>
-    </div>
-  </div>
+<div class="section"><h2>Active Models (6) -- Scoring + VIX Gate</h2><div class="grid-3"><div class="card" style="border-color:#4f81bd44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#4f81bd;"></div><h3 style="color:#4f81bd;text-transform:none;font-size:0.85rem;">TR champion_v2</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Trend EMA 9/21 | R1/R3/R5/R6 | $500</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#4f81bd,#4f81bdaa);"></div><span class="progress-label">0/30</span></div></div></div>
+<div class="card" style="border-color:#f7964644;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#f79646;"></div><h3 style="color:#f79646;text-transform:none;font-size:0.85rem;">TR challenger_v2</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Trend EMA 5/13 | R1/R3/R5/R6 | $300</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#f79646,#f79646aa);"></div><span class="progress-label">0/30</span></div></div></div>
+<div class="card" style="border-color:#9bbb5944;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#9bbb59;"></div><h3 style="color:#9bbb59;text-transform:none;font-size:0.85rem;">SC scalp_champion_v2</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Scalp ORB+VWAP | R3/R4/R5/R6 | $400</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#9bbb59,#9bbb59aa);"></div><span class="progress-label">0/30</span></div></div></div>
+<div class="card" style="border-color:#c0504d44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#c0504d;"></div><h3 style="color:#c0504d;text-transform:none;font-size:0.85rem;">SC scalp_challenger_v2</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Scalp Momentum | R3/R4/R5/R6 | $250</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#c0504d,#c0504daa);"></div><span class="progress-label">0/30</span></div></div></div>
+<div class="card" style="border-color:#b39ddb44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#b39ddb;"></div><h3 style="color:#b39ddb;text-transform:none;font-size:0.85rem;">MR mean_reversion_v1</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Reversion RSI+VWAP | All windows | $200</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#b39ddb,#b39ddbaa);"></div><span class="progress-label">0/30</span></div></div></div>
+<div class="card" style="border-color:#4db6ac44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#4db6ac;"></div><h3 style="color:#4db6ac;text-transform:none;font-size:0.85rem;">AT afternoon_trend_v1</h3><div class="val" style="color:#4caf50;">$1,000.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">Trend EMA 15/50 | R5/R6 only | $300</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-green">ACTIVE</span><span class="badge badge-green">streak: 0L</span></div><div style="margin-top:8px;"><div style="font-size:0.72rem;color:#888;margin-bottom:3px;">Signals: 0/30 toward live gate</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#4db6ac,#4db6acaa);"></div><span class="progress-label">0/30</span></div></div></div></div></div>
+<div class='section'><h2>Benchmark Models (3) -- Always Trade, No Scoring</h2>
+<p style='color:#888;font-size:0.78rem;margin-bottom:12px;'>These 3 models buy and sell every trading day regardless of conditions. Purpose: compare active model performance against naive baselines (random, always-TQQQ, always-SQQQ). They do NOT count toward the live-gate signal threshold. $500 paper allocation each.</p>
+<div class='grid-3'>
+<div class="card" style="border-color:#9e9e9e44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#9e9e9e;"></div><h3 style="color:#9e9e9e;text-transform:none;font-size:0.85rem;">RN random_v1</h3><div class="val" style="color:#4caf50;">$500.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">BENCHMARK: Random TQQQ/SQQQ each day. No scoring. EOD close. $500</div><div style="color:#4caf50;font-size:0.72rem;margin-top:4px;">No VIX gate -- trades every day</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-purple">BENCHMARK</span><span class="badge badge-green">streak: 0L</span></div><div style="font-size:0.72rem;color:#888;margin-top:8px;">All-time trades: 0 | Benchmark only -- no live gate</div></div>
+<div class="card" style="border-color:#66bb6a44;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#66bb6a;"></div><h3 style="color:#66bb6a;text-transform:none;font-size:0.85rem;">TA tqqq_always_v1</h3><div class="val" style="color:#4caf50;">$500.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">BENCHMARK: Always long TQQQ each day. No scoring. EOD close. $500</div><div style="color:#4caf50;font-size:0.72rem;margin-top:4px;">No VIX gate -- trades every day</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-purple">BENCHMARK</span><span class="badge badge-green">streak: 0L</span></div><div style="font-size:0.72rem;color:#888;margin-top:8px;">All-time trades: 0 | Benchmark only -- no live gate</div></div>
+<div class="card" style="border-color:#ef535044;position:relative;"><div style="position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:#ef5350;"></div><h3 style="color:#ef5350;text-transform:none;font-size:0.85rem;">SA sqqq_always_v1</h3><div class="val" style="color:#4caf50;">$500.00</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.78rem;margin-top:6px;"><div>Inception PnL: <span style="color:#4caf50;">+$0.00</span></div><div>Today: <span style="color:#4caf50;">$+0.00</span></div><div>Trades: <b>0</b></div><div>Win rate: <b>0%</b></div></div><div class="thesis">BENCHMARK: Always long SQQQ each day. No scoring. EOD close. $500</div><div style="color:#4caf50;font-size:0.72rem;margin-top:4px;">No VIX gate -- trades every day</div><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;"><span class="badge badge-purple">BENCHMARK</span><span class="badge badge-green">streak: 0L</span></div><div style="font-size:0.72rem;color:#888;margin-top:8px;">All-time trades: 0 | Benchmark only -- no live gate</div></div>
 </div>
-
-<!-- BALANCE CURVES -->
-<div class="section">
-  <h2>💰 Balance History (Paper)</h2>
-  <canvas id="balanceChart" height="80"></canvas>
+<div class='section' style='margin-top:12px;background:#0f1a2e;border:1px solid #b39ddb33;'>
+<h2 style='font-size:0.85rem;color:#b39ddb;'>Benchmark vs Active -- Balance Chart</h2>
+<canvas id='benchChart' height='100'></canvas></div>
 </div>
-
-<!-- MODEL STATUS CARDS -->
-<div class="section">
-  <h2>🔷 Model Status</h2>
-  <div class="grid">
-
-    <div class="card">
-      <h3>📈 champion_v2</h3>
-      <div class="val green">$1,000.00</div>
-      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
-      <div style="margin-top:8px;">
-        <span class="badge badge-green">ACTIVE</span>
-        
-        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
-      </div>
-    </div>
-    <div class="card">
-      <h3>📈 challenger_v2</h3>
-      <div class="val green">$1,000.00</div>
-      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
-      <div style="margin-top:8px;">
-        <span class="badge badge-green">ACTIVE</span>
-        
-        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
-      </div>
-    </div>
-    <div class="card">
-      <h3>⚡ scalp_champion_v2</h3>
-      <div class="val green">$1,000.00</div>
-      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
-      <div style="margin-top:8px;">
-        <span class="badge badge-green">ACTIVE</span>
-        
-        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
-      </div>
-    </div>
-    <div class="card">
-      <h3>⚡ scalp_challenger_v2</h3>
-      <div class="val green">$1,000.00</div>
-      <div class="sub">Inception PnL: $0.00 | 0 trades</div>
-      <div style="margin-top:8px;">
-        <span class="badge badge-green">ACTIVE</span>
-        
-        <span class="badge badge-gray" style="margin-left:6px;">consec losses: 0</span>
-      </div>
-    </div>
-  </div>
+<div class='section'><h2>Live-Trading Gate -- Signals Toward 30</h2>
+<div style="padding:10px;background:#0f1a2e;border-radius:6px;border-left:3px solid #4f81bd;"><div style="font-size:0.82rem;color:#7ec8e3;margin-bottom:4px;">Phase 1 -- VIX Gate + Triple-Align Removal</div><div style="font-size:0.78rem;margin-bottom:6px;">Sessions: <b>2/10</b></div><div class="progress-bar"><div class="progress-fill" style="width:20.0%;"></div><span class="progress-label">2/10</span></div></div>
+<div style='height:12px;'></div>
+<div style='display:grid;grid-template-columns:1fr 1fr;gap:12px;'>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#4f81bd;">champion_v2</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#4f81bd,#4f81bdaa);"></div><span class="progress-label">0/30</span></div></div>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#f79646;">challenger_v2</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#f79646,#f79646aa);"></div><span class="progress-label">0/30</span></div></div>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#9bbb59;">scalp_champion_v2</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#9bbb59,#9bbb59aa);"></div><span class="progress-label">0/30</span></div></div>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#c0504d;">scalp_challenger_v2</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#c0504d,#c0504daa);"></div><span class="progress-label">0/30</span></div></div>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#b39ddb;">mean_reversion_v1</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#b39ddb,#b39ddbaa);"></div><span class="progress-label">0/30</span></div></div>
+<div><div style="font-size:0.83rem;margin-bottom:3px;color:#4db6ac;">afternoon_trend_v1</div><div class="progress-bar"><div class="progress-fill" style="width:0.0%;background:linear-gradient(90deg,#4db6ac,#4db6acaa);"></div><span class="progress-label">0/30</span></div></div>
+</div></div>
+<div class='section'><h2>Routine Health (7 Routines)</h2>
+<div class="routine-row"><span class="routine-time">R1 9:43am ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Morning scan + benchmark open: champion_v2, challenger_v2, mean_reversion_v1, benchmarks</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">9/10 steps 15:37 UTC</span><span class="badge badge-yellow">PARTIAL</span></div>
+<div class="routine-row"><span class="routine-time">R3 10:15am ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Scalp 1: scalp_champion_v2, scalp_challenger_v2, mean_reversion_v1</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">8/8 steps 15:40 UTC</span><span class="badge badge-yellow">PARTIAL</span></div>
+<div class="routine-row"><span class="routine-time">R4 11:00am ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Scalp 2: scalp_champion_v2, scalp_challenger_v2, mean_reversion_v1</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">8/8 steps 15:39 UTC</span><span class="badge badge-yellow">PARTIAL</span></div>
+<div class="routine-row"><span class="routine-time">R5 12:30pm ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Afternoon 1: all 6 active models</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">2/8 steps 20:16 UTC</span><span class="badge badge-red">FAILED</span></div>
+<div class="routine-row"><span class="routine-time">R6 2:00pm ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Afternoon 2: all 6 active models</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">2/8 steps 20:16 UTC</span><span class="badge badge-red">FAILED</span></div>
+<div class="routine-row"><span class="routine-time">R2 3:53pm ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">EOD close (all models incl. benchmarks), analytics, email+Slack, GitHub</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">13/13 steps 20:06 UTC</span><span class="badge badge-green">SUCCESS</span></div>
+<div class="routine-row"><span class="routine-time">R7 4:15pm ET</span><span style="flex:1;color:#ccc;font-size:0.8rem;">Post-market QA, phase review, dashboard, push, email+Slack</span><span style="font-size:0.72rem;color:#666;margin-right:8px;">8/8 steps 20:31 UTC</span><span class="badge badge-yellow">PARTIAL</span></div>
 </div>
-
-<!-- ADAPTIVE RULES ACTIVE -->
-<div class="section">
-  <h2>🧠 Adaptive Rules (Active for Tomorrow)</h2>
-  <table>
-    <tr><th>Rule</th><th>Status</th><th>Reason</th></tr>
-    <tr>
-      <td>Gap Filter (SQQQ-only mode)</td>
-      <td><span class="badge badge-yellow">TRIGGERED TODAY</span></td>
-      <td>Gap -2.75% ≤ -2.5% threshold. Monitor for repeat tomorrow.</td>
-    </tr>
-    <tr>
-      <td>Require Higher Confidence on Longs</td>
-      <td><span class="badge badge-gray">INACTIVE</span></td>
-      <td>No losing day streak (no trades today)</td>
-    </tr>
-    <tr>
-      <td>Reduce Position Size (3+ consec losses)</td>
-      <td><span class="badge badge-gray">INACTIVE</span></td>
-      <td>All models at 0 consecutive losses</td>
-    </tr>
-    <tr>
-      <td>SQQQ Confidence Review</td>
-      <td><span class="badge badge-yellow">FLAGGED</span></td>
-      <td>SQQQ thresholds (75-82) may be too high on confirmed gap-down days — missed +5.77% SQQQ move</td>
-    </tr>
-  </table>
+<div class='section'><h2>Active Rules v3.5.2</h2>
+<table><tr><th>Rule</th><th>Status</th><th>Detail</th></tr><tr><td>VIX Proxy Gate v3.5.2</td><td><span class="badge badge-green">GATE OPEN</span></td><td>vix_proxy=40.6 vs threshold=35. Raised from 22 on 2026-06-11 (22 blocked 2/3 days incl. +9.59% TQQQ missed). Benchmarks bypass gate.</td></tr><tr><td>Triple-Align Bonus</td><td><span class="badge badge-gray">DISABLED</span></td><td>TRIPLE_ALIGN_BONUS=0. Backtest: +8 bonus yielded 36.7% wins vs 43.6% without.</td></tr><tr><td>Gap threshold (-15)</td><td><span class="badge badge-green">ACTIVE</span></td><td>Gap &le; -2.5% SQQQ thresh -15 | Gap &ge; +2.5% TQQQ thresh -15</td></tr><tr><td>TQQQ block on gap &le; -2.5%</td><td><span class="badge badge-gray">INACTIVE</span></td><td>Gap today: $+0.36</td></tr><tr><td>Benchmark models bypass all gates</td><td><span class="badge badge-purple">ALWAYS TRADE</span></td><td>random_v1, tqqq_always_v1, sqqq_always_v1 trade every day at open regardless of VIX or scoring.</td></tr><tr><td>Circuit breaker (5+ losses)</td><td><span class="badge badge-gray">INACTIVE</span></td><td>All active models: 0 consecutive losses</td></tr></table>
 </div>
-
-<!-- RECENT LEARNINGS -->
-<div class="section">
-  <h2>📚 Recent Learnings (Last 5 Days)</h2>
-
-  <div class="learning-card">
-    <div class="date">2026-06-10 | Gap: -2.75% | PnL: <span class="yellow">$0.00</span> | Would've won: SQQQ_BUY</div>
-    <div class="text"><div style='margin-top:4px;'>• SQQQ confidence thresholds (75-82 min) may be too restrictive on confirmed gap-down days — consider separate lower threshold when gap ≤ -2.5% and momentum confirms continuation</div><div style='margin-top:4px;'>• Bar-replay verification shows no monitoring gap issues today (no trades placed)</div></div></div>
-  <div class="learning-card">
-    <div class="date">2026-06-09 | Gap: — | PnL: <span class="red">-$65.90</span> | Would've won: SQQQ_BUY</div>
-    <div class="text"><div style='margin-top:4px;'>• CRITICAL: Load FMP bars FIRST in Routine 1 before confidence scoring — never use 2pt EMA for gap calculation</div><div style='margin-top:4px;'>• CRITICAL: Implement gap filter — if real_gap > +1.5% AND intraday_trend bearish at scan, bias to SQQQ or skip</div></div></div>
+<div class='section'><h2>Signal Attempts Today</h2>
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:12px;font-size:0.82rem;"><div>Total: <b>9</b></div><div style="color:#f44336;">Gated: <b>0</b></div><div style="color:#888;">Window Skip: <b>0</b></div><div style="color:#4caf50;">Entries: <b>0</b></div></div><table><tr><th>Time</th><th>Routine</th><th>Model</th><th>Score</th><th>Thresh</th><th>Delta</th><th>vix_proxy</th><th>RSI</th><th>Outcome</th><th>Skip Reason</th></tr>
+<tr><td>15:06</td><td>r4</td><td style='color:#9bbb59;'>scalp_champion_v2</td><td></td><td>55.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>60.9</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py still truncated at 18906B (3rd consecutive routine: R1, R3, R4); no deterministic scoring; safe-mode no-trade. Market setup entry-favorable (TQQQ 77.35 > ORB 76.28, > VWAP 75.95, EMA bull stack, RSI 60.9, VIX 18.7). RESTORE REQUIRED.">ENGINE_TRUNCATED — signal_engine.py stil…</span></td></tr>
+<tr><td>15:06</td><td>r4</td><td style='color:#c0504d;'>scalp_challenger_v2</td><td></td><td>60.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>60.9</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py still truncated at 18906B (3rd consecutive routine: R1, R3, R4); no deterministic scoring; safe-mode no-trade. Market setup entry-favorable (TQQQ 77.35 > ORB 76.28, > VWAP 75.95, EMA bull stack, RSI 60.9, VIX 18.7). RESTORE REQUIRED.">ENGINE_TRUNCATED — signal_engine.py stil…</span></td></tr>
+<tr><td>15:06</td><td>r4</td><td style='color:#b39ddb;'>mean_reversion_v1</td><td></td><td>60.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>60.9</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py still truncated at 18906B (3rd consecutive routine: R1, R3, R4); no deterministic scoring; safe-mode no-trade. Market setup entry-favorable (TQQQ 77.35 > ORB 76.28, > VWAP 75.95, EMA bull stack, RSI 60.9, VIX 18.7). RESTORE REQUIRED.">ENGINE_TRUNCATED — signal_engine.py stil…</span></td></tr>
+<tr><td>14:20</td><td>r3</td><td style='color:#9bbb59;'>scalp_champion_v2</td><td></td><td>55.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>63.7</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable (truncated at 18906B, confirmed by R3); no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+<tr><td>14:20</td><td>r3</td><td style='color:#c0504d;'>scalp_challenger_v2</td><td></td><td>60.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>63.7</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable (truncated at 18906B, confirmed by R3); no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+<tr><td>14:20</td><td>r3</td><td style='color:#b39ddb;'>mean_reversion_v1</td><td></td><td>60.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>63.7</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable (truncated at 18906B, confirmed by R3); no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+<tr><td>13:57</td><td>r1</td><td style='color:#4f81bd;'>champion_v2</td><td></td><td>45.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>49.1</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable, no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+<tr><td>13:57</td><td>r1</td><td style='color:#f79646;'>challenger_v2</td><td></td><td>55.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>49.1</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable, no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+<tr><td>13:57</td><td>r1</td><td style='color:#b39ddb;'>mean_reversion_v1</td><td></td><td>60.0</td><td style='color:#888;'></td><td style='color:#f44336;'>40.6</td><td>49.1</td><td><span class="badge badge-gray">SKIP_ELIGIBLE</span></td><td><span style="color:#888;font-size:0.75rem;" title="ENGINE_TRUNCATED — signal_engine.py unusable, no deterministic scoring; safe-mode no-trade">ENGINE_TRUNCATED — signal_engine.py unus…</span></td></tr>
+</table>
 </div>
-
-<!-- TRADE LOG TABLE -->
-<div class="section">
-  <h2>📋 Trade Log (All Time — v2 Models)</h2>
-<p style="color:#888; font-size:0.85rem;">No trades recorded yet for v2 models. Awaiting first entry signal.</p>
+<div class='section'><h2>Lessons Learned (Last 5 Sessions)</h2>
+<div class="learning-card"><div style="font-size:0.72rem;color:#888;margin-bottom:4px;">2026-06-12 | Gap: +0.43% | PnL: <span style="color:#4caf50;">$+0.00</span> -- No trades</div><span style="color:#ffc107;font-size:0.75rem;">Best: TQQQ_BUY</span><div style="margin-top:4px;"><div style="margin:3px 0;font-size:0.79rem;">- <b>Gap Filter:</b> Gap +0.43% normal — no filter action needed; correct</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Confidence Accuracy:</b> No scores emitted (engine down) — no data</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Rsi Accuracy:</b> RSI 49–64 through morning on a +2.2% day — would have supported longs; no entries to validate against</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Stop Behavior:</b> No trades — note 11:40–12:05 ET dip (78.2→75.66, ~-3.3%) would have tested any morning long's stop</div></div></div>
+<div class="learning-card"><div style="font-size:0.72rem;color:#888;margin-bottom:4px;">2026-06-11 | Gap: +2.28% | PnL: <span style="color:#4caf50;">$+0.00</span> -- No trades <span style="color:#ffc107;font-size:0.7rem;">VIX GATED (34.4)</span></div><span style="color:#ffc107;font-size:0.75rem;">Best: TQQQ_BUY</span><div style="color:#ffc107;font-size:0.75rem;margin-top:4px;">Missed: +9.59% on TQQQ — high-conviction TQQQ_BUY day; all models correctly oriented for bullish gap but blocked by vix_proxy gate</div><div style="margin-top:4px;"><div style="margin:3px 0;font-size:0.79rem;">- <b>Gap Filter:</b> Gap +2.28% is a bullish signal — gap filter would NOT have blocked TQQQ entries. The gate that blocked us was vix_proxy, not gap filter.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Confidence Accuracy:</b> Cannot measure — dmo scores computed due to vix_gate blocking before scoring.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Rsi Accuracy:</b> Cannot measure — dmo entries taken.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Stop Behavior:</b> N/A — dmo trades.</div></div><div style="margin-top:6px;padding:6px;background:#1a2030;border-radius:4px;font-size:0.75rem;color:#aaa;">2 of 3 trading days with v3.5 gate active resulted in no-trade days (both 2026-06-10 and 2026-06-11). On 2026-06-10, VIX gate was justified (gap -2.75%, TQQQ -5.77% intraday). On 2026-06-11, gate may have been overly conservative (+9.59% missed).</div></div>
+<div class="learning-card"><div style="font-size:0.72rem;color:#888;margin-bottom:4px;">2026-06-10 | Gap: -2.75% | PnL: <span style="color:#4caf50;">$+0.00</span> -- No trades</div><span style="color:#ffc107;font-size:0.75rem;">Best: SQQQ_BUY</span><div style="margin-top:4px;"><div style="margin:3px 0;font-size:0.79rem;">- <b>Gap Filter:</b> Gap filter fired correctly on -2.75% gap. Blocked TQQQ longs as designed. However, SQQQ entries were also missed — this is the right trade-off (avoid false signals on gap reversals) but worth noting that SQQQ was the winning direction today.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Confidence Accuracy:</b> N/A — no entries taken. Gap filter precluded TQQQ entries. SQQQ confidence thresholds (75-82) not reached in R3/R4 windows.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Rsi Accuracy:</b> N/A — dmo entries taken.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Stop Behavior:</b> N/A — dmo trades.</div></div></div>
+<div class="learning-card"><div style="font-size:0.72rem;color:#888;margin-bottom:4px;">2026-06-09 | Gap: n/a | PnL: <span style="color:#f44336;">$-65.90</span> -- Red</div><span style="color:#ffc107;font-size:0.75rem;">Best: SQQQBUV</span><div style="margin-top:4px;"><div style="margin:3px 0;font-size:0.79rem;">- <b>Gap Filter:</b> Real gap was +2.88% (up). Bot estimated -6.18% (down) from 2pt EMA — wrong direction entirely. FMP data MUST be loaded before confidence scoring. Gap filter: if |gap| > 1.5%, require SQQQ confirmation or skip longs.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Confidence Accuracy:</b> 100/100 confidence was wrong — all 4 trades lost. 2pt EMA should cap confidence at 65 max. RSI unavailable (null) further degraded signal quality.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Rsi Accuracy:</b> RSI was null for all models — no predictive signal. RSI must be required (not optional) before entry in future.</div><div style="margin:3px 0;font-size:0.79rem;">- <b>Stop Behavior:</b> Scalp models stopped out at -3.54% vs -0.5% target — 23-min monitoring gap caused 7x stop slippage. Scalp monitoring must run every 5min or stops need to be real limit orders.</div></div></div>
 </div>
-
-<div style="color:#444; font-size:0.75rem; margin-top:20px; text-align:center;">
-  Trading Bot v3.3 | PAPER TRADE | Generated 2026-06-10 20:02 UTC | Account ••••----
+<div class='section'><h2>Full Trade Log (4 trades -- all models)</h2>
+<table><tr><th>Date</th><th>Model</th><th>Type</th><th>Ticker</th><th>Dir</th><th>Entry</th><th>Exit</th><th>Qty</th><th>PnL )</th><th>PnL %</th><th>Conf</th><th>RSI</th><th>Gap%</th><th>Exit Reason</th></tr>
+<Vr><td>2026-06-09</td><td style='color:#888;'>champion_v1</td><td style='font-size:0.7rem;color:#888;'>LEGACY</td><td>TQQQ</td><td>BUY</td><td>$78.54</td><td>$73.69</td><td>6</td><td style='color:#f44336;'>$-29.11</td><td style='color:#f44336;'>-6.18%</td><td>100</td><td></td><td>-6.18%</td><td>force_sell</td></tr>
+<tr><td>2026-06-09</td><td style='color:#888;'>challenger_v1</td><td style='font-size:0.7rem;color:#888;'>LEGACY</td><td>TQEQ</td><td>BUY</td><td>$78.54</td><td>$73.69</td><td>3</td><td style='color:#f44336;'>$-14.55</td><td style='color:#f44336;'>-6.18%</td><td>100</td><td></td><td>-6.18%</td><td>force_sell</td></tr>
+<tr><td>2026-06-09</td><td style='color:#888;'>scalp_champion_v1</td><td style='font-size:0.7rem;color:#888;'>LEGACY</td><td>TQQQ</td><td>BUY</td><td>$78.54</td><td>$75.76</td><td>5</td><td style='color:#f44336;'>$-13.90</td><td style='color:#f44336;'>-3.54%</td><td>100</td><td></td><td>-6.18%</td><td>stop_loss</td></tr>
+<Tr><td>2026-06-09</td><td style='color:#888;'>scalp_challenger_v1</td><td style='font-size:0.7rem;color:#888;'>LEGACY</td><td>TQQQ</td><td>BUY</td><td>$78.54</td><td>$75.76</td><td>3</td><td style='color:#f44336;'>$-8.34</td><td style='color:#f44336;'>-3.54%</td><td>100</td><td></td><td>-6.18%</td><td>stop_loss</td></tr>
+</table>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<div style='color:#333;font-size:0.72rem;margin-top:20px;text-align:center;padding:12px;border-top:1px solid #1e1e3a;'>
+Trading Bot v3.5.2 | PAPER TRADE ONLY | 2026-06-12 23:41 UTC | Account ----
+</div>
+<script>(function(){var e=document.getElementById('gents');if(!e)return;var age=Date.now()-new Date(e.dataset.ts).getTime();var h=age/3600000;if(h>72){e.style.color='#f44336';e.style.fontWeight='bold';e.textContent+=' (STALE '+Math.floor(h/24)+'d)';}else if(h>24){e.style.color='#ffc107';e.style.fontWeight='bold';e.textContent+=' (stale)';}})();</script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js'></script>
 <script>
-const datasets = [{"label": "champion_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#4f81bd"}, {"label": "challenger_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#f79646"}, {"label": "scalp_champion_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#9bbb59"}, {"label": "scalp_challenger_v2", "data": [1000.0], "labels": ["2026-06-10"], "color": "#c0504d"}];
-const ctx = document.getElementById('balanceChart').getContext('2d');
-new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: datasets[0]?.labels || [],
-    datasets: datasets.map(d => ({
-      label: d.label,
-      data: d.data,
-      borderColor: d.color,
-      backgroundColor: d.color + '22',
-      tension: 0.3,
-      fill: false,
-      pointRadius: 4
-    }))
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { labels: { color: '#ccc' } },
-      tooltip: { mode: 'index' }
-    },
-    scales: {
-      x: { ticks: { color: '#888' }, grid: { color: '#222' } },
-      y: {
-        ticks: { color: '#888', callback: v => '$' + v.toFixed(0) },
-        grid: { color: '#222' },
-        suggestedMin: 900,
-        suggestedMax: 1100
-      }
-    }
-  }
-});
-</script>
-</body>
-</html>
+const balLabels=["2026-06-09", "2026-06-10", "2026-06-11", "2026-06-12"];
+const balDs=[{"label": "champion_v2", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#4f81bd"}, {"label": "challenger_v2", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#f79646"}, {"label": "scalp_champion_v2", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#9bbb59"}, {"label": "scalp_challenger_v2", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#c0504d"}, {"label": "mean_reversion_v1", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#b39ddb"}, {"label": "afternoon_trend_v1", "data": [1000.0, 1000.0, 1000.0, 1000.0], "color": "#4db6ac"}];
+new Chart(document.getElementById('balChart').getContext('2d'),{
+  type:'line',
+  data:{labels:balLabels,datasets:balDs.map(d=>({
+    label:d.label,data:d.data,borderColor:d.color,backgroundColor:d.color+'18',
+    tension:0.3,fill:false,pointRadius:balLabels.length<5?5:3,borderWidth:2
+  }))},
+  options:{responsive:true,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:'#aaa',font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toFixed(2)}}},
+    scales:{
+      x:{ticks:{color:'#666',maxRotation:45},grid:{color:'#1a1a2e'}},
+      y:{ticks:{color:'#666',callback:v=>'$'+v.toFixed(0)},grid:{color:'#1a1a2e'},
+        suggestedMin:Math.min(...balDs.flatMap(d=>d.data))-20,
+        suggestedMax:Math.max(...balDs.flatMap(d=>d.data))+20}}}});
+const pnlLabels=["2026-06-10", "2026-06-11", "2026-06-12"];
+const pnlDs=[{"label": "champion_v2", "data": [0.0, 0.0, 0.0], "color": "#4f81bd"}, {"label": "challenger_v2", "data": [0.0, 0.0, 0.0], "color": "#f79646"}, {"label": "scalp_champion_v2", "data": [0.0, 0.0, 0.0], "color": "#9bbb59"}, {"label": "scalp_challenger_v2", "data": [0.0, 0.0, 0.0], "color": "#c0504d"}, {"label": "mean_reversion_v1", "data": [0.0, 0.0, 0.0], "color": "#b39ddb"}, {"label": "afternoon_trend_v1", "data": [0.0, 0.0, 0.0], "color": "#4db6ac"}];
+new Chart(document.getElementById('pnlChart').getContext('2d'),{
+  type:'bar',
+  data:{labels:pnlLabels.length?pnlLabels:['No data'],datasets:pnlDs.map(d=>({
+    label:d.label,data:d.data,backgroundColor:d.color+'cc',borderColor:d.color,borderWidth:1
+  }))},
+  options:{responsive:true,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{labels:{color:'#aaa',font:{size:11}}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.raw.toFixed(2)}}},
+    scales:{
+      x:{ticks:{color:'#666'},grid:{color:'#1a1a2e'}},
+      y:{ticks:{color:'#666',callback:v=>'$'+v.toFixed(1)},grid:{color:'#1a1a2e'},
+        suggestedMin:-50,suggestedMax:50}}}});
+const benchLabels=["2026-06-12"];
+const benchDs=[{"label": "random_v1", "data": [500.0], "color": "#9e9e9e"}, {"label": "tqqq_always_v1", "data": [500.0], "color": "#66bb6a"}, {"label": "sqqq_always_v1", "data": [500.0], "color": "#ef5350"}];
+if(document.getElementById('benchChart')){
+  new Chart(document.getElementById('benchChart').getContext('2d'),{
+    type:'line',
+    data:{labels:benchLabels.length?benchLabels:['No data'],datasets:benchDs.map(d=>({
+      label:d.label,data:d.data,borderColor:d.color,backgroundColor:d.color+'18',
+      tension:0.3,fill:false,pointRadius:4,borderWidth:2,borderDash:[4,4]
+    }))},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{color:'#aaa',font:{size:11}}}},
+      scales:{
+        x:{ticks:{color:'#666'},grid:{color:'#1a1a2e'}},
+        y:{ticks:{color:'#666',callback:v=>'$'+v.toFixed(0)},grid:{color:'#1a1a2e'},
+          suggestedMin:400,suggestedMax:600}}}});}
+</script></body></html>
