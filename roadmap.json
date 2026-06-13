@@ -6,7 +6,8 @@
     "review_cycle": "weekly",
     "mission": "Build a paper-trading bot that consistently beats benchmarks on risk-adjusted returns and earns the right to go live.",
     "next_review_due": "2026-06-20",
-    "last_addendum": "2026-06-13 targeted: R9 safe-bundle follow-ups queued to engineering (RM-075..078); RM-035/036 -> pending-verification"
+    "last_addendum": "2026-06-13 R12 strategy: +3 strategic items (RM-079 uptime heartbeat/page-on-down P0, RM-080 notification reliability P1, RM-081 phase-gate metric definitions P1). Strategic thesis: reliability/uptime is the single binding live-path constraint (R8: 0 entries this wk, routines r5=.25/r7=0; 06-12 root cause = app closed in-window). Backlog bloat flagged for prune (In Progress 9 vs target 3; Backlog 34 vs target 15). roadmap.html regen + Linear via EOD/5:53pm safety nets.",
+    "last_strategy_review": "2026-06-13"
   },
   "columns": [
     "Backlog",
@@ -2120,7 +2121,7 @@
     },
     {
       "id": "RM-078",
-      "title": "Sim/Test Artifact Isolation \u2014 safe_io Path-Guard + mode Tag",
+      "title": "Sim/Test Artifact Isolation — safe_io Path-Guard + mode Tag",
       "description": "Structural prevention for the R9 RISK_FLAG (Dana): test_pm_top3.py sim guard artifacts (account_guard ---- / order_guard / self_heal) were writing into the PRODUCTION logs/errors.jsonl, making a real safety breach look like noise. One-time cleanup done by BD-20260613-02 (13 records relocated to logs/test_artifacts/). This ticket = the safe_io.py path-guard so sim/test writes can NEVER reach production safety logs, plus a typed/timestamped error schema and the mode field (paper|real|sim). Aligns with the staged TradingModes_DataSeparation spec.",
       "column": "To Do",
       "priority": "P1",
@@ -2146,6 +2147,94 @@
         "aligns-trading-modes"
       ],
       "acceptance_criteria": "safe_io path-guard routes any test/sim write to logs/test_artifacts/ or logs/sim/ (never production errors.jsonl); every errors.jsonl write carries timestamp+error_type+source; mode field enforced; verified by a sim-write drill that does NOT touch production logs."
+    },
+    {
+      "id": "RM-079",
+      "title": "[STRATEGIC] Market-Hours Uptime Heartbeat + Page-on-Down",
+      "description": "ROOT-CAUSE FIX for the #1 PnL-relevant failure mode. The 06-12 zero-entry day was NOT a code bug: the Cowork app was CLOSED during market hours, so R5/R6 deferred and fired post-window. A Sunday-5pm prep check was added, but there is NO in-window detection that the app/routines are actually live. This item adds a lightweight heartbeat that confirms each entry routine fired within its window on each open day and pages Jashyard (Slack + email) FAST if a window is missed (detect within minutes, not at EOD). Distinct from RM-074 (failover) and RM-061 (simplify schedule): this is an uptime SLA + alerting layer. Directly accelerates Phase 1 because every missed favorable session is a lost scored signal toward the 30-signal gate.",
+      "column": "To Do",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 2,
+        "score": 27
+      },
+      "owner": "Engineering (Rachel/Omar)",
+      "assigned_to": null,
+      "source": "Jordan Strategic Session 2026-06-13 — R8 INS-001 + 06-12 root cause",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "strategic",
+        "live-path",
+        "reliability",
+        "uptime",
+        "alerting",
+        "reliability-sprint"
+      ],
+      "acceptance_criteria": "A heartbeat checks, per open day, that each entry routine (R1/R3/R4/R5/R6) logged a start within ±10 min of its window; a missed window posts a Slack alert + email to Jashyard within 15 min of the window close; verified by a drill that simulates a missed window. No engine/scoring/gate change."
+    },
+    {
+      "id": "RM-080",
+      "title": "[STRATEGIC] Notification Delivery Reliability (Gmail MCP) — 5 email failures/wk",
+      "description": "R8 reports email_failures=5 this week (Gmail MCP auth/scope). Email + Slack are the ONLY ways Jashyard learns the app/routines are down — if notifications silently fail, the uptime risk (RM-079) compounds: a missed window with a failed alert = invisible lost session. Need: root-cause the Gmail MCP failures (auth/scope/rate), add a delivery-confirmation + retry, and a fallback to Slack-only with an explicit 'email degraded' flag in runs.jsonl so degraded notification is visible, not silent.",
+      "column": "To Do",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 2,
+        "score": 17
+      },
+      "owner": "Engineering (Sam/Rachel)",
+      "assigned_to": null,
+      "source": "Jordan Strategic Session 2026-06-13 — R8 research_question (5 email_failures)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "strategic",
+        "reliability",
+        "notifications",
+        "observability",
+        "reliability-sprint"
+      ],
+      "acceptance_criteria": "Gmail MCP failure root cause documented in TECH_NOTES.md; routines confirm send-success and retry once; on persistent failure, runs.jsonl carries email_status='degraded' and Slack remains authoritative; email_failures trend tracked in R8. Target 0 silent failures over next 5 sessions."
+    },
+    {
+      "id": "RM-081",
+      "title": "Phase-Gate Metric Definitions — Phase-1-Progress vs Condition-1 Separation",
+      "description": "Measurement-integrity fix before data accrues Monday. Today Phase 1 ('10 engine-scored sessions') and going-live Condition 1 ('30 gated NATURAL signals per model, floor excluded') are easy to conflate. Floor entries (entry_type='floor') and gated-but-scored attempts count toward Phase-1 PROGRESS but must NEVER count toward Condition-1's 30 natural signals. Codify the two distinct counters + definitions in improvement_phases.json and METRIC-DICTIONARY.md so the live gate cannot be accidentally satisfied by floor trades. Ties boardroom proposal BD-20260613-08.",
+      "column": "To Do",
+      "priority": "P1",
+      "category": "governance",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 1,
+        "score": 43
+      },
+      "owner": "Jordan (PM) + Analytics (Devon)",
+      "assigned_to": null,
+      "source": "Jordan Strategic Session 2026-06-13 — ties BD-20260613-08",
+      "boardroom_ref": "BD-20260613-08",
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "live-path",
+        "phase-gate",
+        "measurement-integrity",
+        "definitions"
+      ],
+      "acceptance_criteria": "improvement_phases.json + METRIC-DICTIONARY.md define two separate counters: phase1_progress_sessions (incl. floor + gated-scored) and condition1_natural_signals (entry_type='signal' only, per model, target 30); live_gate_stats.py confirms floor trades excluded from Condition-1; documented before Monday's first scored session. PENDING BD-20260613-08 approval.",
+      "queue_note": "Ties BD-20260613-08 (PENDING_APPROVAL, R10 roundtable 06-13). Definitional/measurement work; no engine or gate behavior change."
     }
   ]
 }
