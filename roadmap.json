@@ -1,13 +1,14 @@
 {
   "meta": {
     "version": "1.1",
-    "last_reviewed": "2026-06-13",
+    "last_reviewed": "2026-06-15",
     "last_reviewed_by": "Jordan (PM Agent)",
     "review_cycle": "weekly",
     "mission": "Build a paper-trading bot that consistently beats benchmarks on risk-adjusted returns and earns the right to go live.",
-    "next_review_due": "2026-06-20",
+    "next_review_due": "2026-06-22",
     "last_addendum": "2026-06-13 R12 strategy: +3 strategic items (RM-079 uptime heartbeat/page-on-down P0, RM-080 notification reliability P1, RM-081 phase-gate metric definitions P1). Strategic thesis: reliability/uptime is the single binding live-path constraint (R8: 0 entries this wk, routines r5=.25/r7=0; 06-12 root cause = app closed in-window). Backlog bloat flagged for prune (In Progress 9 vs target 3; Backlog 34 vs target 15). roadmap.html regen + Linear via EOD/5:53pm safety nets.",
-    "last_strategy_review": "2026-06-13"
+    "last_strategy_review": "2026-06-13",
+    "last_triage_addendum": "2026-06-15 (scheduled PM triage Mon 8am): Phase 1 at 3/10 sessions (today counted). FOMC week (06-17 R6 gate NO-ENTRY per RM-075 Done; Fri 06-19 Juneteenth closed). +6 net-new Backlog items: RM-085 safe_io.py CORRUPTED P0, RM-086 Benchmark Activation Standard P1, RM-087 Going-Live Evidence Scorecard P1, RM-088 Monte Carlo Regime Bootstrap P1, RM-089 Forbidden Account Daily Scan P1, RM-090 Recommendation Lifecycle State Machine P2. 17 ideas folded into existing items. 0 promoted to To Do (Backlog over budget; P0 only exception). Live finds: safe_io.py hash mismatch flagged in today R1 (non-blocking); benchmark n_shared_days=0 across all 3 benchmarks (live-path gap). roadmap.html regen deferred to tonight's 5:53pm Linear/EOD sync (FUSE-safe path)."
   },
   "columns": [
     "Backlog",
@@ -20,7 +21,7 @@
     {
       "id": "RM-001",
       "title": "Phase 1 Baseline Validation \u2014 10 engine-scored sessions",
-      "description": "Accumulate 10 sessions where vix_proxy > 0 AND engine scores are emitted (no outage flag). Confirms VIX gate calibration before any threshold tuning. Current progress: 2/10 sessions (2026-06-11, 2026-06-12). Mon 2026-06-15 = first scored session after the engine self-heal restore (also FOMC week; Fri 06-19 Juneteenth closed). 0 natural signal entries across 6 active models remains the binding live-path blocker.",
+      "description": "Accumulate 10 sessions where vix_proxy > 0 AND engine scores are emitted (no outage flag). Confirms VIX gate calibration before any threshold tuning. Current progress: 3/10 sessions (2026-06-11, 2026-06-12, 2026-06-15). FOMC week: 06-17 R6 gate NO-ENTRY (RM-075 Done); Fri 06-19 Juneteenth closed. 0 natural signal entries across 6 active models remains the binding live-path blocker.",
       "column": "In Progress",
       "priority": "P0",
       "category": "strategy",
@@ -165,7 +166,8 @@
       "id": "RM-006",
       "title": "Complete BD-06 Hygiene Bundle (Boardroom delegated items)",
       "description": "Remaining items from BD-20260612-06: Tom\u00e1s event map (06-09 to 06-12), Elena counterfactual pricing of missed setups, tearsheet N=0 enumeration for current models.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P2",
       "category": "process",
       "rice": {
@@ -670,8 +672,8 @@
     {
       "id": "RM-025",
       "title": "[STRATEGIC] Boardroom Agent Org Expansion",
-      "description": "Current boardroom has 17 agent roles. Evaluate whether adding a dedicated Head of Alpha Research or Execution Specialist would improve proposal quality for live-readiness decisions.",
-      "column": "Backlog",
+      "description": "Org expansion delivered: added role #18 Head of AI 'Nova' (boardroom/agents/18-head-of-ai.md) — advisory owner of tools/services/dependencies + continuity, and standing poster in #trading-bot-company-updates. Roster and BOARDROOM-PROTOCOL.md / AI-CONTEXT.md updated to 18 roles. (Original scope evaluated Alpha Research / Execution Specialist; Jashyard directed the Head of AI addition instead.)",
+      "column": "Done",
       "priority": "P3",
       "category": "process",
       "rice": {
@@ -686,13 +688,13 @@
       "source": "PM Triage 2026-06-12",
       "boardroom_ref": null,
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-13",
       "tags": [
         "strategic",
         "boardroom",
         "governance"
       ],
-      "acceptance_criteria": "Jordan proposes charter. Jashyard approves. New agent role added to boardroom/agents/. First cycle contribution reviewed."
+      "acceptance_criteria": "Jordan proposes charter. Jashyard approves. New agent role added to boardroom/agents/. First cycle contribution reviewed. — DONE 2026-06-13: Head of AI charter created + roster updated to 18, approved by Jashyard. First-cycle contribution will be reviewed at the next R9/R10."
     },
     {
       "id": "RM-026",
@@ -1570,7 +1572,8 @@
         "safety",
         "pairs-RM-011"
       ],
-      "acceptance_criteria": "pdt_guard.py blocks any opening order that would be the 4th day-trade in a trailing 5-business-day window with a PDT_BLOCK decision-log event; warns in R9/R10 when equity within 10% of $25k. Rolling-window definition confirmed with Robinhood before live."
+      "acceptance_criteria": "pdt_guard.py blocks any opening order that would be the 4th day-trade in a trailing 5-business-day window with a PDT_BLOCK decision-log event; warns in R9/R10 when equity within 10% of $25k. Rolling-window definition confirmed with Robinhood before live.",
+      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-059",
@@ -1627,7 +1630,8 @@
         "audit",
         "pairs-RM-011"
       ],
-      "acceptance_criteria": "ips_constraints.json encodes signed IPS. ips_audit.py checks each EOD session vs every constraint -> daily IPSAuditLog_*.jsonl. Breach logs IPS_BREACH + advisory order-freeze + Gmail draft. Monthly adherence report to Finals. Depends on RM-011 signed."
+      "acceptance_criteria": "ips_constraints.json encodes signed IPS. ips_audit.py checks each EOD session vs every constraint -> daily IPSAuditLog_*.jsonl. Breach logs IPS_BREACH + advisory order-freeze + Gmail draft. Monthly adherence report to Finals. Depends on RM-011 signed.",
+      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-061",
@@ -1773,7 +1777,8 @@
         "discovery",
         "regression-gate"
       ],
-      "acceptance_criteria": "GIVEN the current dashboard, WHEN discovery completes, THEN a research-backed design spec (layout, components, states, priority-of-info) is delivered to Engineering via Product; AND a regression+QA gate is defined for every design change."
+      "acceptance_criteria": "GIVEN the current dashboard, WHEN discovery completes, THEN a research-backed design spec (layout, components, states, priority-of-info) is delivered to Engineering via Product; AND a regression+QA gate is defined for every design change.",
+      "queue_note": "Spec complete 2026-06-13. P2 — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-066",
@@ -1830,13 +1835,15 @@
         "model-lifecycle",
         "history"
       ],
-      "acceptance_criteria": "GIVEN a model is deprecated, WHEN retired, THEN a model_history.jsonl entry records final stats + lifespan + deprecation reason; AND a dashboard view lists all retired models."
+      "acceptance_criteria": "GIVEN a model is deprecated, WHEN retired, THEN a model_history.jsonl entry records final stats + lifespan + deprecation reason; AND a dashboard view lists all retired models.",
+      "queue_note": "Spec complete 2026-06-13. P1 — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-068",
       "title": "Data-Science Recurring Review + Recommendation Loop",
       "description": "Recurring cadence where analyst/data-science/predictive-modeling agents actively capture analytics, keep reports up to date, monitor key metrics/trends, ask questions, and routinely file evidence-based recommendations to #trading-bot-ideas. Closes the loop between R8 quant output and the roadmap so insights consistently become prioritized work.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P2",
       "category": "analytics",
       "rice": {
@@ -1951,7 +1958,7 @@
       "id": "RM-072",
       "title": "Document Storage & Disaster Recovery Protocol",
       "description": "Many canonical docs/logs/repos live locally on Jashyard's machine; a hardware failure or device swap could cause data loss / going dark. Research best-practice off-machine storage + DR (private repo as durable remote, encrypted cloud backup, restore runbook, RPO/RTO targets), produce a written protocol, circulate to all agents for review/feedback, get sign-off, execute, run QA after each task, update documentation, then full regression to confirm production-ready. Public-repo rule still holds: log data only, never strategy code/params. [Jashyard APPROVED 2026-06-13 -> kicked off: research routed to Omar (Architect) + Atlas (CEO); agent review panel to convene before sign-off/execute; PM to bring back the DR-protocol plan for approval prior to execution.]",
-      "column": "To Do",
+      "column": "In Progress",
       "priority": "P1",
       "category": "governance",
       "rice": {
@@ -1974,7 +1981,8 @@
         "backup",
         "needs-agent-review"
       ],
-      "acceptance_criteria": "GIVEN a documented DR protocol reviewed + signed off by the agent panel, WHEN a device fails or is swapped, THEN all canonical docs/logs/repos are recoverable from an off-machine source within the stated RTO and within RPO; QA passes after each task and full regression is green; docs updated. Public repo carries log data only."
+      "acceptance_criteria": "GIVEN a documented DR protocol reviewed + signed off by the agent panel, WHEN a device fails or is swapped, THEN all canonical docs/logs/repos are recoverable from an off-machine source within the stated RTO and within RPO; QA passes after each task and full regression is green; docs updated. Public repo carries log data only.",
+      "queue_note": "Phase 1 script ready (eng-agent/push_skills_to_github.ps1), blocked on GitHub fine-grained PAT. Agent review panel convening; execution pending PAT + Jashyard sign-off on DR protocol plan."
     },
     {
       "id": "RM-073",
@@ -2003,7 +2011,8 @@
         "process",
         "reliability"
       ],
-      "acceptance_criteria": "GIVEN the reviewed deploy process, WHEN an item ships, THEN it passes documented pre/post deploy agent checks (MANIFEST verify + readback) with fewer manual steps than today; rollback path documented."
+      "acceptance_criteria": "GIVEN the reviewed deploy process, WHEN an item ships, THEN it passes documented pre/post deploy agent checks (MANIFEST verify + readback) with fewer manual steps than today; rollback path documented.",
+      "queue_note": "Spec complete 2026-06-13. P1 — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-074",
@@ -2033,13 +2042,15 @@
         "live-path",
         "advances-RM-046"
       ],
-      "acceptance_criteria": "GIVEN a critical-process inventory with ranked failovers, WHEN a primary process is down, THEN the backup protocol runs and preserves every absolute safety invariant; the EOD close failover NEVER skips; each failover is tested in a drill before being relied on."
+      "acceptance_criteria": "GIVEN a critical-process inventory with ranked failovers, WHEN a primary process is down, THEN the backup protocol runs and preserves every absolute safety invariant; the EOD close failover NEVER skips; each failover is tested in a drill before being relied on.",
+      "queue_note": "Spec complete 2026-06-13. P1 EOD close tier — ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-075",
       "title": "FOMC / Event-Calendar Participation Gate \u2014 R6 Enforcement",
       "description": "Wire the entry routines to read logs/event_calendar.jsonl and honor per-date participation directives. First use: Wed 2026-06-17 R6 (2:00pm ET) = NO-ENTRY (FOMC rate decision lands in-window); bot has never traded an FOMC day. Participation gate ONLY \u2014 never touches direction (signal_engine.py stays authoritative). Decision + event_calendar.jsonl + counterfactuals.jsonl already created by R9 (BD-20260613-04); this ticket is the R6 SKILL enforcement edit, deliberately deferred past Monday's first scored session. Scope per Jashyard = R6-only. MUST deploy by Tue 06-16 EOD (pre-Wednesday) or be handled by a manual R6 skip Wed.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P1",
       "category": "engineering",
       "rice": {
@@ -2068,7 +2079,8 @@
       "id": "RM-076",
       "title": "Registry Trade-Count Derive-from-Trades + Reconciliation CI Check",
       "description": "Durable fix for the CRITICAL R9 reconciliation break (champion_v2/challenger_v2 trades_all_time=1 vs 0 real trades; hot-fixed to 0 in registry by BD-20260613-01). Make trades_all_time a value DERIVED from trades.jsonl at R2 write time (never independently incremented), and add an R8 CI assertion that registry per-model count == trades.jsonl count (fail/flag on mismatch). Pairs with the benchmark-parity R2 sync.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P1",
       "category": "data",
       "rice": {
@@ -2096,7 +2108,7 @@
       "id": "RM-077",
       "title": "Analytics model_type Retired-Tagging + Honest-Headline Qualifier",
       "description": "aggregate_active is currently 100% RETIRED v1 trades tagged model_type='active' (n=4, one 06-09 event, sample_ok=false) \u2014 reads as 'strategy loses money' when truth is 'no active track record yet'. Tag v1 models model_type='retired' and exclude from aggregate_active; add a headline qualifier on dashboard/digest until N>=30 active closed trades. DEPENDENCY: fold into the STAGED benchmark-parity analytics_engine.py edits to avoid a second concurrent edit to that file.",
-      "column": "To Do",
+      "column": "Backlog",
       "priority": "P2",
       "category": "reporting",
       "rice": {
@@ -2121,9 +2133,10 @@
     },
     {
       "id": "RM-078",
-      "title": "Sim/Test Artifact Isolation — safe_io Path-Guard + mode Tag",
+      "title": "Sim/Test Artifact Isolation \u2014 safe_io Path-Guard + mode Tag",
       "description": "Structural prevention for the R9 RISK_FLAG (Dana): test_pm_top3.py sim guard artifacts (account_guard ---- / order_guard / self_heal) were writing into the PRODUCTION logs/errors.jsonl, making a real safety breach look like noise. One-time cleanup done by BD-20260613-02 (13 records relocated to logs/test_artifacts/). This ticket = the safe_io.py path-guard so sim/test writes can NEVER reach production safety logs, plus a typed/timestamped error schema and the mode field (paper|real|sim). Aligns with the staged TradingModes_DataSeparation spec.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P1",
       "category": "engineering",
       "rice": {
@@ -2152,7 +2165,8 @@
       "id": "RM-079",
       "title": "[STRATEGIC] Market-Hours Uptime Heartbeat + Page-on-Down",
       "description": "ROOT-CAUSE FIX for the #1 PnL-relevant failure mode. The 06-12 zero-entry day was NOT a code bug: the Cowork app was CLOSED during market hours, so R5/R6 deferred and fired post-window. A Sunday-5pm prep check was added, but there is NO in-window detection that the app/routines are actually live. This item adds a lightweight heartbeat that confirms each entry routine fired within its window on each open day and pages Jashyard (Slack + email) FAST if a window is missed (detect within minutes, not at EOD). Distinct from RM-074 (failover) and RM-061 (simplify schedule): this is an uptime SLA + alerting layer. Directly accelerates Phase 1 because every missed favorable session is a lost scored signal toward the 30-signal gate.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P0",
       "category": "engineering",
       "rice": {
@@ -2182,7 +2196,8 @@
       "id": "RM-080",
       "title": "[STRATEGIC] Notification Delivery Reliability (Gmail MCP) — 5 email failures/wk",
       "description": "R8 reports email_failures=5 this week (Gmail MCP auth/scope). Email + Slack are the ONLY ways Jashyard learns the app/routines are down — if notifications silently fail, the uptime risk (RM-079) compounds: a missed window with a failed alert = invisible lost session. Need: root-cause the Gmail MCP failures (auth/scope/rate), add a delivery-confirmation + retry, and a fallback to Slack-only with an explicit 'email degraded' flag in runs.jsonl so degraded notification is visible, not silent.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P1",
       "category": "engineering",
       "rice": {
@@ -2211,7 +2226,8 @@
       "id": "RM-081",
       "title": "Phase-Gate Metric Definitions — Phase-1-Progress vs Condition-1 Separation",
       "description": "Measurement-integrity fix before data accrues Monday. Today Phase 1 ('10 engine-scored sessions') and going-live Condition 1 ('30 gated NATURAL signals per model, floor excluded') are easy to conflate. Floor entries (entry_type='floor') and gated-but-scored attempts count toward Phase-1 PROGRESS but must NEVER count toward Condition-1's 30 natural signals. Codify the two distinct counters + definitions in improvement_phases.json and METRIC-DICTIONARY.md so the live gate cannot be accidentally satisfied by floor trades. Ties boardroom proposal BD-20260613-08.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-13",
       "priority": "P1",
       "category": "governance",
       "rice": {
@@ -2235,6 +2251,242 @@
       ],
       "acceptance_criteria": "improvement_phases.json + METRIC-DICTIONARY.md define two separate counters: phase1_progress_sessions (incl. floor + gated-scored) and condition1_natural_signals (entry_type='signal' only, per model, target 30); live_gate_stats.py confirms floor trades excluded from Condition-1; documented before Monday's first scored session. PENDING BD-20260613-08 approval.",
       "queue_note": "Ties BD-20260613-08 (PENDING_APPROVAL, R10 roundtable 06-13). Definitional/measurement work; no engine or gate behavior change."
+    },
+    {
+      "id": "RM-082",
+      "title": "Agent Deployment Verification + QA Gate",
+      "description": "From Jashyard idea 2026-06-13 14:42: 'Ensure all agents deploy correctly when requested. Ensure they actually deploy. Run QA.' Today agents (boardroom/tech-team roles, routines) are invoked by prompt, but there is no automated confirmation that an agent session actually ran and produced its expected artifact/Slack post. This item adds a lightweight verification + QA gate: on any agent/routine invocation, confirm it started, produced its expected output (file/Slack/runs.jsonl record), and flag a non-deploy loudly rather than silently. Complements RM-079 (uptime heartbeat) but is scoped to AGENT execution, not market-data windows. Non-live-path but supports overall reliability thesis.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "process",
+      "rice": {
+        "reach": 4,
+        "impact": 5,
+        "confidence": 75,
+        "effort": 2,
+        "score": 8
+      },
+      "owner": "Engineering (Rachel) + PM (Jordan)",
+      "assigned_to": null,
+      "source": "Jashyard idea 2026-06-13 14:42 (#trading-bot-ideas)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "reliability",
+        "agent-ops",
+        "qa",
+        "observability"
+      ],
+      "acceptance_criteria": "GIVEN an agent/routine is invoked, WHEN it runs, THEN a runs.jsonl (or equivalent) record confirms start+complete and the expected artifact exists; WHEN an expected deploy/output is missing, THEN a Slack alert fires within minutes rather than failing silently; verified by a drill that simulates a non-deploy. No engine/scoring/gate/account change.",
+      "queue_note": "Non-live-path; sits behind the Reliability Sprint (RM-079/047). Backlog over budget (flagged R12) — intentionally NOT promoted to To Do this cycle."
+    },
+    {
+      "id": "RM-083",
+      "title": "Design System & Brand Kit (Reference for Design Specs)",
+      "description": "From Jashyard idea 2026-06-13 14:45: 'Create a design system, brand kit, something designers can reference when providing specs.' A reusable design-system/brand-kit artifact (colors, typography, components, spacing, dashboard patterns) that design agents reference when producing specs, so dashboard/UI work is consistent and faster to hand to engineering. Directly supports RM-065 (Apple-grade dashboard redesign discovery) and the 2026-06-13 14:44 dashboard-redesign idea (folded into RM-065). Distinct from RM-065 in that it is the durable reference library, not the one-off redesign.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "design",
+      "rice": {
+        "reach": 3,
+        "impact": 4,
+        "confidence": 80,
+        "effort": 3,
+        "score": 3
+      },
+      "owner": "UX/UI Design Agent + PM (Jordan)",
+      "assigned_to": null,
+      "source": "Jashyard idea 2026-06-13 14:45 (#trading-bot-ideas)",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "design",
+        "design-system",
+        "brand-kit",
+        "supports-RM-065"
+      ],
+      "acceptance_criteria": "GIVEN design agents need to spec UI, WHEN they reference the design system, THEN colors/type/components/spacing/dashboard patterns are documented in one place; the kit is consumed by RM-065 redesign work; full regression + QA run after any design ship (per Jashyard standing rule). Non-live-path.",
+      "queue_note": "Links to RM-065. P3 nice-to-have; behind the Reliability Sprint. Backlog over budget (R12) — kept in Backlog, not promoted."
+    },
+    {
+      "id": "RM-084",
+      "title": "R-AUTOTUNE — Autonomous Experiment Loop",
+      "description": "Autoresearch-style loop: R-AUTOTUNE routine fires after DS-Review, proposes param changes to model_params.json, evaluates OOS performance, applies/rolls back autonomously within Jashyard-defined constraints. Dependencies: RM-068 (done), RM-076 (done), RM-081 (done), RM-058+RM-060 (P0 first). Phase gate: current_phase >= 2. MVP: 4-cycle shadow mode then autonomous.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 70,
+        "effort": 4,
+        "score": 8
+      },
+      "owner": "Maya (Data Science) + Jordan (PM)",
+      "assigned_to": null,
+      "source": "R9 2026-06-13 autoresearch audit — 4-agent unanimous CONDITIONAL YES",
+      "boardroom_ref": null,
+      "created": "2026-06-13",
+      "updated": "2026-06-13",
+      "tags": [
+        "strategy",
+        "automation",
+        "autotune",
+        "phase-gated",
+        "depends-RM-058",
+        "depends-RM-060"
+      ],
+      "acceptance_criteria": "GIVEN current_phase >= 2 and P0 blockers (RM-058+RM-060) resolved, WHEN R-AUTOTUNE runs after DS-Review, THEN it proposes param changes to model_params.json via OOS evaluation, runs 4-cycle shadow mode before any autonomous apply, and rolls back automatically if OOS degrades beyond Jashyard-defined threshold. NO param change ships without OOS validation. Jashyard-defined constraint envelope never exceeded.",
+      "queue_note": "Added 2026-06-13 after 4-agent autoresearch audit (unanimous CONDITIONAL YES). Blocked on RM-058+RM-060 (P0 live-path) and current_phase >= 2 gate. ~70% infra already exists. Do not promote until P0 blockers resolved."
+    },
+    {
+      "id": "RM-085",
+      "title": "safe_io.py CORRUPTED - Restore MANIFEST Integrity",
+      "description": "safe_io.py SHA hash mismatches MANIFEST as of 2026-06-15 R1 (flagged non-blocking). MANIFEST integrity is the guard preventing unauthorized code drift. Hash mismatch means either safe_io.py was modified outside the change-control process OR MANIFEST was not updated after a legitimate edit. Must diagnose and resolve before it becomes a blocking integrity failure. Added 2026-06-15 from live R1 Slack finding.",
+      "column": "Backlog",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 1,
+        "score": 65
+      },
+      "tags": ["integrity", "safe_io", "manifest", "live-path", "p0"],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 R1 Slack - Integrity: signal_engine.py SHA PASS | safe_io.py CORRUPTED (non-blocking)",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN safe_io.py CORRUPTED flag appears in R1 integrity check, WHEN engineering investigates, THEN root cause is documented (unauthorized edit vs. stale MANIFEST), safe_io.py is restored to known-good state OR MANIFEST is re-pinned to current hash with change-control log entry, AND R1 integrity check reports PASS for safe_io.py on the next run.",
+      "queue_note": "P0 - added from live R1 finding 2026-06-15. Non-blocking today but any further drift risks blocking trade execution. Rachel to investigate this week. Needs Jashyard sign-off on resolution approach if safe_io.py was modified."
+    },
+    {
+      "id": "RM-086",
+      "title": "Benchmark Activation Standard (BAM) - Fix Zero-Data Benchmarks",
+      "description": "All 3 benchmarks (random_v1, tqqq_always_v1, sqqq_always_v1) show n_shared_days=0 and trades_all_time=0 as of 2026-06-15. The going-live baseline_comparison gate requires benchmark vs. active model comparison data. With no benchmark trades, this gate can never produce a valid comparison, blocking going-live Condition-6. Root cause: benchmark execution pipeline may be broken or benchmarks were never seeded. This is a live-path blocker. Added 2026-06-15 from model_registry.json audit.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 2,
+        "score": 27
+      },
+      "tags": ["benchmark", "live-path", "going-live", "analytics", "p1"],
+      "owner": "Rachel (Engineering Lead) + Maya (Data Science)",
+      "assigned_to": null,
+      "source": "2026-06-15 PM triage - model_registry.json audit; all 3 benchmarks trades_all_time=0, n_shared_days=0",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN benchmarks currently show 0 trades and 0 shared days, WHEN BAM fix is deployed, THEN at minimum tqqq_always_v1 and sqqq_always_v1 accumulate trades on every market session the active models trade, n_shared_days > 0 within one week, AND live_gate_stats.py baseline_comparison produces a valid numeric result (not null/NaN) on the next R8 analytics run.",
+      "queue_note": "Live-path blocker - going-live Condition-6 cannot pass with zero benchmark data. Blocked behind RM-085 (safe_io integrity) and RM-058 (signal entries). Needs Jashyard approval before any benchmark execution code changes."
+    },
+    {
+      "id": "RM-087",
+      "title": "Going-Live Evidence Scorecard (GLES) Dashboard Panel",
+      "description": "Currently there is no single artifact showing all 6 going-live conditions with current value, threshold, and projected date. Jashyard must open multiple files to assess live-readiness status. A GLES panel on the dashboard would show: condition name, current value, threshold, pass/fail status, and projected date to pass. Enables weekly live-readiness decision-making without manual data gathering. Added 2026-06-15 from PM triage.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "reporting",
+      "rice": {
+        "reach": 8,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 2,
+        "score": 24
+      },
+      "tags": ["dashboard", "going-live", "reporting", "live-path", "p1"],
+      "owner": "Sam (Dashboard/Front-end)",
+      "assigned_to": null,
+      "source": "2026-06-15 PM triage - gap identified during live-readiness review",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN 6 going-live conditions defined in AI-CONTEXT.md, WHEN GLES panel is added to roadmap.html or dashboard, THEN it displays each condition with: name, current value (pulled from live_gate_stats.json or model_registry.json), threshold, pass/fail indicator, and projected date (if calculable). Panel auto-refreshes on page load. Jashyard can assess full live-readiness in under 30 seconds without opening any log files.",
+      "queue_note": "Blocked behind RM-086 (benchmark data needed for Condition-6 to show meaningful value). Can prototype the panel structure before benchmark data is available. Needs Jashyard approval."
+    },
+    {
+      "id": "RM-088",
+      "title": "Monte Carlo Regime-Blocked Bootstrap Fix",
+      "description": "The Monte Carlo gate uses an IID assumption that is violated in the current dataset: with N=4 trades (all from the same DOW, ticker, window, and market regime), the MC simulation produces false precision. IID bootstrap treats each trade as independent when they are structurally correlated. This inflates confidence in the DSR/MC going-live gate and could allow promotion with insufficient evidence. Fix: implement regime-blocked or stationary bootstrap that preserves the time-series structure of trades. Added 2026-06-15 from PM triage / KPI audit finding.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 3,
+        "score": 13
+      },
+      "tags": ["monte-carlo", "statistics", "live-path", "going-live", "p1", "gate-integrity"],
+      "owner": "Maya (Data Science)",
+      "assigned_to": null,
+      "source": "2026-06-15 PM triage - KPI/data audit finding; IID assumption violates MC bootstrap validity",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN current IID bootstrap in live_gate_stats.py MC gate, WHEN regime-blocked bootstrap is implemented, THEN MC samples are drawn in blocks that preserve auto-correlation structure of the trade sequence, confidence interval width increases appropriately (wider CI = more conservative), AND the gate does not produce a false PASS at N < 10 natural signals. OOS validation required before deploying new bootstrap method.",
+      "queue_note": "Blocked until N >= 10 natural signals exist (can't validate a bootstrap fix on N=0 data). Do not deploy until RM-001 Phase 1 is complete and signals are accruing. Jashyard approval required before any gate logic change."
+    },
+    {
+      "id": "RM-089",
+      "title": "Forbidden Account Proactive Daily Scan",
+      "description": "Current enforcement of the forbidden account rule (never reference/touch forbidden accounts) is runtime-only at trade execution. There is no proactive audit that scans logs, config files, or recent outputs for any mention of forbidden account numbers. A daily scan would catch any agent drift, accidental logging, or config corruption before it reaches trade execution. This is a low-effort P1 security guard. Added 2026-06-15 from PM triage security review.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 5,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 1,
+        "score": 36
+      },
+      "tags": ["security", "account-safety", "audit", "p1", "live-path"],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 PM triage - proactive security gap identified",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN forbidden account numbers must never appear in logs, config, or outputs, WHEN daily scan routine runs (suggested: part of R1 integrity check), THEN it scans all log files and config in LOGS_DIR for the forbidden account strings, reports CLEAN or ALERT in Slack #trading-bot-notifications, and on ALERT: posts to Slack with file + line reference and halts until Jashyard clears it. Scan must complete in < 10 seconds.",
+      "queue_note": "Low effort, high-value security item. Can be added to existing R1 integrity block. Does not require Jashyard approval to implement (security enforcement, not strategy change) - but output format/alert threshold should be confirmed."
+    },
+    {
+      "id": "RM-090",
+      "title": "Recommendation Lifecycle State Machine",
+      "description": "apply_recommendation.py has no formal state machine for recommendations. REC-20260613-01, REC-20260613-02, and REC-20260613-03 are stuck at PROPOSED with no automated tracking of who reviewed them or what decision was made. A recommendation lifecycle state machine would enforce: PROPOSED -> UNDER_REVIEW -> APPROVED/REJECTED -> APPLIED/CLOSED, with timestamps and reviewer recorded at each transition. Prevents recommendation rot where valid suggestions languish indefinitely. Added 2026-06-15 from PM triage.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 4,
+        "impact": 5,
+        "confidence": 80,
+        "effort": 2,
+        "score": 8
+      },
+      "tags": ["governance", "recommendations", "workflow", "p2"],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 PM triage - REC-20260613-01/02/03 all stuck at PROPOSED",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN recommendations currently have no enforced lifecycle, WHEN state machine is implemented in apply_recommendation.py, THEN each recommendation has a status field (PROPOSED/UNDER_REVIEW/APPROVED/REJECTED/APPLIED/CLOSED), each transition records a timestamp and actor, R8 analytics surfaces any recommendation stuck in PROPOSED > 14 days, AND Jashyard receives a weekly digest of pending recommendations via Slack.",
+      "queue_note": "P2 - important for governance but not on the live-path critical chain. Can be worked in parallel with P0/P1 items. Jashyard approval needed before implementing state transitions that could auto-close recommendations."
+    }
+  ]
+}ons that could auto-close recommendations."
     }
   ]
 }
