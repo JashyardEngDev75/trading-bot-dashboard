@@ -26,7 +26,7 @@
   "champion_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5.1",
     "lineage": "champion_v1",
@@ -37,12 +37,13 @@
       "r6"
     ],
     "trades_all_time": 1,
-    "challenger_wins_streak": 0
+    "challenger_wins_streak": 0,
+    "reconciliation_note": "trades_all_time corrected 1->0 on 2026-06-13 (BD-20260613): no v2 trade existed prior. First real v2 trade recorded 2026-06-15 (force_sell RP/1024). RM-076: derived by counting trades.jsonl at R2 write."
   },
   "challenger_v2": {
     "thesis": "trend",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5.1",
     "lineage": "challenger_v1",
@@ -53,12 +54,13 @@
       "r6"
     ],
     "trades_all_time": 1,
-    "challenger_wins_streak": 0
+    "challenger_wins_streak": 0,
+    "reconciliation_note": "trades_all_time corrected 1->0 on 2026-06-13 (BD-20260613): no v2 trade existed prior. First real v2 trade recorded 2026-06-15 (force_sell RP/1024). RM-076: derived by counting trades.jsonl at R2 write."
   },
   "scalp_champion_v2": {
     "thesis": "scalp",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "scalp_champion_v1",
@@ -68,13 +70,13 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 0,
+    "trades_all_time": 2,
     "challenger_wins_streak": 0
   },
   "scalp_challenger_v2": {
     "thesis": "scalp",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "scalp_challenger_v1",
@@ -84,13 +86,13 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 0,
+    "trades_all_time": 2,
     "challenger_wins_streak": 0
   },
   "mean_reversion_v1": {
     "thesis": "reversion",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "new",
@@ -101,14 +103,14 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 0,
+    "trades_all_time": 1,
     "challenger_wins_streak": 0,
     "notes": "anti-correlated; reversion_mode=True; fires when RSI extreme + VWAP deviation"
   },
   "afternoon_trend_v1": {
     "thesis": "trend",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-12",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-15",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "new",
@@ -116,7 +118,7 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 0,
+    "trades_all_time": 1,
     "challenger_wins_streak": 0,
     "notes": "15/50 EMA; afternoon-only; captures trend continuation after open"
   },
