@@ -25,8 +25,8 @@
   },
   "champion_v2": {
     "thesis": "trend",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-15",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5.1",
     "lineage": "champion_v1",
@@ -36,14 +36,14 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 1,
+    "trades_all_time": 2,
     "challenger_wins_streak": 0,
     "reconciliation_note": "trades_all_time corrected 1->0 on 2026-06-13 (BD-20260613): no v2 trade existed prior. First real v2 trade recorded 2026-06-15 (force_sell RP/1024). RM-076: derived by counting trades.jsonl at R2 write."
   },
   "challenger_v2": {
     "thesis": "trend",
-    "consecutive_losses": 0,
-    "last_updated": "2026-06-15",
+    "consecutive_losses": 1,
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5.1",
     "lineage": "challenger_v1",
@@ -53,14 +53,14 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 1,
+    "trades_all_time": 2,
     "challenger_wins_streak": 0,
     "reconciliation_note": "trades_all_time corrected 1->0 on 2026-06-13 (BD-20260613): no v2 trade existed prior. First real v2 trade recorded 2026-06-15 (force_sell RP/1024). RM-076: derived by counting trades.jsonl at R2 write."
   },
   "scalp_champion_v2": {
     "thesis": "scalp",
-    "consecutive_losses": 1,
-    "last_updated": "2026-06-15",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "scalp_champion_v1",
@@ -70,13 +70,13 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 2,
+    "trades_all_time": 3,
     "challenger_wins_streak": 0
   },
   "scalp_challenger_v2": {
     "thesis": "scalp",
-    "consecutive_losses": 1,
-    "last_updated": "2026-06-15",
+    "consecutive_losses": 0,
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5",
     "lineage": "scalp_challenger_v1",
@@ -86,7 +86,7 @@
       "r5",
       "r6"
     ],
-    "trades_all_time": 2,
+    "trades_all_time": 3,
     "challenger_wins_streak": 0
   },
   "mean_reversion_v1": {
@@ -126,7 +126,7 @@
     "thesis": "benchmark_random",
     "type": "benchmark",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-11",
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5.3",
     "lineage": "new",
@@ -138,14 +138,14 @@
     "vix_gate": false,
     "scoring": false,
     "eligible_for_live": false,
-    "trades_all_time": 0,
+    "trades_all_time": 1,
     "notes": "BENCHMARK: Random TQQQ/SQQQ at open each day, EOD close. Direction seeded by date for reproducibility. Purpose: compare active model alpha vs coin-flip baseline."
   },
   "tqqq_always_v1": {
     "thesis": "benchmark_always_tqqq",
     "type": "benchmark",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-11",
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5.3",
     "lineage": "new",
@@ -158,14 +158,14 @@
     "vix_gate": false,
     "scoring": false,
     "eligible_for_live": false,
-    "trades_all_time": 0,
+    "trades_all_time": 1,
     "notes": "BENCHMARK: Always long TQQQ at open, EOD close. Pure buy-and-hold-daily baseline. Measures whether active models beat simple TQQQ exposure."
   },
   "sqqq_always_v1": {
     "thesis": "benchmark_always_sqqq",
     "type": "benchmark",
     "consecutive_losses": 0,
-    "last_updated": "2026-06-11",
+    "last_updated": "2026-06-16",
     "status": "active",
     "params_version": "v3.5.3",
     "lineage": "new",
@@ -178,7 +178,7 @@
     "vix_gate": false,
     "scoring": false,
     "eligible_for_live": false,
-    "trades_all_time": 0,
+    "trades_all_time": 1,
     "notes": "BENCHMARK: Always long SQQQ at open, EOD close. Bearish baseline. Measures whether active models beat naive short exposure."
   }
 }

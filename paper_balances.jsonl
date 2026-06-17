@@ -26,3 +26,12 @@
 {"model_id": "scalp_challenger_v2", "date": "2026-06-15", "balance": 1000.67, "pnl_today": 0.67, "trades_today": 2, "timestamp": "2026-06-15T19:53:00Z"}
 {"model_id": "afternoon_trend_v1", "date": "2026-06-15", "balance": 998.79, "pnl_today": -1.21, "trades_today": 1, "timestamp": "2026-06-15T19:53:00Z"}
 {"model_id": "mean_reversion_v1", "date": "2026-06-15", "balance": 999.53, "pnl_today": -0.47, "trades_today": 1, "timestamp": "2026-06-15T19:53:00Z"}
+{"model_id": "champion_v2", "date": "2026-06-16", "balance": 997.1436, "pnl_today": -8.3264, "inception_pnl": -2.8564, "trades_today": 1, "win_rate_pct": 50.0, "consecutive_losses": 1, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "challenger_v2", "date": "2026-06-16", "balance": 998.2842, "pnl_today": -4.9958, "inception_pnl": -1.7158, "trades_today": 1, "win_rate_pct": 50.0, "consecutive_losses": 1, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "scalp_champion_v2", "date": "2026-06-16", "balance": 1015.164, "pnl_today": 13.424, "inception_pnl": 15.164, "trades_today": 1, "win_rate_pct": 66.67, "consecutive_losses": 0, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "scalp_challenger_v2", "date": "2026-06-16", "balance": 1008.7244, "pnl_today": 8.0544, "inception_pnl": 8.7244, "trades_today": 1, "win_rate_pct": 66.67, "consecutive_losses": 0, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "afternoon_trend_v1", "date": "2026-06-16", "balance": 998.79, "pnl_today": 0.0, "inception_pnl": -1.21, "trades_today": 0, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "mean_reversion_v1", "date": "2026-06-16", "balance": 999.53, "pnl_today": 0.0, "inception_pnl": -0.47, "trades_today": 0, "win_rate_pct": 0.0, "consecutive_losses": 1, "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "random_v1", "date": "2026-06-16", "balance": 975.6031, "pnl_today": -24.3969, "inception_pnl": -24.3969, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 0, "type": "benchmark", "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "tqqq_always_v1", "date": "2026-06-16", "balance": 975.6031, "pnl_today": -24.3969, "inception_pnl": -24.3969, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 0, "type": "benchmark", "timestamp": "2026-06-16T20:00:00Z"}
+{"model_id": "sqqq_always_v1", "date": "2026-06-16", "balance": 974.9439, "pnl_today": -25.0561, "inception_pnl": -25.0561, "trades_today": 1, "win_rate_pct": 0.0, "consecutive_losses": 0, "type": "benchmark", "timestamp": "2026-06-16T20:00:00Z"}
