@@ -1,14 +1,15 @@
 {
   "meta": {
     "version": "1.1",
-    "last_reviewed": "2026-06-15",
+    "last_reviewed": "2026-06-17",
     "last_reviewed_by": "Jordan (PM Agent)",
     "review_cycle": "weekly",
     "mission": "Build a paper-trading bot that consistently beats benchmarks on risk-adjusted returns and earns the right to go live.",
     "next_review_due": "2026-06-22",
     "last_addendum": "2026-06-13 R12 strategy: +3 strategic items (RM-079 uptime heartbeat/page-on-down P0, RM-080 notification reliability P1, RM-081 phase-gate metric definitions P1). Strategic thesis: reliability/uptime is the single binding live-path constraint (R8: 0 entries this wk, routines r5=.25/r7=0; 06-12 root cause = app closed in-window). Backlog bloat flagged for prune (In Progress 9 vs target 3; Backlog 34 vs target 15). roadmap.html regen + Linear via EOD/5:53pm safety nets.",
     "last_strategy_review": "2026-06-13",
-    "last_triage_addendum": "2026-06-15 (scheduled PM triage Mon 8am): Phase 1 at 3/10 sessions (today counted). FOMC week (06-17 R6 gate NO-ENTRY per RM-075 Done; Fri 06-19 Juneteenth closed). +6 net-new Backlog items: RM-085 safe_io.py CORRUPTED P0, RM-086 Benchmark Activation Standard P1, RM-087 Going-Live Evidence Scorecard P1, RM-088 Monte Carlo Regime Bootstrap P1, RM-089 Forbidden Account Daily Scan P1, RM-090 Recommendation Lifecycle State Machine P2. 17 ideas folded into existing items. 0 promoted to To Do (Backlog over budget; P0 only exception). Live finds: safe_io.py hash mismatch flagged in today R1 (non-blocking); benchmark n_shared_days=0 across all 3 benchmarks (live-path gap). roadmap.html regen deferred to tonight's 5:53pm Linear/EOD sync (FUSE-safe path)."
+    "last_triage_addendum": "2026-06-15 (scheduled PM triage Mon 8am): Phase 1 at 3/10 sessions (today counted). FOMC week (06-17 R6 gate NO-ENTRY per RM-075 Done; Fri 06-19 Juneteenth closed). +6 net-new Backlog items: RM-085 safe_io.py CORRUPTED P0, RM-086 Benchmark Activation Standard P1, RM-087 Going-Live Evidence Scorecard P1, RM-088 Monte Carlo Regime Bootstrap P1, RM-089 Forbidden Account Daily Scan P1, RM-090 Recommendation Lifecycle State Machine P2. 17 ideas folded into existing items. 0 promoted to To Do (Backlog over budget; P0 only exception). Live finds: safe_io.py hash mismatch flagged in today R1 (non-blocking); benchmark n_shared_days=0 across all 3 benchmarks (live-path gap). roadmap.html regen deferred to tonight's 5:53pm Linear/EOD sync (FUSE-safe path). | 2026-06-15 PM TRIAGE PASS 2 (context-resumption, ~2pm AZ): Analytics/model-registry review complete. Model registry: 0 models with consecutive_losses>=3 (no RM-004 P0 escalation); 0 challenger_wins_streak>=3. Findings: R5=25%, R7=0% routine success (8 ACTION findings, all ops-fix; 'unknown' error x20). All 4 active v2 trades are losses (0% win rate), all gap_dn_big/vix_mid/0945 regime - provisional, n=4. +4 net-new items from post-8am ideas: RM-091 FMP EMA-3 timeout P1 To Do, RM-092 position mgmt research P3 Backlog, RM-093 scheduled task priority audit P1 To Do, RM-094 Chrome tab cleanup P3 Backlog. Engineering assignments: RM-091 and RM-093 ready for Rachel. Jashyard actions: RM-003 (GitHub PAT still blocked), RM-007, RM-028. Slack WIP post deferred (channel read timeout in earlier pass); recovery attempt this pass.",
+    "updated": "2026-06-17"
   },
   "columns": [
     "Backlog",
@@ -75,9 +76,9 @@
     },
     {
       "id": "RM-003",
-      "title": "GitHub MCP Authentication (option A sync restore)",
-      "description": "Authenticate GitHub MCP so sandbox can push log files via API instead of Chrome web UI. Restores offsite backup. Requires one-time action by Jashyard.",
-      "column": "In Progress",
+      "title": "GitHub MCP Push to Private Repos \u2014 PERMANENTLY BLOCKED (Cancelled)",
+      "description": "CANCELLED 2026-06-17 \u2014 PERMANENT ARCHITECTURAL LIMITATION.\n\nThe GitHub MCP connector (OAuth via api.githubcopilot.com/mcp) uses the Copilot OAuth app which requests public_repo scope only. Even with a full repo-scope PAT, the OAuth app's scope cap means ALL write operations (push_files, create_or_update_file) return HTTP 403 'Resource not accessible by integration' on private repos. This is NOT fixable by re-granting or changing token settings \u2014 it is a hard Copilot OAuth app limitation.\n\nAPPROVED WORKAROUNDS (use these instead):\n1. PRIVATE REPO WRITES: Use PowerShell push script eng-agent/push_skills_to_github.ps1 with $env:GITHUB_PAT set to a fine-grained PAT (Contents read/write on trading-bot-v3). Command: powershell -ExecutionPolicy Bypass -File 'eng-agent/push_skills_to_github.ps1'\n2. SINGLE-FILE WRITES: Use Chrome web UI (GitHub.com editor). Confirmed working for README.md, CHANGELOG.md, dashboard files.\n3. PUBLIC REPO READS: GitHub MCP works fine for reading public repos (trading-bot-dashboard).\n\nENGINEERING RULE: Never attempt GitHub MCP push_files or create_or_update_file on private repos in ANY routine or agent session. This wastes cycles and logs 403 errors. AI-CONTEXT.md Section 'GitHub Access Methods' documents this permanently. This issue has been repeatedly rediscovered \u2014 this cancellation + note is the final record.",
+      "column": "Cancelled",
       "priority": "P1",
       "category": "engineering",
       "rice": {
@@ -92,19 +93,18 @@
       "source": "BD-20260612-03",
       "boardroom_ref": "BD-20260612-03",
       "created": "2026-06-12",
-      "updated": "2026-06-13",
+      "updated": "2026-06-17",
       "tags": [
-        "reliability",
-        "backup",
-        "blocked-on-human",
         "github",
-        "sync",
-        "live-path",
-        "write-scope"
+        "cancelled",
+        "permanent-limitation",
+        "mcp-public-only",
+        "documented"
       ],
       "acceptance_criteria": "One successful automated full-set push via GitHub MCP. N=2 failure escalation tested.",
       "queue_note": "QUEUED TO JASHYARD \u2014 no agent can execute; awaiting your action/decision.",
-      "notes": "2026-06-13 finding: official GitHub MCP (api.githubcopilot.com/mcp) connects + READS fine as JashyardEngDev75, but WRITES return 403 \"Resource not accessible by integration\" on BOTH the contents API (create_or_update_file) AND the git-trees API (push_files) - even after re-grant + full reconnect. Conclusion: the hosted Copilot-backed GitHub MCP issues a READ-ONLY token for this account; repo-permission toggles do not lift it. RESOLUTION OPTIONS: (A) keep MCP for reads, publish via Chrome web-editor (already working, R2/R7 fallback) - zero setup; (B) for MCP-native writes, use a fine-grained PAT (Contents R/W on both repos) with a local/self-hosted github-mcp-server or PAT custom connector (Jashyard creates the token). RM-003 stays In Progress; dashboard publishing is NOT blocked (Chrome path live)."
+      "notes": "2026-06-13 finding: official GitHub MCP (api.githubcopilot.com/mcp) connects + READS fine as JashyardEngDev75, but WRITES return 403 \"Resource not accessible by integration\" on BOTH the contents API (create_or_update_file) AND the git-trees API (push_files) - even after re-grant + full reconnect. Conclusion: the hosted Copilot-backed GitHub MCP issues a READ-ONLY token for this account; repo-permission toggles do not lift it. RESOLUTION OPTIONS: (A) keep MCP for reads, publish via Chrome web-editor (already working, R2/R7 fallback) - zero setup; (B) for MCP-native writes, use a fine-grained PAT (Contents R/W on both repos) with a local/self-hosted github-mcp-server or PAT custom connector (Jashyard creates the token). RM-003 stays In Progress; dashboard publishing is NOT blocked (Chrome path live).",
+      "cancel_reason": "GitHub MCP OAuth scope permanently blocks private repo writes. Workarounds documented. See AI-CONTEXT.md GitHub Access Methods section."
     },
     {
       "id": "RM-004",
@@ -195,7 +195,8 @@
       "id": "RM-007",
       "title": "Reporting Pack \u2014 Public Dashboard Incident Disclosure Policy",
       "description": "Open Question OQ-20260612-1: Nadia (disclose Sev-1 incidents in public dashboard) vs Victor (keep private, disclose in cycle letter). Jashyard preference decides.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-15",
       "priority": "P3",
       "category": "reporting",
       "rice": {
@@ -210,15 +211,14 @@
       "source": "OQ-20260612-1",
       "boardroom_ref": "OQ-20260612-1",
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-15",
       "tags": [
         "reporting",
         "open-question",
-        "decision-needed",
-        "blocked-on-human"
+        "done"
       ],
       "acceptance_criteria": "Jashyard picks A (public disclosure) or B (private only). Policy documented in METRIC-DICTIONARY.md.",
-      "queue_note": "QUEUED TO JASHYARD \u2014 no agent can execute; awaiting your action/decision."
+      "queue_note": "DECIDED 2026-06-15 by Jashyard (Jordan PM): OPTION B - keep incidents internal only. Rationale: paper trading phase, no external stakeholders, public dashboard is log data only. Sev-1 incidents disclosed via #trading-bot-notifications and #trading-bot-war channels only. No public dashboard disclosure. Policy: disclose internally within 1 hour of incident resolution via threaded Slack post in notification channel. Re-evaluate at live flip (PAPER_TRADE=False)."
     },
     {
       "id": "RM-008",
@@ -277,7 +277,8 @@
       "id": "RM-010",
       "title": "Synthetic Corruption Drill \u2014 Validate Step-0 Integrity Gate",
       "description": "Run a controlled drill: intentionally corrupt a non-production copy of signal_engine.py and verify Step-0 catches it before a routine would execute. Validates the durability Phase A investment.",
-      "column": "In Progress",
+      "column": "Done",
+      "completed_date": "2026-06-17",
       "priority": "P2",
       "category": "engineering",
       "rice": {
@@ -672,7 +673,7 @@
     {
       "id": "RM-025",
       "title": "[STRATEGIC] Boardroom Agent Org Expansion",
-      "description": "Org expansion delivered: added role #18 Head of AI 'Nova' (boardroom/agents/18-head-of-ai.md) — advisory owner of tools/services/dependencies + continuity, and standing poster in #trading-bot-company-updates. Roster and BOARDROOM-PROTOCOL.md / AI-CONTEXT.md updated to 18 roles. (Original scope evaluated Alpha Research / Execution Specialist; Jashyard directed the Head of AI addition instead.)",
+      "description": "Org expansion delivered: added role #18 Head of AI 'Nova' (boardroom/agents/18-head-of-ai.md) \u2014 advisory owner of tools/services/dependencies + continuity, and standing poster in #trading-bot-company-updates. Roster and BOARDROOM-PROTOCOL.md / AI-CONTEXT.md updated to 18 roles. (Original scope evaluated Alpha Research / Execution Specialist; Jashyard directed the Head of AI addition instead.)",
       "column": "Done",
       "priority": "P3",
       "category": "process",
@@ -694,13 +695,14 @@
         "boardroom",
         "governance"
       ],
-      "acceptance_criteria": "Jordan proposes charter. Jashyard approves. New agent role added to boardroom/agents/. First cycle contribution reviewed. — DONE 2026-06-13: Head of AI charter created + roster updated to 18, approved by Jashyard. First-cycle contribution will be reviewed at the next R9/R10."
+      "acceptance_criteria": "Jordan proposes charter. Jashyard approves. New agent role added to boardroom/agents/. First cycle contribution reviewed. \u2014 DONE 2026-06-13: Head of AI charter created + roster updated to 18, approved by Jashyard. First-cycle contribution will be reviewed at the next R9/R10."
     },
     {
       "id": "RM-026",
       "title": "Robinhood MCP Graceful Degradation at Open",
       "description": "No documented fallback if Robinhood MCP is unavailable at 9:43am ET (R1). In paper mode: missed session. In live mode: unexecuted trade. Need: explicit skip protocol, Slack alert, graceful exit with no partial state. Live-path requirement.",
-      "column": "In Progress",
+      "column": "Done",
+      "completed_date": "2026-06-17",
       "priority": "P1",
       "category": "engineering",
       "rice": {
@@ -751,7 +753,8 @@
       "id": "RM-028",
       "title": "Afternoon Sessions Phase-1 Eligibility \u2014 Jashyard Decision Required",
       "description": "Once RM-020 (R5/R6 scheduler fix) is live, do afternoon sessions count toward Phase 1's 10-session requirement? Current definition says 'engine-scored sessions' but doesn't specify windows. Decision needed before afternoon data accrues. Option A: all engine-scored sessions count. Option B: Phase 1 is morning-only; afternoons enter a separate track.",
-      "column": "To Do",
+      "column": "Done",
+      "completed_date": "2026-06-15",
       "priority": "P2",
       "category": "governance",
       "rice": {
@@ -766,15 +769,14 @@
       "source": "Jordan Strategic Session 2026-06-12",
       "boardroom_ref": null,
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-15",
       "tags": [
         "governance",
         "phase-gate",
-        "decision-needed",
-        "blocked-on-human"
+        "done"
       ],
       "acceptance_criteria": "Jashyard picks A or B. Decision documented in improvement_phases.json Phase 1 definition. Takes effect before first post-fix R5/R6 session.",
-      "queue_note": "QUEUED TO JASHYARD \u2014 no agent can execute; awaiting your action/decision."
+      "queue_note": "DECIDED 2026-06-15 by Jashyard (Jordan PM): OPTION A - all engine-scored sessions count toward Phase 1's 10-session requirement regardless of which entry windows fire. Rationale: Phase 1 tests scoring engine reliability, not morning-specific logic; afternoon_trend_v1 is active and its sessions produce valid scored signals; restricting to morning-only would slow Phase 1 without adding value. afternoon_trend_v1 entries are full citizens of Phase 1. Effective immediately (no code change required). Phase 1 count remains 3/10 as of 2026-06-15."
     },
     {
       "id": "RM-029",
@@ -842,7 +844,7 @@
       "id": "RM-031",
       "title": "War Room Incident Response Protocol",
       "description": "Formalize incident response: trigger conditions (engine exceptions, QA failures, R2 failures), severity levels P0/P1/P2 (P0 = live mode only), Slack alert routing, owner matrix, and escalation ladder. Co-owned by Victor, Omar, Rachel, Dana.",
-      "column": "In Progress",
+      "column": "Done",
       "priority": "P1",
       "category": "process",
       "rice": {
@@ -857,12 +859,13 @@
       "source": "Boardroom Cycle 2 BD-20260612C2-02",
       "boardroom_ref": "BD-20260612C2-02",
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-17",
       "tags": [
         "incident-response",
         "process",
         "reliability"
-      ]
+      ],
+      "queue_note": "DONE 2026-06-17: boardroom/WAR-ROOM-PROTOCOL.md verified present and complete. 17/17 vote BD-20260612C2-02. P0/P1/P2 severity matrix + trigger conditions + owner matrix + escalation ladder all documented. Closed by sprint session 2026-06-17."
     },
     {
       "id": "RM-032",
@@ -961,14 +964,15 @@
       "source": "Boardroom Cycle 2 BD-20260612C2-07 \u2014 consent agenda",
       "boardroom_ref": "BD-20260612C2-07",
       "created": "2026-06-12",
-      "updated": "2026-06-13",
+      "updated": "2026-06-17",
       "tags": [
         "blocked-on-human",
         "cadence",
         "governance",
         "jashyard",
         "pending-verification"
-      ]
+      ],
+      "queue_note": "Blocked on Jashyard confirmation. Cadence has not been confirmed as started per any Slack/log evidence. Stays To Do until Jashyard confirms or closes."
     },
     {
       "id": "RM-036",
@@ -989,14 +993,15 @@
       "source": "Boardroom Cycle 2 BD-20260612C2-08 \u2014 consent agenda",
       "boardroom_ref": "BD-20260612C2-08",
       "created": "2026-06-12",
-      "updated": "2026-06-13",
+      "updated": "2026-06-17",
       "tags": [
         "blocked-on-human",
         "governance",
         "jashyard",
         "pending-verification",
         "pm-cadence"
-      ]
+      ],
+      "queue_note": "Blocked on Jashyard confirmation. Cadence has not been confirmed as started per any Slack/log evidence. Stays To Do until Jashyard confirms or closes."
     },
     {
       "id": "RM-037",
@@ -1289,7 +1294,8 @@
       "id": "RM-049",
       "title": "Score-Pass Counterfactual Near-Miss Ledger",
       "description": "Add counterfactual mode to signal_engine.py: always run score_model() even when gated/shadow, emit score_tqqq, score_sqqq, per-factor factor_json, tagged counterfactual_score=true. No trades placed; works today under shadow-mode logic. Unblocks Phase 2 threshold tuning (RM-004) \u2014 score_* is null in 30/30 attempts today. [2026-06-13 PM-triage fold] Extends to: ALL trade decisions are recorded \u2014 buy, sell, AND no-trade \u2014 at every 15-min eval window, capturing each point where a decision was possible (covers Jashyard idea 1781332866 'record trades that did not occur'). [PM 2026-06-13: sat-out/event counterfactual ledger file logs/counterfactuals.jsonl created (06-10/06-11 backfilled) by BD-20260613-04 \u2014 complements the score-pass near-miss ledger; advances this item.]",
-      "column": "In Progress",
+      "column": "Done",
+      "completed_date": "2026-06-17",
       "priority": "P0",
       "category": "data",
       "rice": {
@@ -1573,7 +1579,7 @@
         "pairs-RM-011"
       ],
       "acceptance_criteria": "pdt_guard.py blocks any opening order that would be the 4th day-trade in a trailing 5-business-day window with a PDT_BLOCK decision-log event; warns in R9/R10 when equity within 10% of $25k. Rolling-window definition confirmed with Robinhood before live.",
-      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-059",
@@ -1631,7 +1637,7 @@
         "pairs-RM-011"
       ],
       "acceptance_criteria": "ips_constraints.json encodes signed IPS. ips_audit.py checks each EOD session vs every constraint -> daily IPSAuditLog_*.jsonl. Breach logs IPS_BREACH + advisory order-freeze + Gmail draft. Monthly adherence report to Finals. Depends on RM-011 signed.",
-      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P0 live-path blocker \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-061",
@@ -1778,7 +1784,7 @@
         "regression-gate"
       ],
       "acceptance_criteria": "GIVEN the current dashboard, WHEN discovery completes, THEN a research-backed design spec (layout, components, states, priority-of-info) is delivered to Engineering via Product; AND a regression+QA gate is defined for every design change.",
-      "queue_note": "Spec complete 2026-06-13. P2 — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P2 \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-066",
@@ -1836,7 +1842,7 @@
         "history"
       ],
       "acceptance_criteria": "GIVEN a model is deprecated, WHEN retired, THEN a model_history.jsonl entry records final stats + lifespan + deprecation reason; AND a dashboard view lists all retired models.",
-      "queue_note": "Spec complete 2026-06-13. P1 — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P1 \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-068",
@@ -2012,7 +2018,7 @@
         "reliability"
       ],
       "acceptance_criteria": "GIVEN the reviewed deploy process, WHEN an item ships, THEN it passes documented pre/post deploy agent checks (MANIFEST verify + readback) with fewer manual steps than today; rollback path documented.",
-      "queue_note": "Spec complete 2026-06-13. P1 — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P1 \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-074",
@@ -2043,7 +2049,7 @@
         "advances-RM-046"
       ],
       "acceptance_criteria": "GIVEN a critical-process inventory with ranked failovers, WHEN a primary process is down, THEN the backup protocol runs and preserves every absolute safety invariant; the EOD close failover NEVER skips; each failover is tested in a drill before being relied on.",
-      "queue_note": "Spec complete 2026-06-13. P1 EOD close tier — ready to pull into sprint when capacity allows."
+      "queue_note": "Spec complete 2026-06-13. P1 EOD close tier \u2014 ready to pull into sprint when capacity allows."
     },
     {
       "id": "RM-075",
@@ -2178,7 +2184,7 @@
       },
       "owner": "Engineering (Rachel/Omar)",
       "assigned_to": null,
-      "source": "Jordan Strategic Session 2026-06-13 — R8 INS-001 + 06-12 root cause",
+      "source": "Jordan Strategic Session 2026-06-13 \u2014 R8 INS-001 + 06-12 root cause",
       "boardroom_ref": null,
       "created": "2026-06-13",
       "updated": "2026-06-13",
@@ -2190,12 +2196,12 @@
         "alerting",
         "reliability-sprint"
       ],
-      "acceptance_criteria": "A heartbeat checks, per open day, that each entry routine (R1/R3/R4/R5/R6) logged a start within ±10 min of its window; a missed window posts a Slack alert + email to Jashyard within 15 min of the window close; verified by a drill that simulates a missed window. No engine/scoring/gate change."
+      "acceptance_criteria": "A heartbeat checks, per open day, that each entry routine (R1/R3/R4/R5/R6) logged a start within \u00b110 min of its window; a missed window posts a Slack alert + email to Jashyard within 15 min of the window close; verified by a drill that simulates a missed window. No engine/scoring/gate change."
     },
     {
       "id": "RM-080",
-      "title": "[STRATEGIC] Notification Delivery Reliability (Gmail MCP) — 5 email failures/wk",
-      "description": "R8 reports email_failures=5 this week (Gmail MCP auth/scope). Email + Slack are the ONLY ways Jashyard learns the app/routines are down — if notifications silently fail, the uptime risk (RM-079) compounds: a missed window with a failed alert = invisible lost session. Need: root-cause the Gmail MCP failures (auth/scope/rate), add a delivery-confirmation + retry, and a fallback to Slack-only with an explicit 'email degraded' flag in runs.jsonl so degraded notification is visible, not silent.",
+      "title": "[STRATEGIC] Notification Delivery Reliability (Gmail MCP) \u2014 5 email failures/wk",
+      "description": "R8 reports email_failures=5 this week (Gmail MCP auth/scope). Email + Slack are the ONLY ways Jashyard learns the app/routines are down \u2014 if notifications silently fail, the uptime risk (RM-079) compounds: a missed window with a failed alert = invisible lost session. Need: root-cause the Gmail MCP failures (auth/scope/rate), add a delivery-confirmation + retry, and a fallback to Slack-only with an explicit 'email degraded' flag in runs.jsonl so degraded notification is visible, not silent.",
       "column": "Done",
       "completed_date": "2026-06-13",
       "priority": "P1",
@@ -2209,7 +2215,7 @@
       },
       "owner": "Engineering (Sam/Rachel)",
       "assigned_to": null,
-      "source": "Jordan Strategic Session 2026-06-13 — R8 research_question (5 email_failures)",
+      "source": "Jordan Strategic Session 2026-06-13 \u2014 R8 research_question (5 email_failures)",
       "boardroom_ref": null,
       "created": "2026-06-13",
       "updated": "2026-06-13",
@@ -2224,7 +2230,7 @@
     },
     {
       "id": "RM-081",
-      "title": "Phase-Gate Metric Definitions — Phase-1-Progress vs Condition-1 Separation",
+      "title": "Phase-Gate Metric Definitions \u2014 Phase-1-Progress vs Condition-1 Separation",
       "description": "Measurement-integrity fix before data accrues Monday. Today Phase 1 ('10 engine-scored sessions') and going-live Condition 1 ('30 gated NATURAL signals per model, floor excluded') are easy to conflate. Floor entries (entry_type='floor') and gated-but-scored attempts count toward Phase-1 PROGRESS but must NEVER count toward Condition-1's 30 natural signals. Codify the two distinct counters + definitions in improvement_phases.json and METRIC-DICTIONARY.md so the live gate cannot be accidentally satisfied by floor trades. Ties boardroom proposal BD-20260613-08.",
       "column": "Done",
       "completed_date": "2026-06-13",
@@ -2239,7 +2245,7 @@
       },
       "owner": "Jordan (PM) + Analytics (Devon)",
       "assigned_to": null,
-      "source": "Jordan Strategic Session 2026-06-13 — ties BD-20260613-08",
+      "source": "Jordan Strategic Session 2026-06-13 \u2014 ties BD-20260613-08",
       "boardroom_ref": "BD-20260613-08",
       "created": "2026-06-13",
       "updated": "2026-06-13",
@@ -2279,7 +2285,7 @@
         "observability"
       ],
       "acceptance_criteria": "GIVEN an agent/routine is invoked, WHEN it runs, THEN a runs.jsonl (or equivalent) record confirms start+complete and the expected artifact exists; WHEN an expected deploy/output is missing, THEN a Slack alert fires within minutes rather than failing silently; verified by a drill that simulates a non-deploy. No engine/scoring/gate/account change.",
-      "queue_note": "Non-live-path; sits behind the Reliability Sprint (RM-079/047). Backlog over budget (flagged R12) — intentionally NOT promoted to To Do this cycle."
+      "queue_note": "Non-live-path; sits behind the Reliability Sprint (RM-079/047). Backlog over budget (flagged R12) \u2014 intentionally NOT promoted to To Do this cycle."
     },
     {
       "id": "RM-083",
@@ -2308,11 +2314,11 @@
         "supports-RM-065"
       ],
       "acceptance_criteria": "GIVEN design agents need to spec UI, WHEN they reference the design system, THEN colors/type/components/spacing/dashboard patterns are documented in one place; the kit is consumed by RM-065 redesign work; full regression + QA run after any design ship (per Jashyard standing rule). Non-live-path.",
-      "queue_note": "Links to RM-065. P3 nice-to-have; behind the Reliability Sprint. Backlog over budget (R12) — kept in Backlog, not promoted."
+      "queue_note": "Links to RM-065. P3 nice-to-have; behind the Reliability Sprint. Backlog over budget (R12) \u2014 kept in Backlog, not promoted."
     },
     {
       "id": "RM-084",
-      "title": "R-AUTOTUNE — Autonomous Experiment Loop",
+      "title": "R-AUTOTUNE \u2014 Autonomous Experiment Loop",
       "description": "Autoresearch-style loop: R-AUTOTUNE routine fires after DS-Review, proposes param changes to model_params.json, evaluates OOS performance, applies/rolls back autonomously within Jashyard-defined constraints. Dependencies: RM-068 (done), RM-076 (done), RM-081 (done), RM-058+RM-060 (P0 first). Phase gate: current_phase >= 2. MVP: 4-cycle shadow mode then autonomous.",
       "column": "Backlog",
       "priority": "P2",
@@ -2326,7 +2332,7 @@
       },
       "owner": "Maya (Data Science) + Jordan (PM)",
       "assigned_to": null,
-      "source": "R9 2026-06-13 autoresearch audit — 4-agent unanimous CONDITIONAL YES",
+      "source": "R9 2026-06-13 autoresearch audit \u2014 4-agent unanimous CONDITIONAL YES",
       "boardroom_ref": null,
       "created": "2026-06-13",
       "updated": "2026-06-13",
@@ -2345,7 +2351,7 @@
       "id": "RM-085",
       "title": "safe_io.py CORRUPTED - Restore MANIFEST Integrity",
       "description": "safe_io.py SHA hash mismatches MANIFEST as of 2026-06-15 R1 (flagged non-blocking). MANIFEST integrity is the guard preventing unauthorized code drift. Hash mismatch means either safe_io.py was modified outside the change-control process OR MANIFEST was not updated after a legitimate edit. Must diagnose and resolve before it becomes a blocking integrity failure. Added 2026-06-15 from live R1 Slack finding.",
-      "column": "Backlog",
+      "column": "Done",
       "priority": "P0",
       "category": "engineering",
       "rice": {
@@ -2355,15 +2361,21 @@
         "effort": 1,
         "score": 65
       },
-      "tags": ["integrity", "safe_io", "manifest", "live-path", "p0"],
+      "tags": [
+        "integrity",
+        "safe_io",
+        "manifest",
+        "live-path",
+        "p0"
+      ],
       "owner": "Rachel (Engineering Lead)",
-      "assigned_to": null,
+      "assigned_to": "Rachel",
       "source": "2026-06-15 R1 Slack - Integrity: signal_engine.py SHA PASS | safe_io.py CORRUPTED (non-blocking)",
       "boardroom_ref": null,
       "created": "2026-06-15",
-      "updated": "2026-06-15",
+      "updated": "2026-06-17",
       "acceptance_criteria": "GIVEN safe_io.py CORRUPTED flag appears in R1 integrity check, WHEN engineering investigates, THEN root cause is documented (unauthorized edit vs. stale MANIFEST), safe_io.py is restored to known-good state OR MANIFEST is re-pinned to current hash with change-control log entry, AND R1 integrity check reports PASS for safe_io.py on the next run.",
-      "queue_note": "P0 - added from live R1 finding 2026-06-15. Non-blocking today but any further drift risks blocking trade execution. Rachel to investigate this week. Needs Jashyard sign-off on resolution approach if safe_io.py was modified."
+      "queue_note": "DONE 2026-06-17 (sprint session).\nRoot cause: safe_io.py was checked by R1 integrity step but was NEVER pinned in MANIFEST.json \u2014 causing false CORRUPTED alert on every R1 run.\nALSO found: improvement_phases.json was FUSE-truncated (JSON parse error at line 223) \u2014 progress_sessions array was cut mid-write by R7 when bash was unavailable.\nFixes applied:\n1. improvement_phases.json: reconstructed correct closing JSON (progress_sessions array + final brace). Validated JSON parses. Size: 13313 bytes.\n2. MANIFEST.json: added scripts/safe_io.py entry (sha256: 80909cb..., bytes: 9160). 3. MANIFEST.json: updated stale improvement_phases.json hash (new: 743693ad...) and stale roadmap.json hash (new: 0da44fcb...). Cleared sha256_stale flags.\nNext R1 integrity check should report PASS for safe_io.py."
     },
     {
       "id": "RM-086",
@@ -2379,7 +2391,13 @@
         "effort": 2,
         "score": 27
       },
-      "tags": ["benchmark", "live-path", "going-live", "analytics", "p1"],
+      "tags": [
+        "benchmark",
+        "live-path",
+        "going-live",
+        "analytics",
+        "p1"
+      ],
       "owner": "Rachel (Engineering Lead) + Maya (Data Science)",
       "assigned_to": null,
       "source": "2026-06-15 PM triage - model_registry.json audit; all 3 benchmarks trades_all_time=0, n_shared_days=0",
@@ -2403,7 +2421,13 @@
         "effort": 2,
         "score": 24
       },
-      "tags": ["dashboard", "going-live", "reporting", "live-path", "p1"],
+      "tags": [
+        "dashboard",
+        "going-live",
+        "reporting",
+        "live-path",
+        "p1"
+      ],
       "owner": "Sam (Dashboard/Front-end)",
       "assigned_to": null,
       "source": "2026-06-15 PM triage - gap identified during live-readiness review",
@@ -2427,7 +2451,14 @@
         "effort": 3,
         "score": 13
       },
-      "tags": ["monte-carlo", "statistics", "live-path", "going-live", "p1", "gate-integrity"],
+      "tags": [
+        "monte-carlo",
+        "statistics",
+        "live-path",
+        "going-live",
+        "p1",
+        "gate-integrity"
+      ],
       "owner": "Maya (Data Science)",
       "assigned_to": null,
       "source": "2026-06-15 PM triage - KPI/data audit finding; IID assumption violates MC bootstrap validity",
@@ -2451,7 +2482,13 @@
         "effort": 1,
         "score": 36
       },
-      "tags": ["security", "account-safety", "audit", "p1", "live-path"],
+      "tags": [
+        "security",
+        "account-safety",
+        "audit",
+        "p1",
+        "live-path"
+      ],
       "owner": "Rachel (Engineering Lead)",
       "assigned_to": null,
       "source": "2026-06-15 PM triage - proactive security gap identified",
@@ -2475,7 +2512,12 @@
         "effort": 2,
         "score": 8
       },
-      "tags": ["governance", "recommendations", "workflow", "p2"],
+      "tags": [
+        "governance",
+        "recommendations",
+        "workflow",
+        "p2"
+      ],
       "owner": "Omar (Data Engineering)",
       "assigned_to": null,
       "source": "2026-06-15 PM triage - REC-20260613-01/02/03 all stuck at PROPOSED",
@@ -2484,9 +2526,1755 @@
       "updated": "2026-06-15",
       "acceptance_criteria": "GIVEN recommendations currently have no enforced lifecycle, WHEN state machine is implemented in apply_recommendation.py, THEN each recommendation has a status field (PROPOSED/UNDER_REVIEW/APPROVED/REJECTED/APPLIED/CLOSED), each transition records a timestamp and actor, R8 analytics surfaces any recommendation stuck in PROPOSED > 14 days, AND Jashyard receives a weekly digest of pending recommendations via Slack.",
       "queue_note": "P2 - important for governance but not on the live-path critical chain. Can be worked in parallel with P0/P1 items. Jashyard approval needed before implementing state transitions that could auto-close recommendations."
-    }
-  ]
-}ons that could auto-close recommendations."
+    },
+    {
+      "id": "RM-091",
+      "title": "FMP EMA-3 Endpoint Timeout - Data Reliability Fix",
+      "description": "FMP technicalIndicators endpoint for periodLength=3, timeframe=5min began timing out as of 10:09 ET on 2026-06-15. 10 consecutive failures observed intraday. Bar-estimated EMA fallback is running non-blocking, but fallback accuracy vs. native FMP EMA is unknown. Decision needed: (1) root-cause the FMP endpoint failure and fix, or (2) replace with bar-computed EMA permanently as primary path. Added from Jashyard #trading-bot-ideas post at 09:40 MST 2026-06-15.",
+      "column": "Done",
+      "completed_date": "2026-06-15",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 2,
+        "score": 31
+      },
+      "tags": [
+        "data",
+        "fmp",
+        "ema",
+        "reliability",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": "Rachel",
+      "source": "2026-06-15 Jashyard #trading-bot-ideas 09:40 MST - FMP EMA-3 10 consecutive timeouts",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN the FMP technicalIndicators EMA-3/5min endpoint has been timing out, WHEN the fix is implemented, THEN: (1) bar-computed EMA is promoted as primary path in signal_engine.py, (2) FMP EMA is attempted as optional enrichment when available (non-blocking), (3) signal_engine.py logs ema_source (bar_computed or fmp) per scan, (4) accuracy delta documented in TECH_NOTES.md, AND (5) R1 integrity check verifies EMA source on startup.",
+      "queue_note": "DECIDED 2026-06-15 by Jashyard (Jordan PM): PROMOTE bar-computed EMA as permanent primary path. FMP EMA becomes optional enrichment (attempt on each scan, non-blocking, log when available). Rationale: 10 consecutive FMP failures demonstrate external endpoint unreliability; bar-computed already exists and runs non-blocking; reduces live-path dependency on a single external endpoint. Engineering brief: Rachel to implement promotion in signal_engine.py. Log ema_source field per scan. Document accuracy delta in TECH_NOTES.md. No changes to thresholds or scoring weights pending accuracy analysis."
+    },
+    {
+      "id": "RM-092",
+      "title": "Position Management Research - Adding To or Reducing Existing Positions",
+      "description": "Research question from Jashyard (08:25 MST 2026-06-15, noted as 'not advice, just something to think through'): should models understand adding to or reducing existing positions when opportunity exists? Currently all models open new positions from scratch each session with no regard for existing paper positions. Explore: (1) whether pyramiding into winning positions improves expectancy, (2) partial exit logic for risk reduction, (3) sizing interaction with existing paper holdings. This is a pure research/exploration item - no implementation until evidence supports it.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 50,
+        "effort": 4,
+        "score": 5
+      },
+      "tags": [
+        "strategy",
+        "position-sizing",
+        "research",
+        "p3"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas 08:25 MST - position management exploration",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN current single-entry-per-session model with no position stacking, WHEN research is complete, THEN: (1) a written analysis exists in ANALYTICS.md covering pyramiding and partial-exit mechanics for TQQQ/SQQQ intraday, (2) paper simulation results are documented for at least one adding-to-winner scenario, (3) risk implications are clearly stated, AND (4) Jashyard has reviewed and approved before any implementation. No live-path dependency.",
+      "queue_note": "Pure research. Jashyard explicitly flagged as 'not advice, just think through.' Do not implement without explicit approval. Low RICE score - defer until Phase 1 baseline validation is complete and we have statistically significant signal data (n >= 30)."
+    },
+    {
+      "id": "RM-093",
+      "title": "Scheduled Task Priority Audit - Ensure Trading Routines Are Never Blocked",
+      "description": "Jashyard (12:42 MST 2026-06-15) flagged concern: review ALL scheduled tasks for potential conflicts or blocks on trading bot execution. Trading is #1 priority - no other scheduled task should interfere with R1-R7 windows. Audit scope: (1) enumerate all tasks in Claude Scheduled Tasks that run during market hours (9:30am-4:00pm ET), (2) identify any that could block agent execution slots or create resource contention, (3) reschedule or eliminate conflicting tasks, (4) document the priority hierarchy explicitly. Context: R5 has 25% success rate and R7 has 0% per findings_latest.json - root cause may include scheduling conflicts.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 2,
+        "score": 24
+      },
+      "tags": [
+        "ops",
+        "scheduling",
+        "reliability",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": "Rachel",
+      "source": "2026-06-15 Jashyard #trading-bot-ideas 12:42 MST - scheduled task interference concern",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-17",
+      "acceptance_criteria": "GIVEN concern that scheduled tasks may block trading bot routines, WHEN audit is complete, THEN: (1) complete list of all scheduled tasks with run times documented in TECH_NOTES.md, (2) any task running between 9:30am-4:00pm ET that could compete with R1-R7 is identified and either rescheduled to off-hours or eliminated, (3) trading bot routines are confirmed as highest-priority tasks with no competing tasks in the same window, AND (4) a priority hierarchy document is posted to #trading-bot-notifications for Jashyard review.",
+      "queue_note": "DONE 2026-06-17: Scheduled task audit delivered to eng-agent/ScheduledTaskAudit_06.17.2026.md. 35 tasks inventoried, P0-P4 priority hierarchy established, 2 market-hours conflicts flagged (LOW risk), 5 YELLOW items for Jashyard to verify timing."
+    },
+    {
+      "id": "RM-094",
+      "title": "Chrome Tab Group Auto-Cleanup After Task Completion",
+      "description": "Jashyard (12:50 MST 2026-06-15) idea: auto-close Chrome tab groups when a task is complete with no further action needed. Currently tab groups accumulate across task sessions, creating clutter and potential confusion about which tasks are still active. Proposed behavior: when an agent completes a task and posts a final Slack message, it should also close any Chrome tab group it opened during that session. Operations/UX improvement with no live-path impact.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "process",
+      "rice": {
+        "reach": 3,
+        "impact": 3,
+        "confidence": 70,
+        "effort": 3,
+        "score": 2
+      },
+      "tags": [
+        "ops",
+        "chrome",
+        "cleanup",
+        "ux",
+        "p3"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas 12:50 MST - Chrome tab cleanup automation",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN Chrome tab groups accumulate across task sessions, WHEN auto-cleanup is implemented, THEN: (1) each SKILL that opens Chrome tabs closes them on task completion, (2) if a tab contains data Jashyard might want to review, it posts the URL to Slack before closing, (3) no tab group remains open more than 60 seconds after the task posts its final Slack message, AND (4) Jashyard can override cleanup by replying 'keep tabs' to the task thread.",
+      "queue_note": "Nice-to-have quality-of-life improvement. Low RICE, no live-path impact. Defer until P0/P1 items are resolved. Could be implemented as a standard close-out block added to each SKILL template."
+    },
+    {
+      "id": "RM-095",
+      "title": "ENG-APPLY Routine - Structured Recommendation Application Workflow",
+      "description": "Create a dedicated ENG-APPLY agent routine that applies approved boardroom/analytics recommendations to the codebase in a structured, logged, reversible way. Currently recommendations are applied ad-hoc without a standard workflow. ENG-APPLY provides: (1) load recommendation JSON, (2) run pre-apply integrity check, (3) apply changes with CHANGELOG entry, (4) post Slack summary with diff, (5) push to GitHub via Chrome, (6) update MANIFEST.json pins. Closes the loop between boardroom decisions and deployed code.",
+      "column": "Done",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 3,
+        "score": 19
+      },
+      "tags": [
+        "ops",
+        "routine",
+        "workflow",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": "Rachel",
+      "source": "2026-06-15 triage addendum - closes deployment loop from boardroom to code",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-17",
+      "acceptance_criteria": "GIVEN approved recommendations exist in apply_recommendation.py workflow, WHEN ENG-APPLY runs, THEN: (1) pre-apply integrity check passes, (2) changes are applied with CHANGELOG entry, (3) Slack thread gets diff summary, (4) GitHub push is completed via Chrome, (5) MANIFEST.json is updated with new pins.",
+      "queue_note": "DONE 2026-06-17 (sprint session). eng-agent/SKILL-eng-apply.md verified present and complete: Step 0 market-hours gate, Step 0b conflict check, Step 1 WIP post, Step 2 queue build (fast_lane_approved items), Step 3 per-item apply sequence, Step 4 WIP cap audit (cap=3), Step 5 completion summary. ENG-APPLY scheduled task (trading-bot-eng-apply, Mon 4:30pm AZ) already deployed. SKILL.md is the production engine \u2014 this RM is fully delivered."
+    },
+    {
+      "id": "RM-096",
+      "title": "Remove Email from Paper Trade Routines",
+      "description": "Paper trade routines (R1-R7) currently trigger email sends for each trade notification. This wastes Gmail API credits, creates noise, and signals paper trades to email inboxes as if they were real. Strip email from all paper-trade paths. Only real-money trades, critical system alerts, and EOW summaries should trigger email. Slack is the canonical notification channel for paper trading.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "ops",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 90,
+        "effort": 2,
+        "score": 16
+      },
+      "tags": [
+        "ops",
+        "email",
+        "paper-trade",
+        "cost",
+        "p1"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - remove email from paper trades to reduce credit waste",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN paper trade routines currently send emails, WHEN fix is implemented, THEN: (1) no email is sent for any paper trade entry/exit, (2) Slack remains the only notification channel for paper trades, (3) real-money trades and critical system alerts still trigger email, (4) EOW summary email is retained, AND (5) Gmail MCP calls are audited and removed from all paper-path SKILLs.",
+      "queue_note": "Quick win. Reduces Gmail API credit burn and noise. PAPER_TRADE=True guard is already in place - this just removes the email call from the paper path."
+    },
+    {
+      "id": "RM-097",
+      "title": "UI Page Auth - Verification Code Gate for Public Dashboard",
+      "description": "The public GitHub Pages trading dashboard is currently accessible to anyone with the URL. Add a lightweight verification code gate (client-side password or token) to prevent casual unauthorized access to live trading data, positions, and performance metrics. Defense-in-depth measure - not a replacement for not pushing sensitive data to the public repo.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "security",
+      "rice": {
+        "reach": 4,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 2,
+        "score": 10
+      },
+      "tags": [
+        "security",
+        "dashboard",
+        "auth",
+        "p2"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - UI verification code gate for dashboard access",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN public dashboard is open to anyone with the URL, WHEN gate is implemented, THEN: (1) a simple client-side code prompt gates access on page load, (2) correct code reveals dashboard, wrong code shows a blank/generic page, (3) code is stored in environment config (not hardcoded in public repo), AND (4) Jashyard approves the access flow before deployment.",
+      "queue_note": "Client-side only - not a substitute for not exposing sensitive data. Implement after RM-123 (data scrubbing) is live."
+    },
+    {
+      "id": "RM-098",
+      "title": "AI Accountant + Cost Tracking Agent",
+      "description": "Create an AI Accountant agent that tracks all operational costs for the trading bot: FMP API calls, Gmail API credits, Claude API tokens, compute time, and cost-per-trade/cost-per-signal metrics. Currently there is no visibility into how much each routine, signal scan, or trade costs to run. The agent should produce weekly cost summaries, flag anomalous spend, and calculate ROI as the bot approaches live trading.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "analytics",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 75,
+        "effort": 4,
+        "score": 8
+      },
+      "tags": [
+        "analytics",
+        "cost",
+        "ops",
+        "p2"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - AI accountant for cost + ROI tracking",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no current visibility into operational costs, WHEN AI Accountant is implemented, THEN: (1) weekly cost summary is posted to #trading-bot-notifications every Saturday, (2) cost-per-signal-scan and cost-per-trade metrics are computed and logged, (3) anomalous spend (>2x trailing average) triggers an alert, AND (4) ROI dashboard shows break-even point based on current paper trade performance.",
+      "queue_note": "Foundational for business viability before going live. Without cost data we cannot calculate true ROI. Lower priority than P0/P1 reliability items but should be in place before live trading flip."
+    },
+    {
+      "id": "RM-099",
+      "title": "Expand Trading Instruments Beyond TQQQ/SQQQ",
+      "description": "Current bot is limited to TQQQ (3x leveraged QQQ long) and SQQQ (3x leveraged QQQ short). Explore adding additional instruments: SPY/SPXL/SPXS, UVXY/SVXY, sector ETFs, or high-beta stocks. Expansion should only happen after Phase 1 live trading baseline is proven with TQQQ/SQQQ and signal engine is validated. Adding instruments too early increases complexity without proven edge.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 60,
+        "effort": 5,
+        "score": 7
+      },
+      "tags": [
+        "strategy",
+        "instruments",
+        "expansion",
+        "p2"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - expand instruments beyond TQQQ/SQQQ",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN bot currently trades only TQQQ/SQQQ, WHEN expansion is approved, THEN: (1) Jashyard has explicitly approved the instrument list after Phase 1 live baseline, (2) each new instrument has defined signal logic, (3) position sizing accounts for different volatility profiles, AND (4) paper trading of new instruments runs for at least 2 weeks before any live exposure.",
+      "queue_note": "GATED on Phase 1 live trading proof. Do not begin scoping until n>=30 live trades with positive expectancy are documented."
+    },
+    {
+      "id": "RM-100",
+      "title": "Folder Organization + Automated Cleanup Routine",
+      "description": "The trading bot project folder has grown organically and has accumulated temporary files, old test artifacts, duplicate logs, and ad-hoc output files. Create a structured folder organization standard and an automated cleanup routine that runs weekly to archive old logs, delete temp files, enforce folder structure, and report what was cleaned to Slack.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "ops",
+      "rice": {
+        "reach": 3,
+        "impact": 4,
+        "confidence": 80,
+        "effort": 2,
+        "score": 5
+      },
+      "tags": [
+        "ops",
+        "cleanup",
+        "housekeeping",
+        "p3"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - folder organization and automated cleanup",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN folder structure has grown organically, WHEN cleanup is implemented, THEN: (1) defined folder structure is documented in TECH_NOTES.md, (2) weekly cleanup routine runs Saturday and posts summary to Slack, (3) logs older than 30 days are archived (not deleted) to /archive subfolder, AND (4) cleanup routine never touches live log files that routines depend on.",
+      "queue_note": "Low priority quality-of-life. Defer until P0/P1 items are resolved. Cleanup must whitelist critical files (logs/, roadmap.json, AI-CONTEXT.md, etc.)."
+    },
+    {
+      "id": "RM-101",
+      "title": "Unit Testing Framework for Signal Engine and Core Modules",
+      "description": "The signal engine and core bot modules (signal_engine.py, live_gate_stats.py, apply_recommendation.py) have no automated tests. Any change risks silent regressions. Implement a pytest unit testing framework with signal engine output tests against known input snapshots, gate logic boundary tests, log schema validation tests, and a CI-style pre-push test run.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 4,
+        "score": 12
+      },
+      "tags": [
+        "engineering",
+        "testing",
+        "reliability",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - unit testing framework before going live",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no automated tests exist for core modules, WHEN framework is implemented, THEN: (1) pytest suite covers signal engine with at least 10 input/output snapshot tests, (2) gate boundary conditions are tested, (3) log schema tests validate required fields on all log writes, (4) tests run in <60 seconds, AND (5) all tests pass on current codebase before any new RM item is implemented.",
+      "queue_note": "Should be implemented before P0 items are deployed to reduce regression risk. Pairs with RM-114 (reliability scorecard). Consider making test suite passage a gate for RM deployment."
+    },
+    {
+      "id": "RM-102",
+      "title": "Comprehensive Security Audit - 80/20 Approach",
+      "description": "Conduct an 80/20 security audit focused on highest-risk surfaces: credential exposure in logs and public repo, PAT and API key lifecycle, Robinhood account access controls (FORBIDDEN accounts), public dashboard data scrubbing, and Slack webhook security. Goal: a focused sweep of the most likely failure vectors before going live.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "security",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 3,
+        "score": 20
+      },
+      "tags": [
+        "security",
+        "audit",
+        "credentials",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Morgan (Security)",
+      "assigned_to": null,
+      "source": "2026-06-15 Jashyard #trading-bot-ideas - comprehensive security audit 80/20 before going live",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no formal security audit has been conducted, WHEN audit is complete, THEN: (1) all log files are scanned for credential leakage, (2) public repo is verified to contain no strategy params or credentials, (3) PAT rotation schedule is documented, (4) forbidden account references (----, ----) are confirmed absent from all code paths, AND (5) audit findings are documented in a report for Jashyard review.",
+      "queue_note": "Must complete before live trading flip. Focus on credential hygiene first. Pairs with RM-123 and RM-128. Morgan (Security) leads with Rachel support."
+    },
+    {
+      "id": "RM-103",
+      "title": "Factor Score Logging on All Gate-Blocked Signal Attempts",
+      "description": "From 06/13 Research Drop (3-agent convergence): when a signal attempt is blocked by any gate, the individual factor scores that contributed to the block are not logged. This makes post-hoc analysis of why a signal was blocked impossible. Log the full factor score breakdown (RSI, VIX, gap, momentum scores) on every gate-blocked attempt in signal_attempts.jsonl with a blocked_reason field.",
+      "column": "Backlog",
+      "priority": "P0",
+      "category": "analytics",
+      "rice": {
+        "reach": 9,
+        "impact": 9,
+        "confidence": 95,
+        "effort": 2,
+        "score": 38
+      },
+      "tags": [
+        "analytics",
+        "logging",
+        "signal",
+        "gates",
+        "p0",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #1 - 3-agent convergence: factor score logging on blocked attempts",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN gate-blocked attempts have no factor score record, WHEN logging is implemented, THEN: (1) every gate-blocked signal attempt includes a factor_scores object with individual component scores, (2) a blocked_reason field lists which specific gate(s) blocked the attempt, (3) the field is present even when all gates pass (for comparison), AND (4) analytics can compute factor score distributions across blocked vs. passed attempts.",
+      "queue_note": "P0 - unbackfillable data loss. Every day without this logging is signal insight we can never recover. Implement before next market session."
+    },
+    {
+      "id": "RM-104",
+      "title": "Error Taxonomy - Mandatory Error Type Tagging in errors.jsonl",
+      "description": "From 06/13 Research Drop: errors.jsonl entries have inconsistent formats with no standardized error_type taxonomy. Define a mandatory error_type taxonomy (API_TIMEOUT, ENGINE_INTEGRITY_FAILURE, GATE_BLOCK, FORBIDDEN_ACCOUNT, LOG_WRITE_FAILURE, etc.) and enforce it on all errors.jsonl writes. Add a schema validation step to the engine startup check.",
+      "column": "Backlog",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 95,
+        "effort": 2,
+        "score": 30
+      },
+      "tags": [
+        "engineering",
+        "logging",
+        "errors",
+        "schema",
+        "p0"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #2 - error taxonomy mandatory tagging in errors.jsonl",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN errors.jsonl has no standardized error_type field, WHEN taxonomy is implemented, THEN: (1) canonical error_type enum is documented in TECH_NOTES.md, (2) all errors.jsonl writes include a mandatory error_type field from the enum, (3) unknown error types cause a validation warning, (4) engine startup check validates recent errors.jsonl entries for schema compliance, AND (5) migration script tags existing entries with best-guess error_type values.",
+      "queue_note": "P0 foundational logging hygiene. Required for RM-109 (signal drought telemetry) and automated alerting on error patterns. Low effort, high value."
+    },
+    {
+      "id": "RM-105",
+      "title": "Engine Integrity Sentinel - Pre-Exec Check + Auto-Restore",
+      "description": "From 06/13 Research Drop: the engine integrity check (R1 step) currently logs failures but does not block execution or attempt auto-restore. Implement an Engine Integrity Sentinel that: (1) runs before any trading routine, (2) checks signal_engine.py SHA-256 against MANIFEST.json pins, (3) if mismatch: blocks routine, posts Slack alert, attempts auto-restore from GitHub, (4) if auto-restore fails: hard-stop with HOLD status.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "rice": {
+        "reach": 9,
+        "impact": 10,
+        "confidence": 90,
+        "effort": 3,
+        "score": 30
+      },
+      "tags": [
+        "engineering",
+        "integrity",
+        "safety",
+        "p0",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": "Rachel",
+      "source": "2026-06-13 Weekly Research Drop #3 - engine integrity sentinel with auto-restore",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-17",
+      "acceptance_criteria": "GIVEN integrity check currently logs but does not block, WHEN sentinel is implemented, THEN: (1) every routine begins with SHA-256 integrity check against MANIFEST.json, (2) mismatch blocks the routine immediately and posts HOLD alert to #trading-bot-notifications, (3) auto-restore from GitHub is attempted and logged, (4) if restore fails, routine is cancelled with clear error message, AND (5) test with deliberately corrupted engine validates sentinel behavior.",
+      "queue_note": "DONE 2026-06-17: Step 2b SHA-256 sentinel inserted into SKILL-r0-premarket-qa.md. Blocks routine on engine hash mismatch, attempts self_heal.py auto-restore, hard-stop on failure. R2 force-close exempt per Dana's amendment."
+    },
+    {
+      "id": "RM-106",
+      "title": "VIX Proxy Calibration Diagnostic / H-VIXDECAY Daily Monitor",
+      "description": "From 06/13 Research Drop: the H-VIXDECAY hypothesis (VIX overestimates next-day realized vol, creating a systematic short-vol edge) has not been validated against recent data. The VIX gate uses a fixed threshold (30) set without calibration. Implement a daily H-VIXDECAY diagnostic that logs VIX vs. next-day realized vol and computes the running decay ratio. Feeds into RM-129 (VIX gate blended threshold).",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 3,
+        "score": 15
+      },
+      "tags": [
+        "analytics",
+        "vix",
+        "calibration",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #4 - VIX proxy calibration diagnostic / H-VIXDECAY monitor",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN VIX gate threshold is uncalibrated, WHEN diagnostic is implemented, THEN: (1) daily log records VIX at session open vs. next-day realized volatility, (2) running decay ratio is computed over trailing 20 sessions, (3) decay ratio below 1.0 for 5+ consecutive sessions triggers a recalibration review alert, AND (4) data feeds directly into RM-129 (blended vol threshold design).",
+      "queue_note": "Pairs with RM-129. The H-VIXDECAY hypothesis is a core edge assumption - needs ongoing empirical validation, not a set-and-forget threshold."
+    },
+    {
+      "id": "RM-107",
+      "title": "Scheduler Window Truth-Table Validator",
+      "description": "From 06/13 Research Drop (extends RM-047): the scheduler has no mechanism to validate that all expected routine windows fired within the session. Implement a truth-table validator that at EOD checks: did R1 fire? R2? R3-R7? If any expected window was missed, post a miss-report to Slack with the reason. Directly addresses R5 25% and R7 0% success rate anomalies.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "ops",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 2,
+        "score": 24
+      },
+      "tags": [
+        "ops",
+        "scheduling",
+        "reliability",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #5 - scheduler truth-table validator, extends RM-047",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN R5 and R7 have anomalously low success rates, WHEN validator is implemented, THEN: (1) EOD routine checks session_log for each expected R1-R7 window, (2) any missed window is flagged in a miss-report posted to #trading-bot-notifications, (3) miss-reports include last-known-run timestamp and inferred reason where possible, AND (4) validator runs even on market-closed days.",
+      "queue_note": "Directly addresses R5/R7 reliability mystery. Low effort relative to value. Pairs with RM-093 (scheduled task priority audit)."
+    },
+    {
+      "id": "RM-108",
+      "title": "DSR De-Hardcode + Trial Ledger Bootstrap",
+      "description": "From 06/13 Research Drop #6 and 06/15 Drop #3 (convergence): the Dynamic Signal Requirement (DSR) threshold is hardcoded at 10 in the signal engine. It should be computed from trial_ledger.json, which tracks performance by regime. Additionally, the trial_ledger is never actually read by gate logic despite being logged. Fix: (1) de-hardcode DSR, (2) bootstrap trial ledger from historical paper trades, (3) wire trial_ledger reads into gate computation.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 4,
+        "score": 17
+      },
+      "tags": [
+        "engineering",
+        "signal",
+        "gates",
+        "dsr",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-13 Research Drop #6 + 2026-06-15 Research Drop #3 - DSR hardcode + trial ledger bootstrap",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN DSR is hardcoded at 10 and trial_ledger is never read, WHEN fix is implemented, THEN: (1) DSR is computed from trial_ledger with hardcoded=10 as fallback when ledger is empty, (2) trial_ledger bootstrap populates from existing paper trade history, (3) gate logic reads trial_ledger on each scan, (4) DSR value and source (computed vs. fallback) is logged per scan, AND (5) OOS validation shows computed DSR produces equivalent or better gate decisions.",
+      "queue_note": "P1 gate integrity issue. DSR=10 hardcode is a bias-to-pass risk flagged in the KPI audit. A gate condition that is logged but never evaluated is worse than no condition."
+    },
+    {
+      "id": "RM-109",
+      "title": "Session Funnel / Signal Drought Telemetry",
+      "description": "From 06/13 Research Drop #7 and 06/15 Drop #5 (convergence): no telemetry exists for the signal generation funnel within a session. Cannot answer: how many scans ran? How many passed RSI? VIX? All gates? This funnel data is critical for diagnosing signal drought (0 natural signals over 6 models). Implement per-session funnel logging that records scan counts at each gate stage.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 9,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 3,
+        "score": 27
+      },
+      "tags": [
+        "analytics",
+        "logging",
+        "funnel",
+        "signal",
+        "drought",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-13 Research Drop #7 + 2026-06-15 Research Drop #5 - session funnel / signal drought telemetry",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no per-session funnel data exists, WHEN telemetry is implemented, THEN: (1) each session log includes a funnel object with scan_count, rsi_pass_count, vix_pass_count, gap_pass_count, all_gates_pass_count, trades_executed, (2) funnel data is posted in the R7 EOD Slack summary, (3) funnel data feeds the signal drought monitor, AND (4) dashboard shows 7-day funnel trend chart.",
+      "queue_note": "P1 diagnostic. Without funnel data we are flying blind on where signals die. Foundation for all gate calibration work."
+    },
+    {
+      "id": "RM-110",
+      "title": "Feed Integrity Blocking Gate",
+      "description": "From 06/13 Research Drop #8: the signal engine continues scanning even when FMP data quality is suspect (missing bars, stale quotes, API errors). A bad data feed can produce false signals. Implement a feed integrity blocking gate that validates bar count and recency on each FMP pull, checks for duplicate timestamps, and blocks signal generation (not just logs a warning) if data quality falls below threshold.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 8,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 3,
+        "score": 24
+      },
+      "tags": [
+        "engineering",
+        "data",
+        "feed",
+        "gates",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #8 - feed integrity blocking gate",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN signal engine continues on bad FMP data, WHEN gate is implemented, THEN: (1) each FMP bar pull is validated for expected bar count, recency (last bar within N minutes of scan time), and no duplicate timestamps, (2) validation failure blocks signal generation and logs FEED_INTEGRITY_FAILURE, (3) Slack alert is posted with failure details, AND (4) gate is configurable per instrument.",
+      "queue_note": "P1 safety gate. Garbage in, garbage trades out. Must ship before adding any new instruments (RM-099)."
+    },
+    {
+      "id": "RM-111",
+      "title": "RSI Boundary Direction Conflict Flag",
+      "description": "From 06/13 Research Drop #9 and 06/15 Drop #19 (convergence): the RSI signal logic may produce boundary conflicts where RSI is near 50 (neutral zone) but the model votes a directional entry. Implement a conflict flag that detects when RSI is in the neutral band (45-55 configurable), logs an rsi_conflict field on the signal attempt, and applies a configurable confidence penalty.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 75,
+        "effort": 2,
+        "score": 18
+      },
+      "tags": [
+        "strategy",
+        "signal",
+        "rsi",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-13 Research Drop #9 + 2026-06-15 Research Drop #19 - RSI boundary direction conflict",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN RSI neutral-zone conflicts are undetected, WHEN flag is implemented, THEN: (1) rsi_conflict field is logged on all signal attempts where RSI is in neutral band, (2) neutral band boundaries are configurable (default 45-55), (3) confidence penalty is applied to conflict attempts (default -10%), AND (4) analytics can compute conflict rate and impact on signal quality before any hard-blocking behavior is enabled.",
+      "queue_note": "P2 signal quality improvement. Log first, analyze, then optionally block. Do not hard-block without data showing conflict attempts have lower win rates."
+    },
+    {
+      "id": "RM-112",
+      "title": "Forbidden Account Audit Trail in errors.jsonl",
+      "description": "From 06/13 Research Drop #10: if the bot ever attempts to interact with the FORBIDDEN accounts (---- or ----), the only protection is the code guard with no audit trail. Implement: any code path that would touch a forbidden account instead logs a FORBIDDEN_ACCOUNT_ATTEMPT error to errors.jsonl, sends an immediate Slack alert to #trading-bot-notifications, and hard-blocks the attempt with no retry.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "security",
+      "rice": {
+        "reach": 5,
+        "impact": 10,
+        "confidence": 95,
+        "effort": 1,
+        "score": 47
+      },
+      "tags": [
+        "security",
+        "safety",
+        "accounts",
+        "audit",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Morgan (Security)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #10 - forbidden account audit trail",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN forbidden account access has no audit trail, WHEN logging is implemented, THEN: (1) any reference to forbidden account IDs in a live code path triggers a FORBIDDEN_ACCOUNT_ATTEMPT log entry in errors.jsonl, (2) a Slack alert fires immediately with account ID and calling code location, (3) the attempt is hard-blocked with no order placed, AND (4) a test scenario validates the audit trail fires correctly.",
+      "queue_note": "P1 safety audit. Low effort, extremely high impact. The forbidden account rule is the most critical safety constraint in the system."
+    },
+    {
+      "id": "RM-113",
+      "title": "Model Activation Coverage Monitor",
+      "description": "From 06/13 Research Drop #11: with 6 paper trading models deployed, there is no visibility into whether all models are actually activating across sessions. Some models may be silently inactive due to parameter drift, data feed issues, or scheduling gaps. Implement a model activation coverage monitor that tracks signal attempts per model per day and alerts if any model has zero activations over a configurable window.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "analytics",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 2,
+        "score": 21
+      },
+      "tags": [
+        "analytics",
+        "models",
+        "monitoring",
+        "p2"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #11 - model activation coverage monitor",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN some models may be silently inactive, WHEN monitor is implemented, THEN: (1) daily log shows signal attempt count per model, (2) any model with 0 activations in a 3-session window triggers a Slack alert, (3) monitor output appears in the R8 weekly review, AND (4) inactive model alerts include the last activation timestamp for context.",
+      "queue_note": "Requires RM-109 (session funnel) as data source. The 0 natural signals / 6 models finding makes this urgent."
+    },
+    {
+      "id": "RM-114",
+      "title": "Engine Reliability Scorecard as 7th Going-Live Condition",
+      "description": "From 06/13 Research Drop #12: the current 6 going-live conditions do not include any measure of engine reliability (uptime, error rate, routine completion rate). Add a 7th going-live condition: Engine Reliability Scorecard showing >95% successful routine completions over trailing 20 sessions, <5% error rate in errors.jsonl, and all P0 sentinel checks passing.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "process",
+      "rice": {
+        "reach": 6,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 3,
+        "score": 15
+      },
+      "tags": [
+        "process",
+        "live-readiness",
+        "reliability",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #12 - engine reliability as 7th going-live condition",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN going-live conditions do not include engine reliability, WHEN 7th condition is added, THEN: (1) FLIP_TO_LIVE.md is updated with 7th condition: Engine Reliability Scorecard, (2) scorecard thresholds are documented (>95% routine completion, <5% error rate, 0 P0 sentinel failures), (3) scorecard is auto-computed in R8 weekly review, AND (4) Jashyard explicitly approves the thresholds before they gate live trading.",
+      "queue_note": "Update FLIP_TO_LIVE.md after Jashyard approves thresholds. Pairs with RM-101 (unit testing) and RM-105 (engine sentinel)."
+    },
+    {
+      "id": "RM-115",
+      "title": "Public Dashboard PII Scrub Policy",
+      "description": "From 06/13 Research Drop #13: the public dashboard may inadvertently expose PII or sensitive trading information (account balances, position sizes, P&L in dollar amounts, strategy parameters). Define and implement a PII scrub policy: document what is safe to publish vs. what must never appear, and implement scrub validation as part of the publish workflow.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "security",
+      "rice": {
+        "reach": 5,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 2,
+        "score": 18
+      },
+      "tags": [
+        "security",
+        "dashboard",
+        "pii",
+        "publish",
+        "p2"
+      ],
+      "owner": "Morgan (Security)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #13 - public dashboard PII scrub policy",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no formal PII scrub policy exists for dashboard publishing, WHEN policy is implemented, THEN: (1) PII scrub policy document is written in TECH_NOTES.md, (2) dashboard generator validates output against the policy before any publish step, (3) any policy violation blocks publishing and alerts to Slack, AND (4) existing dashboard is audited against the policy before next publish.",
+      "queue_note": "Pairs with RM-123 (publish_filter.py). RM-115 defines the policy; RM-123 implements technical enforcement."
+    },
+    {
+      "id": "RM-116",
+      "title": "FMP API Structured Retry + Exponential Backoff",
+      "description": "From 06/13 Research Drop #14: FMP API timeouts (10 consecutive EMA-3 failures per RM-091) are handled with inconsistent retry logic. Implement structured retry with exponential backoff across all FMP API calls: configurable max retries (default 3), exponential backoff starting at 1s, a retry budget per session, and logged retry attempts and outcomes.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 2,
+        "score": 21
+      },
+      "tags": [
+        "engineering",
+        "fmp",
+        "api",
+        "reliability",
+        "p2"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-13 Weekly Research Drop #14 - FMP API structured retry + exponential backoff",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN FMP API calls have inconsistent retry behavior, WHEN structured retry is implemented, THEN: (1) all FMP API calls use a shared retry decorator with configurable max_retries and backoff_base, (2) each retry attempt is logged with attempt number and wait time, (3) retry budget caps total retry time per session, AND (4) exhausted retries fall back to bar-computed values (per RM-091 decision) or raise FEED_INTEGRITY_FAILURE.",
+      "queue_note": "Pairs with RM-091 (EMA-3 promotion) and RM-110 (feed integrity gate). Implement as a shared utility decorator, not per-endpoint retry logic."
+    },
+    {
+      "id": "RM-117",
+      "title": "Near-Miss Score Simulation + Gate-Time Factor Snapshot",
+      "description": "From 06/15 Research Drop #1: when the signal engine produces a near-miss score (score just below threshold), there is no record of what the score was or which factors were closest to threshold. Implement a near-miss snapshot that logs the full factor state at gate evaluation time for attempts scoring within 10% of the threshold. Enables analysis of how close we are to generating signals.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 2,
+        "score": 27
+      },
+      "tags": [
+        "analytics",
+        "signal",
+        "near-miss",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #1 - near-miss score simulation + gate-time factor snapshot",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN near-miss attempts leave no analytical record, WHEN snapshot is implemented, THEN: (1) all signal attempts within 10% of threshold log a near_miss flag and full factor_scores snapshot, (2) near-miss rate is tracked in the session funnel (RM-109), (3) R8 weekly review includes a near-miss trend chart, AND (4) near-miss data feeds into gate calibration analysis.",
+      "queue_note": "Pairs with RM-103 (factor score logging) and RM-109 (session funnel). Near-miss rate is our best proxy for market-condition readiness during signal drought."
+    },
+    {
+      "id": "RM-118",
+      "title": "Phase Gate Signal Floor - Phase 1 Exit Requires 15+ Valid Signals",
+      "description": "From 06/15 Research Drop #2: the current going-live conditions have no explicit minimum signal count gate for Phase 1 completion. Define and implement a Phase Gate Signal Floor: Phase 1 cannot exit until the system has generated at least 15 valid signals (gate-passing, not just scans) in paper trading, distributed across at least 2 models. Prevents going live on near-zero signal counts.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "process",
+      "rice": {
+        "reach": 7,
+        "impact": 10,
+        "confidence": 95,
+        "effort": 1,
+        "score": 66
+      },
+      "tags": [
+        "process",
+        "live-readiness",
+        "signal",
+        "phase-gate",
+        "p0",
+        "live-path"
+      ],
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": "Rachel",
+      "source": "2026-06-15 Research Drop #2 - phase gate signal floor, Phase 1 exit requires 15+ signals",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-17",
+      "acceptance_criteria": "GIVEN going-live conditions have no signal count floor, WHEN phase gate is implemented, THEN: (1) FLIP_TO_LIVE.md is updated: Phase 1 exit requires >=15 valid gate-passing signals, (2) current signal count is surfaced in the live readiness dashboard, (3) gate cannot be overridden without explicit Jashyard approval documented in decision_log.md, AND (4) signals from a single model are not sufficient - requires distribution across at least 2 models.",
+      "queue_note": "DONE 2026-06-17: improvement_phases.json Phase 1 advancement_trigger replaced with compound gate \u2014 requires BOTH 10 sessions AND 15+ valid signal attempts across 2+ models. FLIP_TO_LIVE.md Step 0 added. sha256_stale flagged in MANIFEST pending on-machine rehash."
+    },
+    {
+      "id": "RM-119",
+      "title": "Regime Classification Tag on All Signal Attempts and Trades",
+      "description": "From 06/15 Research Drop #4: no regime classification is attached to signal attempts or trades in the logs. Without regime tags, we cannot determine if our edge is regime-dependent. Implement a regime_tag field on all signal_attempts.jsonl and trades_paper.jsonl entries using a simple regime classifier (RSI trend, VIX level, gap magnitude).",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 3,
+        "score": 17
+      },
+      "tags": [
+        "analytics",
+        "regime",
+        "logging",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #4 - regime classification tag on signal attempts + trades",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN no regime classification exists on log entries, WHEN tagging is implemented, THEN: (1) a regime_tag enum is defined (TRENDING_UP, TRENDING_DOWN, RANGING, HIGH_VOL, LOW_VOL), (2) regime_tag is added to all new signal_attempts.jsonl and trades_paper.jsonl entries, (3) analytics can compute win rate by regime, AND (4) regime classifier is documented in TECH_NOTES.md for reproducibility.",
+      "queue_note": "P1 analytical foundation. Pairs with RM-129 (VIX blended threshold) and RM-106 (H-VIXDECAY monitor)."
+    },
+    {
+      "id": "RM-120",
+      "title": "Notification Fallback Chain SLA - 3-Tier: Slack to Gmail to Audit Log",
+      "description": "From 06/15 Research Drop #7: critical notifications (trade executions, engine failures, forbidden account attempts) fail silently if Slack is unavailable. Implement a 3-tier notification fallback chain: (1) Slack primary, <30s SLA, (2) Gmail secondary, triggered after 2 Slack failures, (3) audit log entry, always written regardless of channel success.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "ops",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 3,
+        "score": 16
+      },
+      "tags": [
+        "ops",
+        "notifications",
+        "reliability",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #7 - notification fallback chain SLA 3-tier",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN critical notifications fail silently when Slack is down, WHEN fallback chain is implemented, THEN: (1) all critical notification calls route through a NotificationRouter class, (2) Slack failure after 30s triggers Gmail fallback, (3) Gmail failure logs to audit_trail.jsonl, (4) audit log entry is always written regardless of channel success, AND (5) test scenario validates fallback chain when Slack is deliberately blocked.",
+      "queue_note": "P1 live-path reliability. Slack errors must never block trading (per AI-CONTEXT). This implements that rule with a proper fallback chain."
+    },
+    {
+      "id": "RM-121",
+      "title": "Prod/Test Log Boundary Hard Enforcement via record_origin Field",
+      "description": "From 06/15 Research Drop #8: production logs and test/simulation logs are not reliably separated. Test artifacts have been found in production log paths (13 errors.jsonl sim-artifacts issue from R9 cycle). Implement a record_origin field (prod/paper/sim/test) on all log writes and a hard enforcement layer that rejects writes to prod log paths from non-prod origins.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 7,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 3,
+        "score": 21
+      },
+      "tags": [
+        "engineering",
+        "logging",
+        "safety",
+        "simulation",
+        "p1"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #8 - prod/test log boundary enforcement via record_origin",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN test artifacts have contaminated production log paths, WHEN enforcement is implemented, THEN: (1) all log write functions accept a required record_origin parameter (prod/paper/sim/test), (2) a path guard rejects sim/test origin writes to production log paths with a hard error, (3) existing contaminated entries are identified and documented (not deleted without Jashyard approval), AND (4) path guard is tested with a deliberate sim-to-prod write attempt.",
+      "queue_note": "P1 data integrity. Test artifact contamination corrupts gate statistics and analytics. The R9 manual relocation fix was a band-aid - this prevents recurrence."
+    },
+    {
+      "id": "RM-122",
+      "title": "SQQQ Dual-Threshold Conditional Entry on Confirmed Gap-Down",
+      "description": "From 06/15 Research Drop #9: SQQQ entry logic uses the same threshold as TQQQ despite fundamentally different volatility and decay characteristics. Implement dual thresholds: a higher confidence threshold for SQQQ entries that also requires confirmation of a gap-down (QQQ opening below prior close by a configurable %). Reduces false entries on mean-reverting gap-down days.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 70,
+        "effort": 3,
+        "score": 11
+      },
+      "tags": [
+        "strategy",
+        "sqqq",
+        "signal",
+        "thresholds",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #9 - SQQQ dual-threshold conditional entry on confirmed gap-down",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN SQQQ uses same threshold as TQQQ, WHEN dual-threshold is implemented, THEN: (1) SQQQ entry requires a higher confidence score (configurable, default +10%), (2) a gap-down confirmation gate is added for SQQQ (QQQ open < prior close by configurable %, default 0.3%), (3) new thresholds run in shadow mode for 2 weeks before replacing current logic, AND (4) Jashyard reviews shadow mode results before promotion.",
+      "queue_note": "P2 strategy refinement. Run in shadow mode first per OOS tuning rule. Do not replace current logic without paper evidence of improved SQQQ expectancy."
+    },
+    {
+      "id": "RM-123",
+      "title": "Public Repo Strategy Parameter Scrubbing via publish_filter.py",
+      "description": "From 06/15 Research Drop #10: when dashboard files are pushed to the public GitHub repo, strategy parameters (score thresholds, gate values, model weights) may be embedded in HTML or JSON. Implement publish_filter.py that scrubs strategy parameters from any file before public push. The filter runs as a mandatory pre-push step and fails loudly if any strategy param pattern is detected.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "security",
+      "rice": {
+        "reach": 6,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 2,
+        "score": 24
+      },
+      "tags": [
+        "security",
+        "publish",
+        "public-repo",
+        "strategy",
+        "p1"
+      ],
+      "owner": "Morgan (Security)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #10 - public repo strategy parameter scrubbing via publish_filter.py",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN strategy parameters may leak to public repo, WHEN publish_filter.py is implemented, THEN: (1) a configurable blocklist of strategy parameter patterns is defined, (2) publish_filter.py scans all files pre-push and fails with a clear error if any pattern matches, (3) filter is integrated into the Chrome upload workflow as a pre-upload check, AND (4) existing public repo files are scanned and violations documented for Jashyard review.",
+      "queue_note": "Pairs with RM-115 (PII scrub policy). RM-115 defines the policy; RM-123 implements technical enforcement. Must ship before new strategy parameters are published."
+    },
+    {
+      "id": "RM-124",
+      "title": "Decision Governance Timeout + BD Staleness Gate 72h SLA",
+      "description": "From 06/15 Research Drop #13: boardroom decisions (BD-xxx items) have no SLA for resolution. Stale decisions can accumulate and block implementation work. Implement a BD staleness gate: any BD item open for >72 hours without Jashyard response triggers an automatic escalation Slack message. After 7 days, the BD item is automatically marked ESCALATED in decision_log.md.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "process",
+      "rice": {
+        "reach": 6,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 2,
+        "score": 18
+      },
+      "tags": [
+        "process",
+        "governance",
+        "boardroom",
+        "p1"
+      ],
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #13 - decision governance timeout + BD staleness gate 72h SLA",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN BD items have no SLA and can sit open indefinitely, WHEN staleness gate is implemented, THEN: (1) a scheduled task checks decision_log.md daily for BD items open >72 hours, (2) Jashyard receives a Slack escalation message listing stale BD items, (3) BD items open >7 days are marked ESCALATED automatically, AND (4) staleness check is included in the R10 Saturday review.",
+      "queue_note": "P1 governance hygiene. Stale decisions are a known bottleneck. Creates a forcing function without removing Jashyard's final authority."
+    },
+    {
+      "id": "RM-125",
+      "title": "afternoon_trend_v1 Forced Scan Heartbeat at R5 and R6",
+      "description": "From 06/15 Research Drop #14: the afternoon_trend_v1 model has a 0% success rate at R7 and is not confirmed to activate at R5/R6 windows. Implement a forced scan heartbeat for afternoon_trend_v1 at R5 and R6 that confirms the model activated, logs the activation timestamp, and fires an alert if no activation detected within 5 minutes of window open.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "ops",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 2,
+        "score": 19
+      },
+      "tags": [
+        "ops",
+        "models",
+        "scheduling",
+        "heartbeat",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #14 - afternoon_trend_v1 forced scan heartbeat at R5+R6",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN afternoon_trend_v1 has 0% R7 success rate with unknown activation status, WHEN heartbeat is implemented, THEN: (1) R5 and R6 SKILLs include an activation confirmation check for afternoon_trend_v1, (2) activation timestamp is logged in session_log.jsonl, (3) missing activation within 5 minutes fires a Slack alert, AND (4) heartbeat data feeds RM-113 (model activation coverage monitor).",
+      "queue_note": "Directly addresses the R7 0% mystery. Pairs with RM-107 (scheduler truth-table) and RM-113 (model activation monitor)."
+    },
+    {
+      "id": "RM-126",
+      "title": "GitHub Sync Drift Detection via SHA-256 Comparison",
+      "description": "From 06/15 Research Drop #16: the local codebase and GitHub remote can drift when the Chrome push workflow fails silently or is skipped. Implement a weekly GitHub sync drift detector that computes SHA-256 of key local files, compares against GitHub API file SHAs, reports any drifted files to Slack, and flags drift as a blocker for RM deployments that depend on GitHub being canonical.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "rice": {
+        "reach": 6,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 3,
+        "score": 14
+      },
+      "tags": [
+        "engineering",
+        "github",
+        "sync",
+        "drift",
+        "p1"
+      ],
+      "owner": "Rachel (Engineering Lead)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #16 - GitHub sync drift detection via SHA-256 comparison",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN local/GitHub drift can occur silently, WHEN drift detection is implemented, THEN: (1) weekly scheduled task compares SHA-256 of key files (signal_engine.py, SKILL.md files, MANIFEST.json) against GitHub API, (2) any drift is reported to Slack with specific file list, (3) drift blocks RM deployments touching drifted files until resolved, AND (4) MANIFEST.json SHA pins are the source of truth for drift comparison.",
+      "queue_note": "Pairs with RM-105 (engine integrity sentinel). The sentinel checks at runtime; this detector provides a weekly out-of-band check."
+    },
+    {
+      "id": "RM-127",
+      "title": "v2 Model Calibration Log + Brier Pipeline Fix",
+      "description": "From 06/15 Research Drop #17: challenger_v2 and champion_v2 models show 0 trades_all_time in the registry (confirmed in R9 recon). The Brier score pipeline for v2 models is broken or has no data. Fix: diagnose why v2 models show 0 trades_all_time, repair the Brier score pipeline, implement a calibration log tracking Brier scores per model per week, and surface calibration quality in R8 review.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 3,
+        "score": 15
+      },
+      "tags": [
+        "analytics",
+        "models",
+        "calibration",
+        "brier",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #17 - v2 model calibration log + Brier pipeline fix",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN v2 models show 0 trades_all_time and Brier pipeline status is unknown, WHEN fix is implemented, THEN: (1) root cause for 0 trades_all_time is identified and documented, (2) Brier score pipeline produces valid output for v2 models, (3) weekly calibration log tracks Brier scores per model, AND (4) R8 review includes a calibration quality table showing all 6 models.",
+      "queue_note": "P1 model health. The 0 trades_all_time for v2 models was flagged in R9 recon as a registry anomaly. Must diagnose before v2 models can be trusted in live trading."
+    },
+    {
+      "id": "RM-128",
+      "title": "PAT Lifecycle Governance + Silent Failure Alert",
+      "description": "From 06/15 Research Drop #21 (extends RM-003): GitHub Personal Access Tokens used for the private repo have no documented expiry, rotation schedule, or silent failure detection. If a PAT expires, the Chrome push workflow fails silently. Implement PAT lifecycle governance: document PAT expiry dates, 14-day advance expiry alert via Slack, and immediate alert on PAT failure in Chrome push workflow.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "security",
+      "rice": {
+        "reach": 5,
+        "impact": 8,
+        "confidence": 90,
+        "effort": 1,
+        "score": 36
+      },
+      "tags": [
+        "security",
+        "pat",
+        "github",
+        "lifecycle",
+        "p1"
+      ],
+      "owner": "Morgan (Security)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #21 - PAT lifecycle governance + silent failure alert, extends RM-003",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN PAT expiry is undocumented and silent failure is possible, WHEN governance is implemented, THEN: (1) all PATs are inventoried with expiry dates in a secure location (not public repo), (2) a 14-day advance Slack alert fires before each PAT expiry, (3) Chrome push failures that may indicate PAT expiry trigger an immediate diagnostic alert, AND (4) PAT rotation procedure is documented in TECH_NOTES.md.",
+      "queue_note": "Low effort, high security value. The 14-day advance alert is the key deliverable. Pairs with RM-126 (drift detection)."
+    },
+    {
+      "id": "RM-129",
+      "title": "VIX Gate Blended Vol Threshold Design / H-VIXDECAY Solution Architecture",
+      "description": "From 06/15 Research Drop #22: the VIX gate uses a single fixed threshold (30) with no regime adaptation. Design a blended volatility threshold combining VIX spot, VIX term structure (front vs. back month), and realized vol (TQQQ/SQQQ 10-day HV) into a composite vol score. Replaces the binary VIX>30 gate with a continuous vol score that adapts to current regime. Requires RM-106 (H-VIXDECAY diagnostic) data as input.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 65,
+        "effort": 5,
+        "score": 7
+      },
+      "tags": [
+        "strategy",
+        "vix",
+        "gates",
+        "calibration",
+        "p2",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #22 - VIX gate blended vol threshold / H-VIXDECAY solution architecture",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN VIX gate uses a fixed threshold with no regime adaptation, WHEN blended threshold is designed, THEN: (1) design document exists in ANALYTICS.md for the blended vol score, (2) back-test data from RM-106 feeds the design validation, (3) blended threshold runs in shadow mode alongside current VIX>30 gate for 2 weeks before any promotion, AND (4) Jashyard approves the design before shadow mode begins.",
+      "queue_note": "P2 strategy design. GATED on RM-106 (H-VIXDECAY data). High effort; defer until P0/P1 items complete. Design first, shadow mode second, promotion only after OOS validation."
+    },
+    {
+      "id": "RM-130",
+      "title": "Bootstrap CI for All Small-N Gate Metrics",
+      "description": "From 06/15 Research Drop #23: gate metrics (DSR, win rate, expectancy, Sharpe) are computed as point estimates with no confidence intervals. With small sample sizes (n<30), these estimates have wide uncertainty bands that are invisible to the decision-maker. Implement bootstrap confidence intervals (95% CI via resampling) for all key gate metrics and surface CIs in the R8 review and live readiness dashboard.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "analytics",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 3,
+        "score": 16
+      },
+      "tags": [
+        "analytics",
+        "statistics",
+        "confidence-intervals",
+        "p1",
+        "live-path"
+      ],
+      "owner": "Omar (Data Engineering)",
+      "assigned_to": null,
+      "source": "2026-06-15 Research Drop #23 - bootstrap CI for all small-N gate metrics",
+      "boardroom_ref": null,
+      "created": "2026-06-15",
+      "updated": "2026-06-15",
+      "acceptance_criteria": "GIVEN gate metrics are point estimates with no uncertainty quantification, WHEN bootstrap CI is implemented, THEN: (1) all key metrics (win rate, expectancy, DSR, Sharpe) show 95% bootstrap CI alongside point estimate, (2) CIs are displayed in R8 weekly review and live readiness dashboard, (3) CI widths flag metrics with insufficient data (wide CI = unreliable), AND (4) going-live condition 1 (win rate) requires the lower CI bound to meet the threshold, not just the point estimate.",
+      "queue_note": "P1 statistical rigor. Currently making decisions on metrics that may be statistically indistinguishable from random with n<10. Bootstrap CI makes uncertainty explicit. Pairs with RM-108 (DSR de-hardcode) and KPI audit findings."
+    },
+    {
+      "id": "RM-131",
+      "title": "Eliminate Chrome MCP Dependency from All Entry Routines (Unattended Execution Fix)",
+      "description": "P0 reliability fix. R1/R3/R4 email-send steps used mcp__Claude_in_Chrome__* to navigate Gmail and click Send, triggering a Cowork permission approval dialog that blocks unattended execution. On 2026-06-17, R1 missed its 9:43 ET window due to this. Fix: replace Chrome send with draft_only pattern across R1/R2/R3/R4/R5/R6. GitHub MCP push_files tested and confirmed 403 \u2014 Chrome UI remains sole GitHub push path; documented in R2 SKILL. R7 flagged for follow-up.",
+      "column": "Done",
+      "priority": "P0",
+      "category": "reliability",
+      "rice": {
+        "reach": 10,
+        "impact": 10,
+        "confidence": 95,
+        "effort": 1,
+        "score": 95
+      },
+      "tags": [
+        "reliability",
+        "p0",
+        "scheduled-tasks",
+        "unattended-execution",
+        "chrome-mcp",
+        "email",
+        "live-path"
+      ],
+      "owner": "Rachel (Engineering)",
+      "assigned_to": "Rachel (Engineering)",
+      "source": "2026-06-17 R1 missed window \u2014 Chrome approval dialog blocked unattended scheduled task",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "acceptance_criteria": "GIVEN entry routines use Chrome MCP for email send which blocks unattended execution, WHEN fix is applied, THEN: (1) R1/R2/R3/R4/R5/R6 SKILL.md files contain zero mcp__Claude_in_Chrome__* calls in email-send sections, (2) email_status='draft_only' is the documented success state, (3) Slack is primary real-time channel, (4) GitHub MCP 403 documented in R2 SKILL, AND (5) QA grep confirms zero Chrome blocking calls in entry routine email sections.",
+      "queue_note": "DONE 2026-06-17: P0 fix executed same session as detection. R7 Chrome email dep \u2014 follow-up RM pending. GitHub MCP push_files = 403; Chrome UI sole push path."
+    },
+    {
+      "id": "RM-132",
+      "title": "Research Spike: Evaluate 'Apply Market' Concept for Trading Integration",
+      "description": "Investigate what 'apply market' means in a day-trading context (market-making, applied market microstructure, or other interpretation). Assess fit with current Robinhood MCP + FMP stack. Determine if there is a viable revenue or edge use case. Deliver a short findings doc with recommendation: adopt, explore further, or pass.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "research",
+      "rice": {
+        "reach": 2,
+        "impact": 4,
+        "confidence": 40,
+        "effort": 1,
+        "score": 3
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-15 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research-spike",
+        "market-structure",
+        "p3"
+      ],
+      "acceptance_criteria": "Research doc delivered with clear adopt/pass recommendation."
+    },
+    {
+      "id": "RM-133",
+      "title": "Research Spike: Evaluate Massive Market Data MCP Viability",
+      "description": "Connect and test the 'Massive Market Data' MCP. Assess data quality, coverage, and latency vs FMP (our paid source). Determine if it adds signal alpha, reduces cost, or is redundant. Deliver a short report: adopt/complement/pass. If valuable, outline integration path.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "research",
+      "rice": {
+        "reach": 6,
+        "impact": 5,
+        "confidence": 50,
+        "effort": 2,
+        "score": 8
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-15 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research-spike",
+        "mcp",
+        "data-source",
+        "p2"
+      ],
+      "acceptance_criteria": "MCP tested, report delivered with adopt/pass recommendation and rationale."
+    },
+    {
+      "id": "RM-134",
+      "title": "Research: Review Claude Code Best Practices YouTube Video",
+      "description": "Research agent reviews the specified YouTube video (https://www.youtube.com/watch?v=UPtmKh1vMN8) and transcript. Extracts 3-5 actionable takeaways for our agent/SKILL architecture. Any ideas posted to #trading-bot-ideas for PM triage. Non-actionable findings noted and closed.",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "research",
+      "rice": {
+        "reach": 3,
+        "impact": 3,
+        "confidence": 60,
+        "effort": 1,
+        "score": 5
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-13 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research",
+        "claude-best-practices",
+        "p3"
+      ],
+      "acceptance_criteria": "Video reviewed, findings summarized, actionable ideas posted to #trading-bot-ideas."
+    },
+    {
+      "id": "RM-135",
+      "title": "Research Spike: ThinkOrSwim / Ricky Gutierrez Day Trading Strategies",
+      "description": "Review publicly available content from Ricky Gutierrez (ThinkOrSwim platform user, popular day trader). Extract core strategy principles: entry triggers, exit rules, risk management, chart patterns. Stress-test each principle against our signal engine and model philosophy. Recommend any applicable patterns for adoption.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "research",
+      "rice": {
+        "reach": 4,
+        "impact": 6,
+        "confidence": 55,
+        "effort": 2,
+        "score": 7
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-13 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research-spike",
+        "trading-strategy",
+        "external-research",
+        "p2"
+      ],
+      "acceptance_criteria": "Research doc delivered with applicable vs non-applicable strategy breakdown and recommendation."
+    },
+    {
+      "id": "RM-136",
+      "title": "Research: Assess Chrome Dev Tools MCP Integration Opportunities",
+      "description": "Document what the Chrome Dev Tools MCP provides (network inspection, JS console, DOM access) vs our existing Claude-in-Chrome MCP. Identify specific use cases where it would improve bot operations (e.g., debugging dashboard pages, GitHub UI automation). Recommend integration points in existing routines. Implement if clear value.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "research",
+      "rice": {
+        "reach": 4,
+        "impact": 4,
+        "confidence": 60,
+        "effort": 1,
+        "score": 10
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-13 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research",
+        "mcp",
+        "chrome",
+        "tooling",
+        "p2"
+      ],
+      "acceptance_criteria": "Assessment doc with specific use cases identified; integrate or document pass decision."
+    },
+    {
+      "id": "RM-137",
+      "title": "Research Spike: MoonDev Trading Strategy Analysis",
+      "description": "Review MoonDev (moondevonyt) X account, YouTube channel, and any public strategy documentation. Extract signal generation logic, risk management rules, and model architecture principles. Assess whether a 'MoonDev-style' model is viable on our Robinhood MCP + FMP stack. Deliver a short findings doc with recommendation.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "research",
+      "rice": {
+        "reach": 4,
+        "impact": 6,
+        "confidence": 50,
+        "effort": 2,
+        "score": 6
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-13 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "research-spike",
+        "trading-strategy",
+        "model",
+        "external-research",
+        "p2"
+      ],
+      "acceptance_criteria": "Findings doc delivered with clear adopt/pass verdict and any new model concept scoped."
+    },
+    {
+      "id": "RM-138",
+      "title": "Dashboard UX Redesign: Apple Design Principles",
+      "description": "UX agents review current trading dashboard. Research Apple design principles (clarity, simplicity, visual hierarchy, information density). Produce annotated design specs and mockup showing improvements. Engineering implements approved design. Full regression test required post-deploy. Core functionality preserved \u2014 redesign is cosmetic and navigational only.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "ui",
+      "rice": {
+        "reach": 1,
+        "impact": 5,
+        "confidence": 70,
+        "effort": 4,
+        "score": 1
+      },
+      "owner": "UX Agent",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-13 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "ux",
+        "dashboard",
+        "design",
+        "p2"
+      ],
+      "acceptance_criteria": "GIVEN current dashboard, WHEN redesign ships, THEN: (1) design specs approved by Jashyard, (2) all existing data points still visible, (3) full regression passes, (4) Jashyard confirms improved readability."
+    },
+    {
+      "id": "RM-139",
+      "title": "Token Utilization Analysis: Cost Per Session and Per Routine",
+      "description": "Calculate token consumption per routine (R1-R8), per session, and monthly estimate. Convert to dollar cost (Sonnet/Haiku/Opus rates). Identify top token consumers. Recommend optimization targets. Deliver a cost dashboard or summary table. Ties into the AI accountant concept (see RM-150 candidate).",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "analytics",
+      "rice": {
+        "reach": 1,
+        "impact": 6,
+        "confidence": 65,
+        "effort": 2,
+        "score": 2
+      },
+      "owner": "Data Agent",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-12 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "analytics",
+        "cost",
+        "tokens",
+        "operations",
+        "p2"
+      ],
+      "acceptance_criteria": "Report delivered showing per-routine token counts, estimated monthly cost, and top 3 optimization opportunities."
+    },
+    {
+      "id": "RM-140",
+      "title": "Agent Coverage Audit: Identify Gaps in 17-Role Roster",
+      "description": "Review all 17 boardroom roles + scheduled agents. For each role: document what SKILL.md exists (if any), capability maturity (none/partial/full), and critical coverage gaps. Identify roles that are referenced but underdeveloped (DevOps, DBA, Security). Flag missing roles with clear business case. Deliver gap report + prioritized build list.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 2,
+        "score": 12
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-12 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "agents",
+        "audit",
+        "operations",
+        "p2"
+      ],
+      "acceptance_criteria": "Agent coverage matrix delivered. All 17 roles assessed. Critical gaps flagged with build-vs-skip recommendation."
+    },
+    {
+      "id": "RM-141",
+      "title": "Nova (Head of AI): Monthly MCP Evaluation Routine",
+      "description": "Nova runs a monthly review of all connected MCPs. Scope per cycle: (1) assess usage frequency and value of each active MCP, (2) research 1-2 new MCPs that may add value (trusted sources only), (3) recommend additions or removals with business case, (4) post findings to #trading-bot-ideas for PM triage. Implement as a scheduled task.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 4,
+        "impact": 5,
+        "confidence": 75,
+        "effort": 2,
+        "score": 8
+      },
+      "owner": "Nova (Head of AI)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-12 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "nova",
+        "mcp",
+        "routine",
+        "monthly",
+        "p2"
+      ],
+      "acceptance_criteria": "Scheduled task created. First run completes with recommendations posted to #trading-bot-ideas. Runs monthly thereafter."
+    },
+    {
+      "id": "RM-142",
+      "title": "Jordan (PM Agent) SKILL Upgrade: Investing and Quant Domain Knowledge",
+      "description": "Jordan's current SKILL.md is a general PM framework. Upgrade it with investing-specific PM judgment: how to evaluate trading signal ideas, quant model prioritization (RICE adapted for alpha potential), risk-adjusted thinking, and day-trading domain vocabulary. Research best PM frameworks for quant/trading contexts. Validate updated skill on a test triage run.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 75,
+        "effort": 2,
+        "score": 9
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-12 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "jordan",
+        "pm-skill",
+        "investing",
+        "domain-knowledge",
+        "p2"
+      ],
+      "acceptance_criteria": "Updated Jordan SKILL.md with investing/quant PM judgment section. Test triage run shows improved prioritization quality vs baseline."
+    },
+    {
+      "id": "RM-143",
+      "title": "Monthly Agent Documentation and Skills Review Routine",
+      "description": "Create a recurring monthly scheduled task that reviews all agent SKILL.md files, AI-CONTEXT.md, boardroom docs, and process docs for staleness, gaps, or outdated information. Identify and flag improvements. Update and push changes. Ensures agents always operate from current context. Pairs with Doc-Drift QA (weekly, read-only).",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 2,
+        "score": 14
+      },
+      "owner": "Nova (Head of AI)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-15 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "documentation",
+        "maintenance",
+        "routine",
+        "monthly",
+        "p2"
+      ],
+      "acceptance_criteria": "Scheduled monthly task created. First run completes with doc updates applied and pushed."
+    },
+    {
+      "id": "RM-144",
+      "title": "Research Spike: Claude-Down Resilience \u2014 Alternative Routine Triggers",
+      "description": "Research alternative mechanisms to trigger trading bot routines when Claude Cowork is unavailable (out of credits, outage). Questions: (1) Claude API fallback feasibility and cost, (2) Windows Task Scheduler script for R2-only fallback via local Python, (3) n8n/Zapier/GitHub Actions as scheduler layer with API fallback, (4) Anthropic credit-low alert configuration, (5) minimum viable fallback scope (EOD force-close only vs all routines). 1-session research, options doc output. Context: routines missed 3 consecutive days (bash RPC timeout) and credit outage on 2026-06-16 caused R4/R5/R6/R2/R7 to miss.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "reliability",
+      "rice": {
+        "reach": 7,
+        "impact": 8,
+        "confidence": 80,
+        "effort": 2,
+        "score": 22
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-16 (Jashyard research spike) | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "reliability",
+        "resilience",
+        "fallback",
+        "p1",
+        "research-spike"
+      ],
+      "acceptance_criteria": "Options doc delivered covering all 5 research questions with feasibility, cost, and complexity ratings. Jashyard selects minimum viable fallback to implement."
+    },
+    {
+      "id": "RM-145",
+      "title": "Agent Dependency Map: Document Inter-Agent and Tool Dependencies",
+      "description": "Map all dependencies across the bot system: which agents depend on which tools, MCPs, files, scheduled tasks, and other agents. Identify single points of failure (e.g., if FMP MCP goes down, which routines break?). Document critical chains. Flag any undocumented or fragile dependencies. Deliverable: dependency map doc in boardroom/.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "operations",
+      "rice": {
+        "reach": 6,
+        "impact": 6,
+        "confidence": 75,
+        "effort": 2,
+        "score": 14
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-16 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "dependencies",
+        "documentation",
+        "reliability",
+        "p2"
+      ],
+      "acceptance_criteria": "Dependency map doc delivered. All agent-to-tool and agent-to-agent dependencies documented. Single points of failure flagged with mitigation notes."
+    },
+    {
+      "id": "RM-146",
+      "title": "Trading Strategy Document: Canonical Strategy Reference for All Agents",
+      "description": "All trading agents collaborate to produce a canonical strategy document. Covers: entry logic and triggers, exit logic and stop rules, risk management principles, model philosophy and differentiation, and definition of success for each model. Once drafted, cross-check against current signal_engine.py and SKILL.md for alignment gaps. Gaps flagged as new RM items. Document lives in boardroom/ and is reviewed quarterly.",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "strategy",
+      "rice": {
+        "reach": 8,
+        "impact": 8,
+        "confidence": 85,
+        "effort": 3,
+        "score": 18
+      },
+      "owner": "Jordan (PM Agent)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-17 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "strategy",
+        "documentation",
+        "foundational",
+        "p1"
+      ],
+      "acceptance_criteria": "Strategy doc approved by Jashyard, covers all 6 active models, cross-check complete, alignment gaps filed as RM items."
+    },
+    {
+      "id": "RM-147",
+      "title": "P0 Bug: Mean Reversion Model Investigation \u2014 Zero Signal Attempts",
+      "description": "CRITICAL: mean_reversion model has logged only 1 signal attempt (per R8 scorecard: mean_rev=1) despite multiple trading sessions. The model appears to never trade. Engineering investigation required. Scope: (1) verify mean_reversion entry conditions in signal_engine.py are reachable under current market conditions, (2) check for gate conflicts (VIX gate, gap filter) that may be permanently blocking entries, (3) verify model config is correct and enabled, (4) determine if this is a bug, miscalibration, or expected behavior given its strategy. Post findings to #trading-bot-notifications.",
+      "column": "To Do",
+      "priority": "P0",
+      "category": "reliability",
+      "rice": {
+        "reach": 1,
+        "impact": 9,
+        "confidence": 90,
+        "effort": 1,
+        "score": 8
+      },
+      "owner": "Rachel (Engineering)",
+      "assigned_to": "Rachel (Engineering)",
+      "source": "#trading-bot-ideas 2026-06-17 (Jashyard x2) | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "bug",
+        "p0",
+        "mean-reversion",
+        "model",
+        "investigation"
+      ],
+      "acceptance_criteria": "Root cause identified. Model either: (a) fixed and producing entries, or (b) documented as expected behavior with clear conditions under which it will trade."
+    },
+    {
+      "id": "RM-148",
+      "title": "FOMC R5 Gate Extension: Extend No-Entry Gate to Cover R5 on FOMC Days",
+      "description": "Hypothesis H-FOMC-R5: trend model entries at R5 (12:30 ET) on FOMC decision days carry asymmetric downside risk \u2014 entries pre-positioned before 14:00 announcement are exposed to announcement-bar stops with no exit opportunity. Current gate (BD-20260613-04) covers R6 only. Evidence: 2026-06-17 \u2014 3 R5 entries (champion_v2, challenger_v2, afternoon_trend_v1) all stopped at 14:00 bar, -$14.17 total. Scope: validate against full FOMC calendar in event_calendar.json, then extend FOMC flag suppression in signal_engine.py R5 window for trend models. Scalp models with time-exits evaluated separately.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "risk",
+      "rice": {
+        "reach": 3,
+        "impact": 7,
+        "confidence": 60,
+        "effort": 1,
+        "score": 13
+      },
+      "owner": "Rachel (Engineering)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-17 DS-REVIEW | H-FOMC-R5 | Jordan triage 2026-06-17",
+      "boardroom_ref": "BD-20260613-04",
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "fomc",
+        "gate",
+        "risk",
+        "signal-engine",
+        "p2"
+      ],
+      "acceptance_criteria": "GIVEN H-FOMC-R5 hypothesis, WHEN validated against FOMC calendar (N>=3 FOMC days), THEN extend gate to R5 for trend models in signal_engine.py. FOMC days produce zero R5 trend entries. Scalp model decision documented."
+    },
+    {
+      "id": "RM-149",
+      "title": "Roadmap UI: Sort DONE Column by Completion Date, Show Date on Card",
+      "description": "Improve roadmap.html DONE lane: (1) sort DONE items by completed_date descending (newest first), (2) display completion date chip on each done card for at-a-glance tracking. Low effort, high scanability improvement. Update the roadmap.html generator script. Regenerate and push to public dashboard repo.",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "ui",
+      "rice": {
+        "reach": 1,
+        "impact": 4,
+        "confidence": 90,
+        "effort": 1,
+        "score": 4
+      },
+      "owner": "Rachel (Engineering)",
+      "assigned_to": null,
+      "source": "#trading-bot-ideas 2026-06-17 | Jordan triage 2026-06-17",
+      "boardroom_ref": null,
+      "created": "2026-06-17",
+      "updated": "2026-06-17",
+      "tags": [
+        "ui",
+        "roadmap",
+        "dashboard",
+        "p2"
+      ],
+      "acceptance_criteria": "roadmap.html DONE column sorted by completion date desc. Each done card shows completion date. Dashboard regenerated and published."
     }
   ]
 }
