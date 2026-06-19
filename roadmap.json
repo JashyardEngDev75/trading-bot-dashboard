@@ -18,6 +18,8 @@
       "category": "strategy",
       "created": "2026-06-10",
       "updated": "2026-06-13",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Phase 1 Baseline Validation — 10 engine-scored sessions",
       "rice": {
         "score": 51
@@ -27,11 +29,13 @@
     },
     {
       "id": "RM-002",
-      "column": "In Progress",
+      "column": "To Do",
       "priority": "P1",
       "category": "engineering",
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-19",
+      "item_type": "epic",
+      "blocked": true,
       "title": "Durability Phase B — Crypto-hash integrity check at FLIP_TO_LIVE",
       "rice": {
         "score": 18
@@ -46,6 +50,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "GitHub MCP Push to Private Repos — PERMANENTLY BLOCKED (Cancelled)",
       "rice": {
         "score": 48
@@ -60,6 +66,8 @@
       "category": "strategy",
       "created": "2026-06-10",
       "updated": "2026-06-12",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Phase 2 — Threshold Tuning from Near-Miss Data",
       "rice": {
         "score": 8
@@ -74,6 +82,8 @@
       "category": "strategy",
       "created": "2026-06-10",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "VIX Proxy Gate — Enforce Mode Activation",
       "rice": {
         "score": 20
@@ -88,6 +98,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Complete BD-06 Hygiene Bundle (Boardroom delegated items)",
       "rice": {
         "score": 9
@@ -102,6 +114,8 @@
       "category": "reporting",
       "created": "2026-06-12",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Reporting Pack — Public Dashboard Incident Disclosure Policy",
       "rice": {
         "score": 12
@@ -116,6 +130,8 @@
       "category": "strategy",
       "created": "2026-06-10",
       "updated": "2026-06-12",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Phase 3 — Triple-Align Bonus Re-evaluation",
       "rice": {
         "score": 7
@@ -130,6 +146,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "FUSE Truncation Forensics — Size vs Concurrency Correlation",
       "rice": {
         "score": 6
@@ -144,6 +162,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Synthetic Corruption Drill — Validate Step-0 Integrity Gate",
       "rice": {
         "score": 16
@@ -158,6 +178,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "[STRATEGIC] IPS Finalization — Jashyard sign-off",
       "rice": {
         "score": 77
@@ -172,6 +194,8 @@
       "category": "strategy",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] Afternoon Session Performance Analysis",
       "rice": {
         "score": 10
@@ -186,6 +210,8 @@
       "category": "analytics",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] Model Correlation Dashboard — Diversification Health Monitor",
       "rice": {
         "score": 8
@@ -200,6 +226,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "[STRATEGIC] Champion/Challenger Promotion Automation — Weekly Friday Eval",
       "rice": {
         "score": 5
@@ -214,6 +242,8 @@
       "category": "strategy",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] SQQQ Threshold Calibration Study",
       "rice": {
         "score": 16
@@ -228,6 +258,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Restore signal_engine.py (v3.6.1) + improvement_phases.json",
       "rice": {
         "score": null
@@ -242,6 +274,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Durability Phase A — safe-write + .bak + MANIFEST.json + Step-0 integrity",
       "rice": {
         "score": null
@@ -256,6 +290,8 @@
       "category": "data",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Phase 1 Session Definition + Analytics Outage-Exclusion Flag",
       "rice": {
         "score": null
@@ -270,6 +306,8 @@
       "category": "reporting",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Reporting Pack — Status Headers, Staleness Badges, Escalation Line",
       "rice": {
         "score": null
@@ -284,6 +322,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "bug",
+      "blocked": null,
       "title": "R5/R6 Scheduler Timing Bug Fix",
       "rice": {
         "score": 28
@@ -298,6 +338,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "bug",
+      "blocked": null,
       "title": "Routine Reliability Investigation — R7 = 0% Success",
       "rice": {
         "score": 16
@@ -312,6 +354,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Outage RCA Protocol — Standardized Incident Response",
       "rice": {
         "score": 13
@@ -326,6 +370,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-18",
+      "item_type": "bug",
+      "blocked": null,
       "title": "QA Automation + Regression Test Suite",
       "rice": {
         "score": 7
@@ -340,6 +386,8 @@
       "category": "strategy",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] Deep Backtesting on Historical Data",
       "rice": {
         "score": 5
@@ -354,6 +402,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "[STRATEGIC] Boardroom Agent Org Expansion",
       "rice": {
         "score": 2
@@ -368,6 +418,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Robinhood MCP Graceful Degradation at Open",
       "rice": {
         "score": 27
@@ -382,6 +434,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "roadmap.json Repair + Write-Validation",
       "rice": {
         "score": null
@@ -396,6 +450,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-15",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Afternoon Sessions Phase-1 Eligibility — Jashyard Decision Required",
       "rice": {
         "score": 35
@@ -410,6 +466,8 @@
       "category": "reporting",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Roadmap Views (List + Gantt + Kanban) + Never-Stale Auto-Regen",
       "rice": {
         "score": 5
@@ -424,6 +482,8 @@
       "category": "reporting",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Paper Trade P&L Routing to Dedicated Slack Channel",
       "rice": {
         "score": 8
@@ -438,6 +498,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-17",
+      "item_type": "epic",
+      "blocked": null,
       "title": "War Room Incident Response Protocol",
       "rice": {
         "score": 11
@@ -452,6 +514,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "7-Day Engineering Sprint (Tech Debt)",
       "rice": {
         "score": 3
@@ -466,6 +530,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "PM Triage Cadence — R11 (Monday 8am AZ)",
       "rice": {
         "score": 17
@@ -480,6 +546,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "PM Strategy Review — R12 (Saturday noon AZ) + Roadmap Channel",
       "rice": {
         "score": 14
@@ -494,6 +562,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Co-CEO Biweekly Review with Jashyard",
       "rice": {
         "score": 11
@@ -508,6 +578,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "PM Stakeholder Sync (Jordan ↔ Jashyard)",
       "rice": {
         "score": 9
@@ -522,6 +594,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Pre-Market QA Routine — R0 (9:30am ET daily)",
       "rice": {
         "score": 43
@@ -536,6 +610,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Multi-Agent Orchestration Layer",
       "rice": {
         "score": 4
@@ -550,6 +626,8 @@
       "category": "analytics",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Per-Model Investment Analyst Agent",
       "rice": {
         "score": 3
@@ -564,6 +642,8 @@
       "category": "operations",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Token Usage Monitor / Cost Manager",
       "rice": {
         "score": 4
@@ -578,6 +658,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Prompt Builder Agent",
       "rice": {
         "score": 9
@@ -592,6 +674,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "QA Remediation — improvement_phases.json.bak created (RM-017 .bak gap)",
       "rice": {
         "score": null
@@ -606,6 +690,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "QA Remediation — roadmap.json write-validation implemented (RM-027 gap)",
       "rice": {
         "score": null
@@ -620,6 +706,8 @@
       "category": "reporting",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "QA Remediation — Step-0 INTEGRITY + status headers backfilled into routine SKILL exports (RM-017/RM-019)",
       "rice": {
         "score": null
@@ -634,6 +722,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Engine/MANIFEST version drift — real engine is v3.6.3, MANIFEST + .bak pin v3.6.1 (auto-downgrade risk)",
       "rice": {
         "score": null
@@ -648,6 +738,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Engine Reliability Lockdown (self-healing auto-restore)",
       "rice": {
         "score": 72
@@ -662,6 +754,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "R5/R6 Window-Coverage Guard + Scheduler Telemetry",
       "rice": {
         "score": 57
@@ -676,6 +770,8 @@
       "category": "data",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Score-Pass Counterfactual Near-Miss Ledger",
       "rice": {
         "score": 65
@@ -690,6 +786,8 @@
       "category": "process",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Per-Model Signal Drought Watchdog",
       "rice": {
         "score": 32
@@ -704,6 +802,8 @@
       "category": "data",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "VIX Proxy Vol-Regime Splitter (instrumentation)",
       "rice": {
         "score": 41
@@ -718,6 +818,8 @@
       "category": "data",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "Factor Attribution Time-Series Logging",
       "rice": {
         "score": 11
@@ -732,6 +834,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "SKILL.md <-> Engine Schema Contract Test",
       "rice": {
         "score": 12
@@ -746,6 +850,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "PAPER_TRADE Runtime Integrity Lock",
       "rice": {
         "score": 72
@@ -760,6 +866,8 @@
       "category": "engineering",
       "created": "2026-06-12",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Account Allowlist Runtime Guard",
       "rice": {
         "score": 72
@@ -769,11 +877,13 @@
     },
     {
       "id": "RM-056",
-      "column": "In Progress",
+      "column": "Done",
       "priority": "P1",
       "category": "security",
       "created": "2026-06-12",
-      "updated": "2026-06-18",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Public-Repo Strategy Leak Scanner",
       "rice": {
         "score": 13
@@ -788,6 +898,8 @@
       "category": "security",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "story",
+      "blocked": null,
       "title": "MANIFEST Atomic Write Lock (race protection)",
       "rice": {
         "score": 27
@@ -802,6 +914,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "PDT Day-Trade Counter + Hard Block",
       "rice": {
         "score": 43
@@ -816,6 +930,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-18",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Wash-Sale Proximity Flag + Tax-Lot Ledger",
       "rice": {
         "score": 9
@@ -830,6 +946,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "IPS Adherence Audit Log",
       "rice": {
         "score": 13
@@ -844,6 +962,8 @@
       "category": "operations",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Pause RP & R7; Simplify the Schedule",
       "rice": {
         "score": 42
@@ -858,6 +978,8 @@
       "category": "governance",
       "created": "2026-06-12",
       "updated": "2026-06-12",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Hard Decide-By Date — Going-Live Forcing Function",
       "rice": {
         "score": 48
@@ -872,6 +994,8 @@
       "category": "data",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Real-Data Provenance Check on Every Entry Evaluation (FMP + Robinhood)",
       "rice": {
         "score": 22
@@ -886,6 +1010,8 @@
       "category": "reporting",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Dashboard Data-Integrity Audit — Trace Every Metric to a Real Source",
       "rice": {
         "score": 12
@@ -900,6 +1026,8 @@
       "category": "design",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Dashboard UX/UI Redesign Discovery (Apple-grade)",
       "rice": {
         "score": 5
@@ -914,6 +1042,8 @@
       "category": "operations",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Database Administrator (DBA) Agent — Data Movement & Warehousing Owner",
       "rice": {
         "score": 10
@@ -928,6 +1058,8 @@
       "category": "analytics",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Model Graveyard — Deprecated/Sunset Model History Registry",
       "rice": {
         "score": 11
@@ -942,6 +1074,8 @@
       "category": "analytics",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Data-Science Recurring Review + Recommendation Loop",
       "rice": {
         "score": 12
@@ -956,6 +1090,8 @@
       "category": "governance",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "North Star / Business Plan (OPED) — CEO-Owned Operating Doc",
       "rice": {
         "score": 23
@@ -970,6 +1106,8 @@
       "category": "strategy",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "High-Confidence Opportunity Capture — Embed Take the High-Conviction Trade in Operations",
       "rice": {
         "score": 11
@@ -984,6 +1122,8 @@
       "category": "governance",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Org & Operating-Model Review — Best-in-Class Fund/Startup Structure",
       "rice": {
         "score": 12
@@ -993,11 +1133,13 @@
     },
     {
       "id": "RM-072",
-      "column": "In Progress",
+      "column": "To Do",
       "priority": "P1",
       "category": "governance",
       "created": "2026-06-13",
-      "updated": "2026-06-18",
+      "updated": "2026-06-19",
+      "item_type": "epic",
+      "blocked": true,
       "title": "Document Storage & Disaster Recovery Protocol",
       "rice": {
         "score": 13
@@ -1012,6 +1154,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Deployment Process Review + DevOps Hardening",
       "rice": {
         "score": 11
@@ -1026,6 +1170,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Critical-Process Backup / Failover Protocol",
       "rice": {
         "score": 12
@@ -1040,6 +1186,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "FOMC / Event-Calendar Participation Gate — R6 Enforcement",
       "rice": {
         "score": 36
@@ -1054,6 +1202,8 @@
       "category": "data",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Registry Trade-Count Derive-from-Trades + Reconciliation CI Check",
       "rice": {
         "score": 32
@@ -1068,6 +1218,8 @@
       "category": "reporting",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Analytics model_type Retired-Tagging + Honest-Headline Qualifier",
       "rice": {
         "score": 17
@@ -1082,6 +1234,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Sim/Test Artifact Isolation — safe_io Path-Guard + mode Tag",
       "rice": {
         "score": 15
@@ -1096,6 +1250,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] Market-Hours Uptime Heartbeat + Page-on-Down",
       "rice": {
         "score": 27
@@ -1110,6 +1266,8 @@
       "category": "engineering",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "[STRATEGIC] Notification Delivery Reliability (Gmail MCP) — 5 email failures/wk",
       "rice": {
         "score": 17
@@ -1124,6 +1282,8 @@
       "category": "governance",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Phase-Gate Metric Definitions — Phase-1-Progress vs Condition-1 Separation",
       "rice": {
         "score": 43
@@ -1138,6 +1298,8 @@
       "category": "process",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Agent Deployment Verification + QA Gate",
       "rice": {
         "score": 8
@@ -1152,6 +1314,8 @@
       "category": "design",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "Design System & Brand Kit (Reference for Design Specs)",
       "rice": {
         "score": 3
@@ -1166,6 +1330,8 @@
       "category": "strategy",
       "created": "2026-06-13",
       "updated": "2026-06-13",
+      "item_type": "story",
+      "blocked": null,
       "title": "R-AUTOTUNE — Autonomous Experiment Loop",
       "rice": {
         "score": 8
@@ -1180,6 +1346,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "safe_io.py CORRUPTED - Restore MANIFEST Integrity",
       "rice": {
         "score": 65
@@ -1194,6 +1362,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "bug",
+      "blocked": null,
       "title": "Benchmark Activation Standard (BAM) - Fix Zero-Data Benchmarks",
       "rice": {
         "score": 27
@@ -1208,6 +1378,8 @@
       "category": "reporting",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Going-Live Evidence Scorecard (GLES) Dashboard Panel",
       "rice": {
         "score": 24
@@ -1222,6 +1394,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Monte Carlo Regime-Blocked Bootstrap Fix",
       "rice": {
         "score": 13
@@ -1236,6 +1410,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Forbidden Account Proactive Daily Scan",
       "rice": {
         "score": 36
@@ -1250,6 +1426,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Recommendation Lifecycle State Machine",
       "rice": {
         "score": 8
@@ -1264,6 +1442,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "bug",
+      "blocked": null,
       "title": "FMP [redacted]-3 Endpoint Timeout - Data Reliability Fix",
       "rice": {
         "score": 31
@@ -1278,6 +1458,8 @@
       "category": "strategy",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Position Management Research - Adding To or Reducing Existing Positions",
       "rice": {
         "score": 5
@@ -1292,6 +1474,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Scheduled Task Priority Audit - Ensure Trading Routines Are Never Blocked",
       "rice": {
         "score": 24
@@ -1306,6 +1490,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Chrome Tab Group Auto-Cleanup After Task Completion",
       "rice": {
         "score": 2
@@ -1320,6 +1506,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "ENG-APPLY Routine - Structured Recommendation Application Workflow",
       "rice": {
         "score": 19
@@ -1334,6 +1522,8 @@
       "category": "ops",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Remove Email from Paper Trade Routines",
       "rice": {
         "score": 16
@@ -1348,6 +1538,8 @@
       "category": "security",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "UI Page Auth - Verification Code Gate for Public Dashboard",
       "rice": {
         "score": 10
@@ -1362,6 +1554,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "AI Accountant + Cost Tracking Agent",
       "rice": {
         "score": 8
@@ -1376,6 +1570,8 @@
       "category": "strategy",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Expand Trading Instruments Beyond TQQQ/SQQQ",
       "rice": {
         "score": 7
@@ -1390,6 +1586,8 @@
       "category": "ops",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Folder Organization + Automated Cleanup Routine",
       "rice": {
         "score": 5
@@ -1404,6 +1602,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Unit Testing Framework for Signal Engine and Core Modules",
       "rice": {
         "score": 12
@@ -1418,6 +1618,8 @@
       "category": "security",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Comprehensive Security Audit - 80/20 Approach",
       "rice": {
         "score": 20
@@ -1432,6 +1634,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Factor Score Logging on All Gate-Blocked Signal Attempts",
       "rice": {
         "score": 38
@@ -1446,6 +1650,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Error Taxonomy - Mandatory Error Type Tagging in errors.jsonl",
       "rice": {
         "score": 30
@@ -1460,6 +1666,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-17",
+      "item_type": "bug",
+      "blocked": null,
       "title": "Engine Integrity Sentinel - Pre-Exec Check + Auto-Restore",
       "rice": {
         "score": 30
@@ -1474,6 +1682,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "spike",
+      "blocked": null,
       "title": "VIX Proxy Calibration Diagnostic / H-VIXDECAY Daily Monitor",
       "rice": {
         "score": 15
@@ -1488,6 +1698,8 @@
       "category": "ops",
       "created": "2026-06-15",
       "updated": "2026-06-18",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Scheduler Window Truth-Table Validator",
       "rice": {
         "score": 24
@@ -1502,6 +1714,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "DSR De-Hardcode + Trial Ledger Bootstrap",
       "rice": {
         "score": 17
@@ -1516,6 +1730,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Session Funnel / Signal Drought Telemetry",
       "rice": {
         "score": 27
@@ -1530,6 +1746,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Feed Integrity Blocking Gate",
       "rice": {
         "score": 24
@@ -1544,6 +1762,8 @@
       "category": "strategy",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "[redacted] Boundary Direction Conflict Flag",
       "rice": {
         "score": 18
@@ -1558,6 +1778,8 @@
       "category": "security",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Forbidden Account Audit Trail in errors.jsonl",
       "rice": {
         "score": 47
@@ -1572,6 +1794,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Model Activation Coverage Monitor",
       "rice": {
         "score": 21
@@ -1586,6 +1810,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Engine Reliability Scorecard as 7th Going-Live Condition",
       "rice": {
         "score": 15
@@ -1599,7 +1825,9 @@
       "priority": "P2",
       "category": "security",
       "created": "2026-06-15",
-      "updated": "2026-06-15",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": true,
       "title": "Public Dashboard PII Scrub Policy",
       "rice": {
         "score": 18
@@ -1614,6 +1842,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "FMP API Structured Retry + Exponential Backoff",
       "rice": {
         "score": 21
@@ -1628,6 +1858,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Near-Miss Score Simulation + Gate-Time Factor Snapshot",
       "rice": {
         "score": 27
@@ -1642,6 +1874,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-17",
+      "item_type": "epic",
+      "blocked": null,
       "title": "Phase Gate Signal Floor - Phase 1 Exit Requires 15+ Valid Signals",
       "rice": {
         "score": 66
@@ -1656,6 +1890,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Regime Classification Tag on All Signal Attempts and Trades",
       "rice": {
         "score": 17
@@ -1670,6 +1906,8 @@
       "category": "ops",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Notification Fallback Chain SLA - 3-Tier: Slack to Gmail to Audit Log",
       "rice": {
         "score": 16
@@ -1683,7 +1921,9 @@
       "priority": "P1",
       "category": "engineering",
       "created": "2026-06-15",
-      "updated": "2026-06-18",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": true,
       "title": "Prod/Test Log Boundary Hard Enforcement via record_origin Field",
       "rice": {
         "score": 21
@@ -1698,6 +1938,8 @@
       "category": "strategy",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "SQQQ Dual-Threshold Conditional Entry on Confirmed Gap-Down",
       "rice": {
         "score": 11
@@ -1711,7 +1953,9 @@
       "priority": "P1",
       "category": "security",
       "created": "2026-06-15",
-      "updated": "2026-06-15",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": true,
       "title": "Public Repo Strategy Parameter Scrubbing via publish_filter.py",
       "rice": {
         "score": 24
@@ -1726,6 +1970,8 @@
       "category": "process",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Decision Governance Timeout + BD Staleness Gate 72h SLA",
       "rice": {
         "score": 18
@@ -1740,6 +1986,8 @@
       "category": "ops",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "chore",
+      "blocked": null,
       "title": "afternoon_trend_v1 Forced Scan Heartbeat at R5 and R6",
       "rice": {
         "score": 19
@@ -1754,6 +2002,8 @@
       "category": "engineering",
       "created": "2026-06-15",
       "updated": "2026-06-18",
+      "item_type": "bug",
+      "blocked": null,
       "title": "GitHub Sync Drift Detection via SHA-256 Comparison",
       "rice": {
         "score": 14
@@ -1768,6 +2018,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "v2 Model Calibration Log + Brier Pipeline Fix",
       "rice": {
         "score": 15
@@ -1781,7 +2033,9 @@
       "priority": "P1",
       "category": "security",
       "created": "2026-06-15",
-      "updated": "2026-06-15",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": true,
       "title": "PAT Lifecycle Governance + Silent Failure Alert",
       "rice": {
         "score": 36
@@ -1796,6 +2050,8 @@
       "category": "strategy",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "epic",
+      "blocked": null,
       "title": "VIX Gate Blended Vol Threshold Design / H-VIXDECAY Solution Architecture",
       "rice": {
         "score": 7
@@ -1810,6 +2066,8 @@
       "category": "analytics",
       "created": "2026-06-15",
       "updated": "2026-06-15",
+      "item_type": "story",
+      "blocked": null,
       "title": "Bootstrap CI for All Small-N Gate Metrics",
       "rice": {
         "score": 16
@@ -1824,6 +2082,8 @@
       "category": "reliability",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "bug",
+      "blocked": null,
       "title": "Eliminate Chrome MCP Dependency from All Entry Routines (Unattended Execution Fix)",
       "rice": {
         "score": 95
@@ -1838,6 +2098,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research Spike: Evaluate 'Apply Market' Concept for Trading Integration",
       "rice": {
         "score": 3
@@ -1852,6 +2114,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research Spike: Evaluate Massive Market Data MCP Viability",
       "rice": {
         "score": 8
@@ -1866,6 +2130,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research: Review Claude Code Best Practices YouTube Video",
       "rice": {
         "score": 5
@@ -1880,6 +2146,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research Spike: ThinkOrSwim / Ricky Gutierrez Day Trading Strategies",
       "rice": {
         "score": 7
@@ -1894,6 +2162,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research: Assess Chrome Dev Tools MCP Integration Opportunities",
       "rice": {
         "score": 10
@@ -1908,6 +2178,8 @@
       "category": "research",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research Spike: MoonDev Trading Strategy Analysis",
       "rice": {
         "score": 6
@@ -1922,6 +2194,8 @@
       "category": "ui",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "Dashboard UX Redesign: Apple Design Principles",
       "rice": {
         "score": 1
@@ -1936,6 +2210,8 @@
       "category": "analytics",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "Token Utilization Analysis: Cost Per Session and Per Routine",
       "rice": {
         "score": 2
@@ -1950,6 +2226,8 @@
       "category": "operations",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Agent Coverage Audit: Identify Gaps in 17-Role Roster",
       "rice": {
         "score": 12
@@ -1964,6 +2242,8 @@
       "category": "operations",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Nova (Head of AI): Monthly MCP Evaluation Routine",
       "rice": {
         "score": 8
@@ -1978,6 +2258,8 @@
       "category": "operations",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Jordan (PM Agent) SKILL Upgrade: Investing and Quant Domain Knowledge",
       "rice": {
         "score": 9
@@ -1992,6 +2274,8 @@
       "category": "operations",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Monthly Agent Documentation and Skills Review Routine",
       "rice": {
         "score": 14
@@ -2006,6 +2290,8 @@
       "category": "reliability",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Research Spike: Claude-Down Resilience — Alternative Routine Triggers",
       "rice": {
         "score": 22
@@ -2020,6 +2306,8 @@
       "category": "operations",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Agent Dependency Map: Document Inter-Agent and Tool Dependencies",
       "rice": {
         "score": 14
@@ -2034,6 +2322,8 @@
       "category": "strategy",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Trading Strategy Document: Canonical Strategy Reference for All Agents",
       "rice": {
         "score": 18
@@ -2047,7 +2337,9 @@
       "priority": "P0",
       "category": "reliability",
       "created": "2026-06-17",
-      "updated": "2026-06-17",
+      "updated": "2026-06-19",
+      "item_type": "bug",
+      "blocked": true,
       "title": "P0 Bug: Mean Reversion Model Investigation — Zero Signal Attempts",
       "rice": {
         "score": 8
@@ -2062,6 +2354,8 @@
       "category": "risk",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "FOMC R5 Gate Extension: Extend No-Entry Gate to Cover R5 on FOMC Days",
       "rice": {
         "score": 13
@@ -2076,6 +2370,8 @@
       "category": "ui",
       "created": "2026-06-17",
       "updated": "2026-06-17",
+      "item_type": "story",
+      "blocked": null,
       "title": "Roadmap UI: Sort DONE Column by Completion Date, Show Date on Card",
       "rice": {
         "score": 4
@@ -2090,6 +2386,8 @@
       "category": "engineering",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Gate Auto-Eval Completion - Remaining 2 of 6 Conditions",
       "rice": {
         "score": 20
@@ -2104,6 +2402,8 @@
       "category": "engineering",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Simulation Mode Isolated Store + Auto-Purge",
       "rice": {
         "score": 28
@@ -2118,6 +2418,8 @@
       "category": "engineering",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Ubiquitous Language Enforcement in signal_engine.py",
       "rice": {
         "score": 12
@@ -2132,6 +2434,8 @@
       "category": "process",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "PM Intake Funnel v1 - Discovery, Opportunity, Theme Layers",
       "rice": {
         "score": 15
@@ -2146,6 +2450,8 @@
       "category": "governance",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Boardroom v1.0 - 17-Role Agent Leadership Team",
       "rice": {
         "score": 25
@@ -2160,6 +2466,8 @@
       "category": "governance",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Ubiquitous Language Glossary v1.0 - 217 Terms",
       "rice": {
         "score": 19
@@ -2174,6 +2482,8 @@
       "category": "data",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "KPI / Data Readiness Audit - P0 Traceability + Feed Integrity",
       "rice": {
         "score": 22
@@ -2188,6 +2498,8 @@
       "category": "governance",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Live Readiness Decision - Rec A (Stay Paper, Champion-in-Prod)",
       "rice": {
         "score": 41
@@ -2202,6 +2514,8 @@
       "category": "strategy",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "spike",
+      "blocked": null,
       "title": "Autoresearch / R-AUTOTUNE Proposal (RM-084)",
       "rice": {
         "score": 6
@@ -2216,6 +2530,8 @@
       "category": "process",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "#trading-bot-company-updates Channel + Head of AI (Nova)",
       "rice": {
         "score": 22
@@ -2230,6 +2546,8 @@
       "category": "process",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "R9/R10 Wednesday + Saturday Review Routines",
       "rice": {
         "score": 25
@@ -2244,6 +2562,8 @@
       "category": "engineering",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Benchmark Lifecycle Parity v3.6.6",
       "rice": {
         "score": 14
@@ -2258,6 +2578,8 @@
       "category": "engineering",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "roadmap.html Auto-Regeneration on Every safe_write",
       "rice": {
         "score": 19
@@ -2272,6 +2594,8 @@
       "category": "process",
       "created": "2026-06-17",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Scrum OS Pipeline - BOT-ONLY Delivery Flow",
       "rice": {
         "score": 22
@@ -2286,6 +2610,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Entry Accrual Monitor - Daily Paper Trade Entries Watchdog",
       "rice": {
         "score": 58
@@ -2300,6 +2626,8 @@
       "category": "governance",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Champion Model Promotion to Production Paper Slot",
       "rice": {
         "score": 31
@@ -2314,6 +2642,8 @@
       "category": "data",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Registry Recon - Champion/Challenger trades_all_time Fix",
       "rice": {
         "score": 53
@@ -2328,6 +2658,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "errors.jsonl Sim Artifact Relocation to test_artifacts/",
       "rice": {
         "score": 40
@@ -2342,6 +2674,8 @@
       "category": "governance",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Doc-Drift QA - Weekly Documentation Currency Safeguard",
       "rice": {
         "score": 32
@@ -2356,6 +2690,8 @@
       "category": "governance",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "README Sync v3.3 to v3.6.6 + Documentation Currency Safeguards",
       "rice": {
         "score": 40
@@ -2370,6 +2706,8 @@
       "category": "reporting",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Dashboard Cross-Nav Button (Dashboard ↔ Roadmap)",
       "rice": {
         "score": 18
@@ -2384,6 +2722,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
       "title": "Model Type Retire-Tag + Benchmark Sync Fold",
       "rice": {
         "score": 10
@@ -2398,6 +2738,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "live_gate_stats.py - Exclude sim Mode from Gate Calculations",
       "rice": {
         "score": 32
@@ -2412,6 +2754,8 @@
       "category": "analytics",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "VIX Gate Shadow Mode - 3-Week Evidence Collection",
       "rice": {
         "score": 24
@@ -2426,6 +2770,8 @@
       "category": "analytics",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Slippage Model v1 - Bid/Ask Spread Estimation",
       "rice": {
         "score": 16
@@ -2440,6 +2786,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "DSR Gate - Daily Signal Rate Minimum Threshold",
       "rice": {
         "score": 32
@@ -2454,6 +2802,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "OOS Tuning Rule - Out-of-Sample Parameter Lock",
       "rice": {
         "score": 27
@@ -2468,6 +2818,8 @@
       "category": "analytics",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "R8 Scorecard - Weekly Model Performance Review",
       "rice": {
         "score": 29
@@ -2482,6 +2834,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "apply_recommendation.py - Auto-Apply Guardrails",
       "rice": {
         "score": 17
@@ -2496,6 +2850,8 @@
       "category": "engineering",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "RM-035 / RM-036 Post-Deploy Verification",
       "rice": {
         "score": 17
@@ -2510,6 +2866,8 @@
       "category": "strategy",
       "created": "2026-06-18",
       "updated": "2026-06-19",
+      "item_type": "spike",
+      "blocked": null,
       "title": "R-AUTOTUNE Routine - Automated Parameter Tuning Research",
       "rice": {
         "score": 3
@@ -2519,14 +2877,224 @@
     },
     {
       "id": "RM-181",
-      "column": "In Progress",
+      "column": "To Do",
       "priority": "P2",
       "category": "engineering",
       "created": "2026-06-19",
       "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
       "title": "Migrate low-risk Cowork scheduled tasks to Claude Code cloud routines (phased)",
       "rice": {
         "score": 6
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-182",
+      "column": "Done",
+      "priority": "P2",
+      "category": "ui",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Roadmap UI — JIRA-style work-item types + blocked-state flagging",
+      "rice": {
+        "score": 24
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-183",
+      "column": "To Do",
+      "priority": "P1",
+      "category": "security",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Extend public-leak scanner to dashboard.html + all public logs (RM-056 remainder)",
+      "rice": {
+        "score": 40
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-184",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "ui",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Dashboard — expandable cards (near-fullscreen modal)",
+      "rice": {
+        "score": 14
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-185",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "ui",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Dashboard — pagination (10 default / 100-per-page modal)",
+      "rice": {
+        "score": 14
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-186",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "ui",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Dashboard — graph 'Show Labels' toggle (value above/below plot by sign)",
+      "rice": {
+        "score": 9
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-187",
+      "column": "To Do",
+      "priority": "P2",
+      "category": "process",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
+      "title": "Restore lessons-learned logging cadence (lapsed since 2026-06-15)",
+      "rice": {
+        "score": 20
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-188",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "process",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
+      "title": "Open-PR hygiene policy (max-age + auto-flag stale PRs)",
+      "rice": {
+        "score": 16
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-189",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "Early-close (1pm ET) handling in the Market-Calendar Gate",
+      "rice": {
+        "score": 22
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-190",
+      "column": "Backlog",
+      "priority": "P0",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "epic",
+      "blocked": null,
+      "title": "CC-1 — local git+gh as automated source-of-truth & DR backup",
+      "rice": {
+        "score": 30
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-191",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "CC-2 — local pytest harness for signal_engine + pre-push test gate",
+      "rice": {
+        "score": 26
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-192",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "story",
+      "blocked": null,
+      "title": "CC-4 — engine↔SKILL scoring-fidelity lint",
+      "rice": {
+        "score": 20
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-193",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
+      "title": "CC-7 — workspace .gitignore (secret/strategy/.bak guard) + logs retention",
+      "rice": {
+        "score": 18
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-194",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "process",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "item_type": "chore",
+      "blocked": null,
+      "title": "Delete spent Juneteenth re-enable task (verify-then-delete after Mon 06-22)",
+      "rice": {
+        "score": 4
       },
       "description": "",
       "acceptance_criteria": ""
