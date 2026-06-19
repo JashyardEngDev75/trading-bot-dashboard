@@ -2082,6 +2082,454 @@
       },
       "description": "",
       "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-150",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Gate Auto-Eval Completion - Remaining 2 of 6 Conditions",
+      "rice": {
+        "score": 20
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-151",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Simulation Mode Isolated Store + Auto-Purge",
+      "rice": {
+        "score": 28
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-152",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Ubiquitous Language Enforcement in signal_engine.py",
+      "rice": {
+        "score": 12
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-153",
+      "column": "Done",
+      "priority": "P2",
+      "category": "process",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "PM Intake Funnel v1 - Discovery, Opportunity, Theme Layers",
+      "rice": {
+        "score": 15
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-154",
+      "column": "Done",
+      "priority": "P2",
+      "category": "governance",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Boardroom v1.0 - 17-Role Agent Leadership Team",
+      "rice": {
+        "score": 25
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-155",
+      "column": "Done",
+      "priority": "P2",
+      "category": "governance",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Ubiquitous Language Glossary v1.0 - 217 Terms",
+      "rice": {
+        "score": 19
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-156",
+      "column": "Done",
+      "priority": "P1",
+      "category": "data",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "KPI / Data Readiness Audit - P0 Traceability + Feed Integrity",
+      "rice": {
+        "score": 22
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-157",
+      "column": "Done",
+      "priority": "P1",
+      "category": "governance",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Live Readiness Decision - Rec A (Stay Paper, Champion-in-Prod)",
+      "rice": {
+        "score": 41
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-158",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Autoresearch / R-AUTOTUNE Proposal (RM-084)",
+      "rice": {
+        "score": 6
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-159",
+      "column": "Done",
+      "priority": "P3",
+      "category": "process",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "#trading-bot-company-updates Channel + Head of AI (Nova)",
+      "rice": {
+        "score": 22
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-160",
+      "column": "Done",
+      "priority": "P2",
+      "category": "process",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "R9/R10 Wednesday + Saturday Review Routines",
+      "rice": {
+        "score": 25
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-161",
+      "column": "Done",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Benchmark Lifecycle Parity v3.6.6",
+      "rice": {
+        "score": 14
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-162",
+      "column": "Done",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "roadmap.html Auto-Regeneration on Every safe_write",
+      "rice": {
+        "score": 19
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-163",
+      "column": "Done",
+      "priority": "P2",
+      "category": "process",
+      "created": "2026-06-17",
+      "updated": "2026-06-19",
+      "title": "Scrum OS Pipeline - BOT-ONLY Delivery Flow",
+      "rice": {
+        "score": 22
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-164",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Entry Accrual Monitor - Daily Paper Trade Entries Watchdog",
+      "rice": {
+        "score": 58
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-165",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "governance",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Champion Model Promotion to Production Paper Slot",
+      "rice": {
+        "score": 31
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-166",
+      "column": "Done",
+      "priority": "P1",
+      "category": "data",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Registry Recon - Champion/Challenger trades_all_time Fix",
+      "rice": {
+        "score": 53
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-167",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "errors.jsonl Sim Artifact Relocation to test_artifacts/",
+      "rice": {
+        "score": 40
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-168",
+      "column": "Done",
+      "priority": "P2",
+      "category": "governance",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Doc-Drift QA - Weekly Documentation Currency Safeguard",
+      "rice": {
+        "score": 32
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-169",
+      "column": "Done",
+      "priority": "P2",
+      "category": "governance",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "README Sync v3.3 to v3.6.6 + Documentation Currency Safeguards",
+      "rice": {
+        "score": 40
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-170",
+      "column": "Done",
+      "priority": "P3",
+      "category": "reporting",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Dashboard Cross-Nav Button (Dashboard ↔ Roadmap)",
+      "rice": {
+        "score": 18
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-171",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Model Type Retire-Tag + Benchmark Sync Fold",
+      "rice": {
+        "score": 10
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-172",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "live_gate_stats.py - Exclude sim Mode from Gate Calculations",
+      "rice": {
+        "score": 32
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-173",
+      "column": "Done",
+      "priority": "P1",
+      "category": "analytics",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "VIX Gate Shadow Mode - 3-Week Evidence Collection",
+      "rice": {
+        "score": 24
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-174",
+      "column": "Done",
+      "priority": "P1",
+      "category": "analytics",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "Slippage Model v1 - Bid/Ask Spread Estimation",
+      "rice": {
+        "score": 16
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-175",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "DSR Gate - Daily Signal Rate Minimum Threshold",
+      "rice": {
+        "score": 32
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-176",
+      "column": "Done",
+      "priority": "P0",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "OOS Tuning Rule - Out-of-Sample Parameter Lock",
+      "rice": {
+        "score": 27
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-177",
+      "column": "Done",
+      "priority": "P1",
+      "category": "analytics",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "R8 Scorecard - Weekly Model Performance Review",
+      "rice": {
+        "score": 29
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-178",
+      "column": "Done",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "apply_recommendation.py - Auto-Apply Guardrails",
+      "rice": {
+        "score": 17
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-179",
+      "column": "Backlog",
+      "priority": "P1",
+      "category": "engineering",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "RM-035 / RM-036 Post-Deploy Verification",
+      "rice": {
+        "score": 17
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-180",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "strategy",
+      "created": "2026-06-18",
+      "updated": "2026-06-19",
+      "title": "R-AUTOTUNE Routine - Automated Parameter Tuning Research",
+      "rice": {
+        "score": 3
+      },
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-181",
+      "column": "In Progress",
+      "priority": "P2",
+      "category": "engineering",
+      "created": "2026-06-19",
+      "updated": "2026-06-19",
+      "title": "Migrate low-risk Cowork scheduled tasks to Claude Code cloud routines (phased)",
+      "rice": {
+        "score": 6
+      },
+      "description": "",
+      "acceptance_criteria": ""
     }
   ]
 }
