@@ -769,11 +769,11 @@
     },
     {
       "id": "RM-056",
-      "column": "Backlog",
+      "column": "In Progress",
       "priority": "P1",
       "category": "security",
       "created": "2026-06-12",
-      "updated": "2026-06-12",
+      "updated": "2026-06-18",
       "title": "Public-Repo Strategy Leak Scanner",
       "rice": {
         "score": 13
