@@ -3126,7 +3126,7 @@
       "actual_release_date": null,
       "completed": null,
       "completed_date": null,
-      "title": "[NEEDS_BOARDROOM] VIX Proxy Calibration Diagnostic / H-VIXDECAY Daily Monitor",
+      "title": "[NEEDS_BOARDROOM] VIX Proxy Calibration Diagnostic / [redacted] Daily Monitor",
       "rice": {
         "reach": 7,
         "impact": 8,
@@ -3837,7 +3837,7 @@
       "actual_release_date": null,
       "completed": null,
       "completed_date": null,
-      "title": "[NEEDS_BOARDROOM] VIX Gate Blended Vol Threshold Design / H-VIXDECAY Solution Architecture",
+      "title": "[NEEDS_BOARDROOM] VIX Gate Blended Vol Threshold Design / [redacted] Solution Architecture",
       "rice": {
         "reach": 7,
         "impact": 8,
@@ -3846,7 +3846,7 @@
         "score": 7
       },
       "dependencies": [
-        "RM-106 H-VIXDECAY diagnostic data",
+        "RM-106 [redacted] diagnostic data",
         "RM-051 vol-regime splitter",
         "RM-005 VIX enforce-mode decision",
         "OOS validation rule"
@@ -6111,6 +6111,225 @@
         "score": 0
       },
       "dependencies": [],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-209",
+      "column": "Backlog",
+      "priority": "P2",
+      "category": "security",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "L",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": null,
+      "title": "Allowlist-based public roadmap publisher (retire RM-056 denylist leak mode)",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 60,
+        "effort": 6,
+        "score": 3
+      },
+      "dependencies": [
+        "RM-056 (original public leak — denylist scanner origin)",
+        "RM-182 (public-safe field exposure model)",
+        "RM-207 (public List view exposes title + dependencies)",
+        "RM-208 (H-tag scrub — latest denylist patch this ticket aims to make unnecessary)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-207",
+      "column": "Done",
+      "priority": "P2",
+      "category": "ui",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Public roadmap List view: data-driven columns + auto-hide empties",
+      "rice": {
+        "reach": 4,
+        "impact": 5,
+        "confidence": 90,
+        "effort": 2,
+        "score": 9
+      },
+      "dependencies": [
+        "RM-182 (public-safe field exposure)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-208",
+      "column": "Done",
+      "priority": "P2",
+      "category": "security",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Scrub internal strategy hypothesis tags from public roadmap build",
+      "rice": {
+        "reach": 5,
+        "impact": 6,
+        "confidence": 80,
+        "effort": 1,
+        "score": 12
+      },
+      "dependencies": [
+        "RM-056 (leak scanner)",
+        "RM-207"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-210",
+      "column": "Done",
+      "priority": "P2",
+      "category": "reliability",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Fix Windows cp1252 Unicode error in roadmap safe-write/read path",
+      "rice": {
+        "reach": 3,
+        "impact": 6,
+        "confidence": 90,
+        "effort": 1,
+        "score": 9
+      },
+      "dependencies": [],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-211",
+      "column": "Done",
+      "priority": "P1",
+      "category": "security",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "PM skills publish REDACTED roadmap only (close raw-push leak landmine)",
+      "rice": {
+        "reach": 5,
+        "impact": 9,
+        "confidence": 85,
+        "effort": 1,
+        "score": 19
+      },
+      "dependencies": [
+        "RM-056 (leak scanner)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-212",
+      "column": "Done",
+      "priority": "P2",
+      "category": "infrastructure",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Durable version-controlled git hooks + server-side CI sync backstop",
+      "rice": {
+        "reach": 4,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 3,
+        "score": 7
+      },
+      "dependencies": [
+        "RM-210"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-213",
+      "column": "Done",
+      "priority": "P2",
+      "category": "reliability",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Wire check_github_sync into R2/R7 as a post-push verify (close RM-126)",
+      "rice": {
+        "reach": 3,
+        "impact": 7,
+        "confidence": 80,
+        "effort": 1,
+        "score": 8
+      },
+      "dependencies": [
+        "RM-126 (github sync drift detector)"
+      ],
       "description": "",
       "acceptance_criteria": ""
     }
