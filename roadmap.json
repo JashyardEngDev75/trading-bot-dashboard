@@ -6332,6 +6332,37 @@
       ],
       "description": "",
       "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-214",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "security",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "M",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": null,
+      "title": "Sync-integrity follow-ups from board review (gh-api guard, redacted-roadmap drift check, pin coverage)",
+      "rice": {
+        "reach": 3,
+        "impact": 6,
+        "confidence": 70,
+        "effort": 4,
+        "score": 3
+      },
+      "dependencies": [
+        "RM-209 (allowlist publisher)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
     }
   ]
 }
