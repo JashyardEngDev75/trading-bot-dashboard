@@ -6363,6 +6363,38 @@
       ],
       "description": "",
       "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-215",
+      "column": "Done",
+      "priority": "P2",
+      "category": "reliability",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "story",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": "2026-06-20",
+      "title": "Harden post-push sync verify: cache-immune REST API + commit-aware + test no longer mutates published artifacts",
+      "rice": {
+        "reach": 3,
+        "impact": 7,
+        "confidence": 85,
+        "effort": 2,
+        "score": 9
+      },
+      "dependencies": [
+        "RM-213 (post-push verify)",
+        "RM-126 (sync drift detector)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
     }
   ]
 }
