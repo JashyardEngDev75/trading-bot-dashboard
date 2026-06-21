@@ -6091,7 +6091,7 @@
     },
     {
       "id": "RM-206",
-      "column": "Backlog",
+      "column": "Done",
       "priority": "P1",
       "category": "governance",
       "created": "2026-06-19",
@@ -6105,8 +6105,8 @@
       "release_date": null,
       "actual_release_date": null,
       "completed": null,
-      "completed_date": null,
-      "title": "[DoR ⏳] Resolve roadmap-linear-sync HALT (rebuild vs supervised reconcile)",
+      "completed_date": "2026-06-20",
+      "title": "[DoR ✅] Resolve roadmap-linear-sync HALT (rebuild vs supervised reconcile)",
       "rice": {
         "score": 0
       },
@@ -6392,6 +6392,38 @@
       "dependencies": [
         "RM-213 (post-push verify)",
         "RM-126 (sync drift detector)"
+      ],
+      "description": "",
+      "acceptance_criteria": ""
+    },
+    {
+      "id": "RM-216",
+      "column": "Backlog",
+      "priority": "P3",
+      "category": "governance",
+      "created": "2026-06-20",
+      "updated": "2026-06-20",
+      "item_type": "spike",
+      "blocked": null,
+      "blocked_category": null,
+      "loe": "S",
+      "target_date": "",
+      "target_delivery_date": null,
+      "release_date": null,
+      "actual_release_date": null,
+      "completed": null,
+      "completed_date": null,
+      "title": "Re-evaluate Linear's purpose / ROI — candidate for retirement (dashboard is the real reference point)",
+      "rice": {
+        "reach": 2,
+        "impact": 4,
+        "confidence": 80,
+        "effort": 2,
+        "score": 3
+      },
+      "dependencies": [
+        "roadmap-linear-sync (Cowork daily 5:53pm sync)",
+        "delivery-flow-coordinator (cloud routine, only consumer of Linear)"
       ],
       "description": "",
       "acceptance_criteria": ""
