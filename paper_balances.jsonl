@@ -75,3 +75,12 @@
 {"date": "2026-06-23", "timestamp_utc": "2026-06-23T20:31:23Z", "model_id": "random_v1", "balance": 968.7939, "daily_pnl": 4.2708, "trades_today": 1, "wins_today": 1, "source": "r7_eod_reconstructed", "type": "benchmark"}
 {"date": "2026-06-23", "timestamp_utc": "2026-06-23T20:31:23Z", "model_id": "tqqq_always_v1", "balance": 978.8875, "daily_pnl": -5.4918, "trades_today": 1, "wins_today": 0, "source": "r7_eod_reconstructed", "type": "benchmark"}
 {"date": "2026-06-23", "timestamp_utc": "2026-06-23T20:31:23Z", "model_id": "sqqq_always_v1", "balance": 968.1347, "daily_pnl": 4.2708, "trades_today": 1, "wins_today": 1, "source": "r7_eod_reconstructed", "type": "benchmark"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "champion_v2", "balance": 988.1902, "daily_pnl": -6.9, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "challenger_v2", "balance": 993.2923, "daily_pnl": -3.45, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "scalp_champion_v2", "balance": 999.7799, "daily_pnl": -6.609, "trades_today": 3, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "scalp_challenger_v2", "balance": 999.4822, "daily_pnl": -3.3614, "trades_today": 2, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "mean_reversion_v1", "balance": 1002.7418, "daily_pnl": 2.72, "trades_today": 1, "wins_today": 1, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "afternoon_trend_v1", "balance": 991.7689, "daily_pnl": -3.25, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "random_v1", "balance": 946.1109, "daily_pnl": -22.683, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "tqqq_always_v1", "balance": 956.2045, "daily_pnl": -22.683, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
+{"date": "2026-06-24", "timestamp_utc": "2026-06-24T20:29:16Z", "model_id": "sqqq_always_v1", "balance": 963.6147, "daily_pnl": -4.52, "trades_today": 1, "wins_today": 0, "source": "r7_eod_computed"}
