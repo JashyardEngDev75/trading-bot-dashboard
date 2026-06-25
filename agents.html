@@ -1,0 +1,631 @@
+<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1.0'><title>FleetView — Agents · Trading Bot</title><meta name='color-scheme' content='dark'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'><style>
+:root{
+  --bg:#0B0B0E; --grid:#15151b; --grid-2:#1b1b22;
+  --surface:#141419; --surface-2:#1b1b22; --surface-3:#22222b;
+  --border:#2a2a33; --border-2:#33333f;
+  --text:#F4F3EE; --dim:#B1ADA1; --faint:#7d7a72;
+  --brand:#D97757; --brand-2:#E08A66;
+  --good:#7FCF8E; --work:#5FB3D9; --sleep:#9A95C9; --warn:#E6C15F; --bad:#F0726A;
+  --radius:18px; --radius-sm:11px;
+  --pixel:'Press Start 2P',monospace; --mono:'VT323',monospace;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans); color:var(--text); background:var(--bg);
+  min-height:100vh; line-height:1.5; -webkit-font-smoothing:antialiased;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+    radial-gradient(1200px 700px at 50% -8%, rgba(217,119,87,.10), transparent 60%);
+  background-size:34px 34px, 34px 34px, 100% 100%;
+  background-attachment:fixed;
+}
+body::after{ /* faint scanlines — seasoning only */
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:9999;
+  background:repeating-linear-gradient(to bottom,transparent 0 2px,rgba(0,0,0,.16) 2px 3px);
+  mix-blend-mode:multiply; opacity:.5;
+}
+a{color:inherit}
+.wrap{max-width:1320px;margin:0 auto;padding:20px 18px 90px}
+
+/* ── header ───────────────────────────────────────────── */
+.top{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;
+  padding:14px 0 18px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.brandblock{display:flex;align-items:center;gap:14px;min-width:0}
+.logo{width:46px;height:46px;flex:0 0 auto;filter:drop-shadow(0 0 10px rgba(217,119,87,.45))}
+.title{font-family:var(--pixel);font-size:15px;letter-spacing:.5px;line-height:1.5;color:var(--text)}
+.title .accent{color:var(--brand)}
+.tagline{color:var(--dim);font-size:12.5px;margin-top:7px;font-weight:500}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.navbtn{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);
+  color:var(--text);text-decoration:none;padding:9px 13px;border-radius:10px;
+  font-size:12.5px;font-weight:700;border:1px solid var(--border-2);transition:.15s}
+.navbtn:hover,.navbtn:focus-visible{background:var(--surface-3);border-color:var(--brand)}
+.navbtn.primary{background:rgba(217,119,87,.16);border-color:rgba(217,119,87,.5);color:var(--brand-2)}
+
+/* ── status ribbon ────────────────────────────────────── */
+.ribbon{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:16px 0 8px}
+.clock{font-family:var(--mono);font-size:19px;color:var(--dim);letter-spacing:.5px}
+.clock b{color:var(--text)}
+.mkt{font-family:var(--pixel);font-size:9px;padding:6px 9px;border-radius:7px;border:1px solid;letter-spacing:.5px}
+.mkt.open{color:var(--good);border-color:rgba(127,207,142,.5);background:rgba(127,207,142,.10)}
+.mkt.closed{color:var(--faint);border-color:var(--border-2);background:var(--surface-2)}
+.spacer{flex:1 1 auto}
+.tally{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);
+  border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--dim)}
+.pill b{color:var(--text);font-variant-numeric:tabular-nums}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.dot.live{background:var(--work);box-shadow:0 0 8px var(--work)}
+.dot.soon{background:var(--good);box-shadow:0 0 8px var(--good)}
+.dot.rest{background:var(--sleep)}
+
+/* ── controls ─────────────────────────────────────────── */
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 22px;
+  position:sticky;top:0;z-index:50;padding:12px;border-radius:14px;
+  background:rgba(11,11,14,.82);backdrop-filter:blur(10px);border:1px solid var(--border)}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;background:var(--surface);
+  border:1px solid var(--border-2);border-radius:10px;padding:9px 12px}
+.search input{flex:1;background:none;border:none;outline:none;color:var(--text);font:inherit;font-size:14px}
+.search input::placeholder{color:var(--faint)}
+.search svg{flex:0 0 auto;opacity:.6}
+.segmented{display:flex;background:var(--surface);border:1px solid var(--border-2);border-radius:10px;overflow:hidden}
+.segmented button{background:none;border:none;color:var(--dim);font:inherit;font-weight:700;font-size:12.5px;
+  padding:9px 13px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:.12s}
+.segmented button[aria-pressed=true]{background:var(--surface-3);color:var(--text)}
+.segmented button:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{background:var(--surface);border:1px solid var(--border-2);color:var(--dim);font:inherit;font-weight:600;
+  font-size:12.5px;padding:8px 12px;border-radius:999px;cursor:pointer;transition:.12s;display:flex;align-items:center;gap:7px}
+.chip[aria-pressed=true]{color:var(--text);border-color:transparent}
+.chip:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.chip .cdot{width:8px;height:8px;border-radius:2px}
+
+/* ── department zone ──────────────────────────────────── */
+.zone{margin:30px 0 8px}
+.zone-h{display:flex;align-items:center;gap:12px;margin-bottom:4px;flex-wrap:wrap}
+.zone-bar{width:5px;height:24px;border-radius:3px}
+.zone-title{font-family:var(--pixel);font-size:12px;letter-spacing:.5px}
+.zone-count{font-size:12px;color:var(--faint);font-weight:600}
+.zone-blurb{color:var(--dim);font-size:13px;margin:2px 0 16px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px;align-items:start}
+
+/* ── agent card ───────────────────────────────────────── */
+.card{position:relative;text-align:left;width:100%;cursor:pointer;color:inherit;
+  background:linear-gradient(180deg,var(--surface),var(--surface-2));
+  border:1px solid var(--border);border-radius:var(--radius);padding:16px 15px 14px;
+  font:inherit;transition:transform .14s ease,border-color .14s,box-shadow .14s;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--ac,var(--brand));opacity:.85}
+.card:hover{transform:translateY(-3px);border-color:var(--ac,var(--brand));
+  box-shadow:0 12px 30px -16px var(--ac,#000),0 0 0 1px var(--ac,transparent) inset}
+.card:focus-visible{outline:3px solid var(--ac,var(--brand));outline-offset:2px}
+.card.xl{grid-column:span 2}
+.card.lg{grid-column:span 2}
+@media(max-width:560px){.card.xl,.card.lg{grid-column:span 1}}
+.card-top{display:flex;gap:13px;align-items:flex-start}
+.portrait{position:relative;width:60px;height:60px;flex:0 0 auto;border-radius:14px;
+  background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--ac) 26%,transparent),transparent 70%),var(--surface-3);
+  border:1px solid var(--border-2);display:grid;place-items:center;overflow:hidden}
+.card.xl .portrait,.card.lg .portrait{width:74px;height:74px}
+.who{min-width:0;flex:1}
+.name{font-weight:800;font-size:16px;letter-spacing:.2px;display:flex;align-items:center;gap:7px}
+.card.xl .name{font-size:19px}
+.role{color:var(--dim);font-size:12.5px;margin-top:2px;font-weight:500}
+.statechip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;letter-spacing:.3px;
+  padding:4px 8px;border-radius:7px;border:1px solid;margin-top:9px;text-transform:uppercase;font-family:var(--mono);font-size:14px}
+.statechip .ico{font-style:normal}
+.s-working{color:var(--work);border-color:rgba(95,179,217,.5);background:rgba(95,179,217,.12)}
+.s-soon{color:var(--good);border-color:rgba(127,207,142,.5);background:rgba(127,207,142,.12)}
+.s-resting{color:var(--sleep);border-color:rgba(154,149,201,.45);background:rgba(154,149,201,.10)}
+.warnflag{margin-left:auto;color:var(--bad);font-size:14px}
+.lv{margin-left:auto;flex:0 0 auto;text-align:center}
+.lv-badge{font-family:var(--pixel);font-size:8px;color:var(--bg);background:var(--ac,var(--brand));
+  padding:4px 5px 3px;border-radius:0;clip-path:polygon(0 3px,3px 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%);
+  line-height:1.4;display:inline-block}
+.lv-xp{height:3px;width:38px;background:var(--surface-3);margin-top:4px;border-radius:2px;overflow:hidden}
+.lv-xp i{display:block;height:100%;background:var(--ac,var(--brand))}
+.duty{color:var(--dim);font-size:12.5px;margin:13px 0 12px;min-height:34px}
+.card.xl .duty,.card.lg .duty{font-size:13.5px}
+
+/* meters */
+.meters{display:flex;flex-direction:column;gap:8px}
+.meter{display:grid;grid-template-columns:54px 1fr auto;align-items:center;gap:9px}
+.meter .mlabel{font-size:10px;font-weight:800;letter-spacing:.4px;color:var(--faint);text-transform:uppercase}
+.bar{height:11px;background:var(--surface-3);border-radius:3px;overflow:hidden;border:1px solid var(--border-2);
+  display:flex;gap:2px;padding:2px}
+.bar i{display:block;border-radius:1px;flex:1}
+.bar.solid{display:block;padding:0}
+.bar.solid i{height:100%;border-radius:2px}
+.mval{font-family:var(--mono);font-size:15px;color:var(--dim);min-width:46px;text-align:right;font-variant-numeric:tabular-nums}
+.calib{font-size:11px;color:var(--faint);font-style:italic}
+
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px;
+  padding-top:11px;border-top:1px solid var(--border);font-size:11.5px;color:var(--faint)}
+.foot-next{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--dim)}
+.cal{display:flex;gap:3px}
+.cal span{width:9px;height:9px;border-radius:2px;background:var(--surface-3);border:1px solid var(--border-2)}
+.cal span.on{background:var(--ac,var(--brand));border-color:transparent;opacity:.8}
+.cal span.today{outline:2px solid var(--text);outline-offset:1px}
+
+/* ── mascot ───────────────────────────────────────────── */
+.sprite{width:100%;height:100%;display:block;image-rendering:pixelated;shape-rendering:crispEdges}
+.sprite .body{animation:bob 2.6s ease-in-out infinite}
+.m-working .sprite .body{animation:work .62s ease-in-out infinite}
+.m-resting .sprite .body{animation:bob 3.8s ease-in-out infinite}
+.sprite .lid{transform-origin:center;transform:scaleY(0);transition:transform .1s}
+.m-awake .sprite .lid,.m-working .sprite .lid{animation:blink 5.2s steps(1) infinite}
+.m-resting .sprite .lid{transform:scaleY(1)}
+.sprite .pupil{animation:look 6s ease-in-out infinite}
+.m-resting .sprite .pupil{animation:none}
+.sprite .zzz{opacity:0}
+.m-resting .sprite .zzz{opacity:1;animation:zfloat 3s ease-in-out infinite}
+.sprite .spark{opacity:0;transform-origin:center}
+.m-working .sprite .spark{opacity:1;animation:spark .62s ease-in-out infinite}
+.sprite .tip{animation:glow 2.2s ease-in-out infinite}
+.m-working .sprite .tip{animation:glow .62s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes work{0%,100%{transform:translateY(0) scaleY(1) scaleX(1)}50%{transform:translateY(1px) scaleY(.94) scaleX(1.05)}}
+@keyframes blink{0%,96%,100%{transform:scaleY(0)}98%{transform:scaleY(1)}}
+@keyframes look{0%,40%{transform:translateX(0)}50%,70%{transform:translateX(3px)}80%,100%{transform:translateX(-2px)}}
+@keyframes zfloat{0%{transform:translate(0,0);opacity:.2}50%{opacity:1}100%{transform:translate(5px,-9px);opacity:0}}
+@keyframes spark{0%,100%{transform:scale(.7);opacity:.5}50%{transform:scale(1.15);opacity:1}}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* ── modal ────────────────────────────────────────────── */
+.scrim{position:fixed;inset:0;background:rgba(5,5,8,.74);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:18px;z-index:200}
+.scrim.show{display:flex}
+.modal{width:min(620px,100%);max-height:90vh;overflow:auto;background:linear-gradient(180deg,var(--surface),var(--bg));
+  border:1px solid var(--ac,var(--border));border-radius:22px;box-shadow:0 30px 80px -20px #000,0 0 0 1px var(--border);
+  position:relative}
+.modal-head{display:flex;gap:16px;align-items:flex-start;padding:22px 22px 16px;
+  border-bottom:1px solid var(--border);position:relative}
+.modal .portrait{width:92px;height:92px;border-radius:18px}
+.modal-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:9px;border:1px solid var(--border-2);
+  background:var(--surface-2);color:var(--text);font-size:18px;cursor:pointer;line-height:1}
+.modal-x:hover{background:var(--surface-3)}.modal-x:focus-visible{outline:2px solid var(--brand)}
+.modal h2{font-size:23px;font-weight:800}
+.modal .mrole{color:var(--dim);font-size:14px;margin-top:3px}
+.deptchip{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;margin-top:10px;
+  padding:5px 10px;border-radius:999px;background:var(--surface-3);border:1px solid var(--border-2);color:var(--dim)}
+.modal-body{padding:18px 22px 22px}
+.mduty{font-size:15px;color:var(--text);margin-bottom:18px;line-height:1.55}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+@media(max-width:520px){.mgrid{grid-template-columns:1fr}}
+.mcell{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:13px 14px}
+.mcell .k{font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.mcell .v{font-size:14.5px;font-weight:600}
+.mcell .note{font-size:11.5px;color:var(--faint);margin-top:4px}
+.section-t{font-family:var(--pixel);font-size:9px;color:var(--dim);letter-spacing:.5px;margin:20px 0 11px;text-transform:uppercase}
+.wkcal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px}
+.wkcal .d{text-align:center;border-radius:9px;border:1px solid var(--border-2);padding:8px 4px;background:var(--surface)}
+.wkcal .d .dn{font-size:10px;color:var(--faint);font-weight:800;text-transform:uppercase}
+.wkcal .d.on{background:color-mix(in srgb,var(--ac) 18%,var(--surface));border-color:var(--ac)}
+.wkcal .d .dt{font-family:var(--mono);font-size:14px;color:var(--text);margin-top:3px;min-height:16px}
+.wkcal .d.today{outline:2px solid var(--text);outline-offset:1px}
+.timeline{display:flex;flex-direction:column;gap:8px}
+.tl{display:flex;align-items:center;gap:10px;font-size:13px}
+.tl .sdot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.tl .when{color:var(--dim);font-variant-numeric:tabular-nums}
+.tl .what{color:var(--faint);text-transform:capitalize}
+.sdot.success{background:var(--good)}.sdot.partial{background:var(--warn)}.sdot.failed{background:var(--bad)}.sdot.ok{background:var(--dim)}
+.privacy{margin-top:20px;font-size:12px;color:var(--faint);background:var(--surface);border:1px dashed var(--border-2);
+  border-radius:11px;padding:11px 13px;display:flex;gap:9px;align-items:flex-start}
+.privacy svg{flex:0 0 auto;margin-top:1px;opacity:.7}
+
+/* ── footer ───────────────────────────────────────────── */
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);color:var(--faint);font-size:12px;
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.foot .ro{display:inline-flex;align-items:center;gap:7px;color:var(--dim);font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.empty{color:var(--faint);font-size:14px;padding:30px;text-align:center;border:1px dashed var(--border-2);border-radius:14px}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  body::after{opacity:.3}
+}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style></head><body>
+<a href="#main" class="visually-hidden">Skip to roster</a>
+<div class="wrap">
+  <header class="top">
+    <div class="brandblock">
+      <span class="logo" id="logo" aria-hidden="true"></span>
+      <div>
+        <div class="title"><span class="accent">FLEET</span>VIEW</div>
+        <div class="tagline" id="tagline">The agents that run the fund.</div>
+      </div>
+    </div>
+    <nav class="nav" aria-label="Dashboards">
+      <a class="navbtn" href="index.html">📊 Dashboard</a>
+      <a class="navbtn" href="roadmap.html">🗺️ Roadmap</a>
+      <span class="navbtn primary" aria-current="page">🤖 Agents</span>
+    </nav>
+  </header>
+
+  <div class="ribbon">
+    <div class="clock" id="clock" aria-live="off">— : —</div>
+    <span class="mkt closed" id="mkt">MARKET —</span>
+    <span class="spacer"></span>
+    <div class="tally" id="tally"></div>
+  </div>
+
+  <div class="controls" role="region" aria-label="Filters">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="Search agents, roles, duties…" aria-label="Search agents">
+    </label>
+    <div class="segmented" role="group" aria-label="Filter by live state">
+      <button data-state="all" aria-pressed="true">All</button>
+      <button data-state="working"><span class="dot live"></span>Live</button>
+      <button data-state="soon"><span class="dot soon"></span>On&nbsp;deck</button>
+      <button data-state="resting"><span class="dot rest"></span>Resting</button>
+    </div>
+    <div class="chips" id="deptchips" role="group" aria-label="Filter by department"></div>
+  </div>
+
+  <main id="main"><div id="zones"></div></main>
+
+  <footer class="foot">
+    <span class="ro">🔒 Read-only · no actions can be taken from this page</span>
+    <div class="legend" aria-hidden="true">
+      <span><span class="dot live"></span>Working now</span>
+      <span><span class="dot soon"></span>Going live soon</span>
+      <span><span class="dot rest"></span>Resting</span>
+    </div>
+    <span id="freshness"></span>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="m-name" tabindex="-1">
+  <div class="modal" id="modal"></div>
+</div>
+<script>const FLEET = {"meta": {"schema_version": 1, "tz": "America/Phoenix", "tz_offset_min": -420, "generated_for": "agents.html (FleetView)", "product_name": "FleetView", "tagline": "The agents that run the fund."}, "departments": [{"id": "boardroom", "label": "The Boardroom", "order": 1, "accent": "#E08A66", "blurb": "Governance & strategy. Meets twice weekly to review evidence and decide. Reports to Jashyard."}, {"id": "product", "label": "Product", "order": 2, "accent": "#C792EA", "blurb": "Turns ideas into a prioritized roadmap. Owned by Jordan (PM)."}, {"id": "engineering", "label": "Engineering", "order": 3, "accent": "#5FB3D9", "blurb": "Drafts and ships changes under sign-off. Led by Rachel & Omar."}, {"id": "trading", "label": "Trading Floor", "order": 4, "accent": "#7FCF8E", "blurb": "The live engine. Scans, enters (paper), and force-closes every market day."}, {"id": "analytics", "label": "Analytics & Quant", "order": 5, "accent": "#E6C15F", "blurb": "Scores performance, validates signal quality, files recommendations."}, {"id": "operations", "label": "Operations", "order": 6, "accent": "#8FB7E8", "blurb": "Keeps the lights on: balances, heartbeats, log sync, drift checks."}, {"id": "research", "label": "Research", "order": 7, "accent": "#9A95C9", "blurb": "Scouts new edges and keeps the knowledge base fresh."}], "agents": [{"id": "atlas", "name": "Atlas", "title": "CO-CEO \u00b7 Chair", "dept": "boardroom", "archetype": "exec", "accent": "#E08A66", "duty": "Chairs the roundtable, synthesizes debate into a decision, sets the agenda.", "reports_to": "Jashyard", "platform": "Cowork", "log_key": "r10", "stat_basis": "meetings", "rank": 1, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00", "19:00"]}, {"days": [6], "at": ["10:00", "11:00"]}], "schedule_label": "Wed 6\u20137p \u00b7 Sat 10\u201311a", "est_run_min": 40, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 73, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 4.0}, {"id": "marcus", "name": "Marcus", "title": "Head of Investing \u00b7 CIO", "dept": "boardroom", "archetype": "exec", "accent": "#E8917C", "duty": "Owns investment strategy, allocation, and the macro thesis.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "dana", "name": "Dana", "title": "Head of Risk \u00b7 CRO", "dept": "boardroom", "archetype": "guardian", "accent": "#F0726A", "duty": "Guards drawdown and sizing; can raise an advisory risk flag.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "elena", "name": "Elena", "title": "Head of Trading", "dept": "boardroom", "archetype": "exec", "accent": "#7FCF8E", "duty": "Owns execution quality and order management on the floor.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "wei", "name": "Wei", "title": "Quant Researcher", "dept": "boardroom", "archetype": "scholar", "accent": "#E6C15F", "duty": "Validates models and signal quality; factor research.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "priya", "name": "Priya", "title": "Head of Predictive Modeling", "dept": "boardroom", "archetype": "scholar", "accent": "#C792EA", "duty": "Owns model architecture, training, and backtesting.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "tomas", "name": "Tom\u00e1s", "title": "Investment Analyst", "dept": "boardroom", "archetype": "scholar", "accent": "#9BD3E0", "duty": "Fundamental analysis and opportunity screening.", "reports_to": "Marcus", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 3, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "ingrid", "name": "Ingrid", "title": "Data Scientist", "dept": "boardroom", "archetype": "scholar", "accent": "#6FC3A6", "duty": "Statistical validation; holds an advisory stats-audit gate.", "reports_to": "Devon", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 3, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "devon", "name": "Devon", "title": "Head of Analytics", "dept": "boardroom", "archetype": "exec", "accent": "#E6C15F", "duty": "Owns the metric canon, KPI definitions, and performance reporting.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "sam", "name": "Sam", "title": "Data Engineer", "dept": "boardroom", "archetype": "builder", "accent": "#5FB3D9", "duty": "Owns the data pipeline; holds an advisory data-quality gate.", "reports_to": "Devon", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 3, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "rachel", "name": "Rachel", "title": "Principal Software Engineer", "dept": "boardroom", "archetype": "builder", "accent": "#6EC1E4", "duty": "Engineering lead; holds the feasibility verdict on proposals.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "omar", "name": "Omar", "title": "Solutions Architect", "dept": "boardroom", "archetype": "builder", "accent": "#7CC6D6", "duty": "Owns the ADRs, technical design, and system reliability.", "reports_to": "Rachel", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 3, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "jordan", "name": "Jordan", "title": "Product Manager", "dept": "boardroom", "archetype": "maker", "accent": "#C792EA", "duty": "Owns the roadmap \u2014 the only agent that may write to it.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "yuki", "name": "Yuki", "title": "Product Designer", "dept": "boardroom", "archetype": "maker", "accent": "#D9A8E8", "duty": "Owns UX, dashboard design, and user flows.", "reports_to": "Jordan", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 3, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "grace", "name": "Grace", "title": "Financial Advisor", "dept": "boardroom", "archetype": "guardian", "accent": "#F3C969", "duty": "Guards the investment policy; the conscience / ethics voice.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "victor", "name": "Victor", "title": "COO \u00b7 Compliance", "dept": "boardroom", "archetype": "guardian", "accent": "#E89B6C", "duty": "Owns ops & compliance; holds an advisory reconciliation gate.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "nadia", "name": "Nadia", "title": "Head of Marketing \u00b7 IR", "dept": "boardroom", "archetype": "exec", "accent": "#E0A0B4", "duty": "Owns investor relations and reporting integrity.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-05-20", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "36 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "nova", "name": "Nova", "title": "Head of AI", "dept": "boardroom", "archetype": "ai", "accent": "#A99CF0", "duty": "Watches tools, dependencies & continuity; advisory dependency flag.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "r9", "stat_basis": "meetings", "rank": 2, "since": "2026-06-13", "schedule": [{"days": [3], "at": ["18:00"]}, {"days": [6], "at": ["10:00"]}], "schedule_label": "Wed 6p \u00b7 Sat 10a \u00b7 always-on watch", "est_run_min": 25, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 35, "note": "12 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:00:00+00:00", "last_run_status": "success", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 12", "s": "success"}], "runs_per_week": 2.0}, {"id": "pm_triage", "name": "Triage", "title": "Weekly Idea Triage (R11)", "dept": "product", "archetype": "maker", "accent": "#C792EA", "duty": "Reviews the idea inbox, scores items, and moves them onto the roadmap.", "reports_to": "Jordan", "platform": "Cowork", "log_key": "pm_triage", "stat_basis": "runs", "since": "2026-05-26", "schedule": [{"days": [1], "at": ["14:00"]}], "schedule_label": "Mon 2:00p", "est_run_min": 15, "health": {"value": 87, "label": "Excellent", "note": "reliability across last 9 runs"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 51, "note": "30 days active \u00b7 9 logged runs"}, "last_run_iso": "2026-06-23T22:04:36+00:00", "last_run_status": "success", "runs_total": 9, "recent": [{"d": "Jun 23", "s": "success"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 19", "s": "success"}, {"d": "Jun 15", "s": "partial"}, {"d": "Jun 15", "s": "success"}, {"d": "Jun 13", "s": "success"}], "runs_per_week": 1.0}, {"id": "pm_refine", "name": "Groomer", "title": "Backlog Refinement (R14)", "dept": "product", "archetype": "maker", "accent": "#D0A0EE", "duty": "Grooms dev-bound items to Definition of Ready before engineering picks them up.", "reports_to": "Jordan", "platform": "Cowork", "log_key": "pm_refine", "stat_basis": "runs", "since": "2026-05-29", "schedule": [{"days": [4], "at": ["14:00"]}], "schedule_label": "Thu 2:00p", "est_run_min": 15, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 22, "note": "27 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "pm_strategy", "name": "Strategist", "title": "Strategy Planning (R12)", "dept": "product", "archetype": "maker", "accent": "#B98AE0", "duty": "Runs 30/60/90-day roadmap planning and finds gaps on the live path.", "reports_to": "Jordan", "platform": "Cowork", "log_key": "pm_strategy", "stat_basis": "runs", "since": "2026-05-31", "schedule": [{"days": [6], "at": ["12:00"]}], "schedule_label": "Sat 12:00p", "est_run_min": 20, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 2 runs"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 42, "note": "25 days active \u00b7 2 logged runs"}, "last_run_iso": "2026-06-20T19:15:56.457393+00:00", "last_run_status": "success", "runs_total": 2, "recent": [{"d": "Jun 20", "s": "success"}, {"d": "Jun 13", "s": "success"}], "runs_per_week": 1.0}, {"id": "pm_stakeholder", "name": "Liaison", "title": "Stakeholder Sync (R13)", "dept": "product", "archetype": "maker", "accent": "#C7A0E0", "duty": "Briefs Jashyard on roadmap state, blockers, and dependencies on request.", "reports_to": "Jordan", "platform": "Cowork", "log_key": "pm_stakeholder", "stat_basis": "runs", "since": "2026-05-31", "schedule": [], "on_request": true, "schedule_label": "On request", "est_run_min": 15, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": null, "label": "Idle", "note": "no scheduled cadence"}, "level": {"value": 20, "note": "25 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 0.0}, {"id": "eng_exec", "name": "Drafter", "title": "Engineering Execution (drafts)", "dept": "engineering", "archetype": "builder", "accent": "#5FB3D9", "duty": "Drafts approved changes \u2014 diffs, rollbacks, test plans \u2014 for sign-off. Never auto-applies.", "reports_to": "Rachel", "platform": "Cowork", "log_key": "eng_exec", "stat_basis": "runs", "since": "2026-06-01", "schedule": [{"days": [0], "at": ["16:00"]}], "schedule_label": "Sun 4:00p", "est_run_min": 30, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 3 runs"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 43, "note": "24 days active \u00b7 3 logged runs"}, "last_run_iso": "2026-06-21T23:07:28.765840+00:00", "last_run_status": "success", "runs_total": 3, "recent": [{"d": "Jun 21", "s": "success"}, {"d": "Jun 14", "s": "success"}, {"d": "Jun 13", "s": "success"}], "runs_per_week": 1.0}, {"id": "eng_apply", "name": "Shipper", "title": "Apply Approved Drafts", "dept": "engineering", "archetype": "builder", "accent": "#6EC1E4", "duty": "Applies the drafts you approved, enforcing a 3-item work-in-progress cap.", "reports_to": "Rachel", "platform": "Cowork", "log_key": "eng_apply", "stat_basis": "runs", "since": "2026-06-08", "schedule": [{"days": [1], "at": ["16:30"]}], "schedule_label": "Mon 4:30p", "est_run_min": 20, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 1 runs"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 33, "note": "17 days active \u00b7 1 logged runs"}, "last_run_iso": "2026-06-22T23:51:10+00:00", "last_run_status": "success", "runs_total": 1, "recent": [{"d": "Jun 22", "s": "success"}], "runs_per_week": 1.0}, {"id": "r0", "name": "Sentry", "title": "Pre-Market QA (R0)", "dept": "trading", "archetype": "sentinel", "accent": "#7FCF8E", "duty": "Health-checks the engine and data feeds and clears the day for trading.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r0", "stat_basis": "runs", "since": "2026-06-02", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["06:30"]}], "schedule_label": "Mkt days 6:30a", "est_run_min": 5, "health": {"value": 100, "label": "Excellent", "note": "reliability across last 13 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 49, "note": "23 days active \u00b7 13 logged runs"}, "last_run_iso": "2026-06-24T13:39:24+00:00", "last_run_status": "success", "runs_total": 13, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "success"}, {"d": "Jun 23", "s": "success"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 18", "s": "success"}], "runs_per_week": 5.0}, {"id": "r1", "name": "Dawn", "title": "Daily Signal (R1)", "dept": "trading", "archetype": "trader", "accent": "#7FCF8E", "duty": "Morning scan across trend & reversion models; posts paper signals.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r1", "stat_basis": "runs", "since": "2026-05-21", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["06:43"]}], "schedule_label": "Mkt days 6:43a (9:43a ET)", "est_run_min": 8, "health": {"value": 78, "label": "Good", "note": "reliability across last 9 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 54, "note": "35 days active \u00b7 9 logged runs"}, "last_run_iso": "2026-06-24T14:10:51+00:00", "last_run_status": "success", "runs_total": 9, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "failed"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 18", "s": "ok"}, {"d": "Jun 16", "s": "success"}], "runs_per_week": 5.0}, {"id": "r3", "name": "Flash", "title": "Scalp Window 1 (R3)", "dept": "trading", "archetype": "sprinter", "accent": "#6FCF9E", "duty": "First scalp window \u2014 scalp + reversion models.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r3", "stat_basis": "runs", "since": "2026-05-23", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["07:15"]}], "schedule_label": "Mkt days 7:15a (10:15a ET)", "est_run_min": 6, "health": {"value": 77, "label": "Good", "note": "reliability across last 12 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 54, "note": "33 days active \u00b7 12 logged runs"}, "last_run_iso": "2026-06-24T14:31:41+00:00", "last_run_status": "success", "runs_total": 12, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "ok"}, {"d": "Jun 23", "s": "failed"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "success"}], "runs_per_week": 5.0}, {"id": "r4", "name": "Bolt", "title": "Scalp Window 2 (R4)", "dept": "trading", "archetype": "sprinter", "accent": "#6FCF9E", "duty": "Second scalp window \u2014 scalp + reversion models.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r4", "stat_basis": "runs", "since": "2026-05-23", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["08:00"]}], "schedule_label": "Mkt days 8:00a (11:00a ET)", "est_run_min": 6, "health": {"value": 76, "label": "Good", "note": "reliability across last 9 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 52, "note": "33 days active \u00b7 9 logged runs"}, "last_run_iso": "2026-06-24T15:29:30+00:00", "last_run_status": "success", "runs_total": 9, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "failed"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 15", "s": "partial"}], "runs_per_week": 5.0}, {"id": "r5", "name": "Midday", "title": "Afternoon Entry 1 (R5)", "dept": "trading", "archetype": "trader", "accent": "#7FCF8E", "duty": "All six active models; first afternoon-trend entry.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r5", "stat_basis": "runs", "since": "2026-05-28", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["09:30"]}], "schedule_label": "Mkt days 9:30a (12:30p ET)", "est_run_min": 8, "health": {"value": 82, "label": "Good", "note": "reliability across last 10 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 49, "note": "28 days active \u00b7 10 logged runs"}, "last_run_iso": "2026-06-23T17:09:01+00:00", "last_run_status": "success", "runs_total": 10, "recent": [{"d": "Jun 23", "s": "success"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "success"}, {"d": "Jun 15", "s": "success"}], "runs_per_week": 5.0}, {"id": "r6", "name": "Vesper", "title": "Afternoon Entry 2 (R6)", "dept": "trading", "archetype": "trader", "accent": "#7FCF8E", "duty": "All six active models; second afternoon-trend entry.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r6", "stat_basis": "runs", "since": "2026-05-28", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["11:00"]}], "schedule_label": "Mkt days 11:00a (2:00p ET)", "est_run_min": 8, "health": {"value": 91, "label": "Excellent", "note": "reliability across last 9 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 50, "note": "28 days active \u00b7 9 logged runs"}, "last_run_iso": "2026-06-24T18:35:00+00:00", "last_run_status": "success", "runs_total": 9, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "success"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "success"}], "runs_per_week": 5.0}, {"id": "r2", "name": "Anchor", "title": "EOD Force-Close (R2)", "dept": "trading", "archetype": "guardian", "accent": "#F0726A", "duty": "Never skips \u2014 force-closes every open position before the bell.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r2", "stat_basis": "runs", "since": "2026-05-21", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["12:53"]}], "schedule_label": "Mkt days 12:53p (3:53p ET)", "est_run_min": 10, "health": {"value": 88, "label": "Excellent", "note": "reliability across last 11 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 56, "note": "35 days active \u00b7 11 logged runs"}, "last_run_iso": "2026-06-24T20:45:00+00:00", "last_run_status": "partial", "runs_total": 11, "recent": [{"d": "Jun 24", "s": "partial"}, {"d": "Jun 22", "s": "partial"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 18", "s": "ok"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "success"}], "runs_per_week": 5.0}, {"id": "r7", "name": "Ledger", "title": "EOD Review (R7)", "dept": "trading", "archetype": "scholar", "accent": "#9BD3E0", "duty": "Post-market: log review, QA, phase check, dashboard regen, sync.", "reports_to": "Elena", "platform": "Cowork", "log_key": "r7", "stat_basis": "runs", "since": "2026-05-21", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["13:25"]}], "schedule_label": "Mkt days 1:25p (4:25p ET)", "est_run_min": 15, "health": {"value": 82, "label": "Good", "note": "reliability across last 10 runs"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 55, "note": "35 days active \u00b7 10 logged runs"}, "last_run_iso": "2026-06-24T23:47:03+00:00", "last_run_status": "success", "runs_total": 10, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "partial"}, {"d": "Jun 22", "s": "success"}, {"d": "Jun 18", "s": "success"}, {"d": "Jun 17", "s": "ok"}], "runs_per_week": 5.0}, {"id": "rp", "name": "Pulse", "title": "Intraday Pulse (RP)", "dept": "trading", "archetype": "sprinter", "accent": "#5FB3D9", "duty": "Scans all six models every 10 minutes through the session.", "reports_to": "Elena", "platform": "Cowork", "log_key": "rp", "stat_basis": "runs", "since": "2026-06-09", "schedule": [{"days": [1, 2, 3, 4, 5], "every_min": 10, "window": ["06:00", "12:59"]}], "schedule_label": "Mkt days \u00b7 every 10 min", "est_run_min": 3, "health": {"value": 95, "label": "Excellent", "note": "reliability across last 20 runs"}, "energy": {"value": 12, "label": "Low", "note": "runs constantly \u2014 battery low"}, "level": {"value": 58, "note": "16 days active \u00b7 155 logged runs"}, "last_run_iso": "2026-06-24T19:42:34+00:00", "last_run_status": "ok", "runs_total": 155, "recent": [{"d": "Jun 24", "s": "ok"}, {"d": "Jun 24", "s": "ok"}, {"d": "Jun 24", "s": "ok"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "ok"}], "runs_per_week": 210.0}, {"id": "heartbeat", "name": "Tempo", "title": "Market-Hours Heartbeat", "dept": "trading", "archetype": "sentinel", "accent": "#8FB7E8", "duty": "Hourly uptime monitor \u2014 pages if a trading window is missed.", "reports_to": "Elena", "platform": "Cowork", "log_key": "heartbeat", "stat_basis": "runs", "since": "2026-06-04", "schedule": [{"days": [1, 2, 3, 4, 5], "every_min": 60, "window": ["06:00", "13:00"]}], "schedule_label": "Mkt days \u00b7 top of every hour", "est_run_min": 2, "health": {"value": 90, "label": "Excellent", "note": "reliability across last 20 runs"}, "energy": {"value": 39, "label": "Med", "note": "steady workload"}, "level": {"value": 55, "note": "21 days active \u00b7 60 logged runs"}, "last_run_iso": "2026-06-24T19:12:30+00:00", "last_run_status": "success", "runs_total": 60, "recent": [{"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 24", "s": "success"}, {"d": "Jun 23", "s": "success"}, {"d": "Jun 23", "s": "success"}], "runs_per_week": 40.0}, {"id": "r8", "name": "Tearsheet", "title": "Quant Analytics Review (R8)", "dept": "analytics", "archetype": "scholar", "accent": "#E6C15F", "duty": "Builds the tearsheet & screeners; files guardrailed recommendations.", "reports_to": "Devon", "platform": "Cowork", "log_key": "r8", "stat_basis": "runs", "since": "2026-05-24", "schedule": [{"days": [3], "at": ["17:00"]}, {"days": [6], "at": ["09:00"]}], "schedule_label": "Wed 5:00p \u00b7 Sat 9:00a", "est_run_min": 20, "health": {"value": 92, "label": "Excellent", "note": "reliability across last 5 runs"}, "energy": {"value": 82, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 50, "note": "32 days active \u00b7 5 logged runs"}, "last_run_iso": "2026-06-25T00:15:44+00:00", "last_run_status": "partial", "runs_total": 5, "recent": [{"d": "Jun 25", "s": "partial"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 20", "s": "success"}, {"d": "Jun 13", "s": "success"}, {"d": "Jun 13", "s": "success"}], "runs_per_week": 2.0}, {"id": "ds_wed", "name": "Audit-W", "title": "DS KPI Review \u00b7 Wed", "dept": "analytics", "archetype": "scholar", "accent": "#F3D77A", "duty": "Validates the five KPI targets and audits signal quality.", "reports_to": "Ingrid", "platform": "Cowork", "log_key": "ds_wed", "stat_basis": "runs", "since": "2026-06-04", "schedule": [{"days": [3], "at": ["20:00"]}], "schedule_label": "Wed 8:00p", "est_run_min": 20, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 17, "note": "21 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "ds_sat", "name": "Audit-S", "title": "DS KPI Review \u00b7 Sat", "dept": "analytics", "archetype": "scholar", "accent": "#F3D77A", "duty": "Validates the five KPI targets and audits signal quality.", "reports_to": "Ingrid", "platform": "Cowork", "log_key": "ds_sat", "stat_basis": "runs", "since": "2026-06-07", "schedule": [{"days": [6], "at": ["11:00"]}], "schedule_label": "Sat 11:00a", "est_run_min": 20, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 14, "note": "18 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "balance_bod", "name": "Sunrise", "title": "Balance Snapshot \u00b7 BOD", "dept": "operations", "archetype": "sentinel", "accent": "#8FB7E8", "duty": "Posts opening paper balances for every model.", "reports_to": "Victor", "platform": "Cowork", "log_key": "balance_bod", "stat_basis": "runs", "since": "2026-06-02", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["06:35"]}], "schedule_label": "Mkt days 6:35a", "est_run_min": 3, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 18, "note": "23 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 5.0}, {"id": "balance_eod", "name": "Sunset", "title": "Balance Snapshot \u00b7 EOD", "dept": "operations", "archetype": "sentinel", "accent": "#8FB7E8", "duty": "Posts closing balances and the day's P&L direction.", "reports_to": "Victor", "platform": "Cowork", "log_key": "balance_eod", "stat_basis": "runs", "since": "2026-06-02", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["13:45"]}], "schedule_label": "Mkt days 1:45p", "est_run_min": 3, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 18, "note": "23 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 5.0}, {"id": "entries_monitor", "name": "Tally", "title": "Entries Accrual Monitor", "dept": "operations", "archetype": "sentinel", "accent": "#7CA8DC", "duty": "Checks engine integrity and trade count; posts a health light.", "reports_to": "Victor", "platform": "Cowork", "log_key": "entries_monitor", "stat_basis": "runs", "since": "2026-06-05", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["13:50"]}], "schedule_label": "Mkt days 1:50p", "est_run_min": 3, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 16, "note": "20 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 5.0}, {"id": "log_sync_eod", "name": "Courier", "title": "Log Sync \u00b7 EOD", "dept": "operations", "archetype": "sentinel", "accent": "#8FB7E8", "duty": "Pushes the full log set to the private repo; pages if it fails.", "reports_to": "Sam", "platform": "Cowork", "log_key": "log_sync_eod", "stat_basis": "runs", "since": "2026-06-06", "schedule": [{"days": [1, 2, 3, 4, 5], "at": ["13:10"]}], "schedule_label": "Mkt days 1:10p", "est_run_min": 4, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 70, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 15, "note": "19 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 5.0}, {"id": "log_sync_30m", "name": "Relay", "title": "Log Sync \u00b7 30-min", "dept": "operations", "archetype": "sentinel", "accent": "#6FB0B0", "duty": "Pushes changed logs every 30 min \u2014 runs even with the app closed. Zero AI cost.", "reports_to": "Sam", "platform": "Windows Task Scheduler", "log_key": "log_sync_30m", "stat_basis": "runs", "since": "2026-06-22", "schedule": [{"days": [0, 1, 2, 3, 4, 5, 6], "every_min": 30, "window": ["00:00", "23:59"]}], "schedule_label": "Every 30 min \u00b7 always on", "est_run_min": 1, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 10, "label": "Low", "note": "runs constantly \u2014 battery low"}, "level": {"value": 2, "note": "3 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 336.0}, {"id": "doc_drift", "name": "Proof", "title": "Doc-Drift QA", "dept": "operations", "archetype": "sentinel", "accent": "#7CA8DC", "duty": "Compares docs vs. reality and raises an advisory drift flag (never blocks).", "reports_to": "Victor", "platform": "Cowork", "log_key": "doc_drift", "stat_basis": "runs", "since": "2026-06-07", "schedule": [{"days": [6], "at": ["13:35"]}], "schedule_label": "Sat 1:35p", "est_run_min": 8, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 14, "note": "18 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "weekly_prep", "name": "Roster", "title": "Weekly Prep Check", "dept": "operations", "archetype": "sentinel", "accent": "#8FB7E8", "duty": "Verifies every trading routine is enabled before the week starts.", "reports_to": "Victor", "platform": "Cowork", "log_key": "weekly_prep", "stat_basis": "runs", "since": "2026-06-08", "schedule": [{"days": [0], "at": ["17:00"]}], "schedule_label": "Sun 5:00p", "est_run_min": 6, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 14, "note": "17 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "agent_health", "name": "Medic", "title": "Agent Health Audit", "dept": "operations", "archetype": "sentinel", "accent": "#7FCF8E", "duty": "Monthly check that every agent, skill, and task is consistent.", "reports_to": "Nova", "platform": "Cowork", "log_key": "agent_health", "stat_basis": "runs", "since": "2026-06-01", "schedule": [{"months_day": [1], "at": ["17:00"]}], "schedule_label": "1st of month 5:00p", "est_run_min": 10, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": null, "label": "Idle", "note": "no scheduled cadence"}, "level": {"value": 19, "note": "24 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 0.0}, {"id": "research_weekly", "name": "Probe", "title": "Weekly Agent Research", "dept": "research", "archetype": "scout", "accent": "#9A95C9", "duty": "Nine research personas synthesize fresh ideas grounded in real logs.", "reports_to": "Atlas", "platform": "Cowork", "log_key": "research_weekly", "stat_basis": "runs", "since": "2026-06-01", "schedule": [{"days": [0], "at": ["19:00"]}], "schedule_label": "Sun 7:00p", "est_run_min": 25, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 19, "note": "24 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}, {"id": "claude_brain", "name": "Oracle", "title": "Claude Brain Deep Research", "dept": "research", "archetype": "scout", "accent": "#A99CF0", "duty": "Bi-weekly deep research keeping the knowledge base current.", "reports_to": "Nova", "platform": "Cowork", "log_key": "claude_brain", "stat_basis": "runs", "since": "2026-06-01", "schedule": [{"months_day": [1, 15], "at": ["14:00"]}], "schedule_label": "1st & 15th 2:00p", "est_run_min": 30, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": null, "label": "Idle", "note": "no scheduled cadence"}, "level": {"value": 19, "note": "24 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 0.0}, {"id": "social_review", "name": "Echo", "title": "Social Ideas Review", "dept": "research", "archetype": "scout", "accent": "#B0A8D8", "duty": "Sunday review of the social ideas channel; drafts content concepts.", "reports_to": "Nadia", "platform": "Cowork", "log_key": "social_review", "stat_basis": "runs", "since": "2026-06-01", "schedule": [{"days": [0], "at": ["09:00"]}], "schedule_label": "Sun 9:00a", "est_run_min": 15, "health": {"value": null, "label": "Calibrating", "note": "no runs logged yet"}, "energy": {"value": 89, "label": "High", "note": "rarely runs \u2014 fully charged"}, "level": {"value": 19, "note": "24 days active \u00b7 0 logged runs"}, "last_run_iso": null, "last_run_status": null, "runs_total": 0, "recent": [], "runs_per_week": 1.0}], "generated_at": "2026-06-25 04:24 UTC", "generated_iso": "2026-06-25T04:24:49.328404+00:00", "counts": {"agents": 48, "departments": 7}};</script><script>
+(function(){
+  "use strict";
+  var TZ = (FLEET.meta && FLEET.meta.tz_offset_min) || -420;
+  var DAYS = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var STATE_ICON = {working:"◆", soon:"●", resting:"z"};
+  var STATE_WORD = {working:"Working", soon:"On deck", resting:"Resting"};
+
+  function shade(hex, amt){
+    var c = hex.replace('#',''); if(c.length===3){c=c.split('').map(function(x){return x+x}).join('');}
+    var n = parseInt(c,16); var r=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt;
+    r=Math.max(0,Math.min(255,r)); g=Math.max(0,Math.min(255,g)); b=Math.max(0,Math.min(255,b));
+    return '#'+(0x1000000+(r<<16)+(g<<8)+b).toString(16).slice(1);
+  }
+
+  /* ── 8-bit mascot (parametric SVG) ───────────────────── */
+  function emblem(arch, dk){
+    var m = {
+      exec:    "<rect x='56' y='80' width='8' height='8'/><rect x='52' y='84' width='16' height='4'/><rect x='54' y='88' width='4' height='6'/><rect x='62' y='88' width='4' height='6'/>", // crown
+      guardian:"<rect x='52' y='78' width='16' height='4'/><rect x='52' y='82' width='16' height='8'/><rect x='56' y='90' width='8' height='4'/>", // shield
+      scholar: "<rect x='48' y='82' width='10' height='8'/><rect x='62' y='82' width='10' height='8'/><rect x='58' y='84' width='4' height='2'/>", // glasses
+      builder: "<rect x='58' y='78' width='4' height='16'/><rect x='54' y='78' width='12' height='4'/><rect x='52' y='88' width='6' height='6'/>", // wrench/bolt
+      maker:   "<rect x='58' y='78' width='6' height='4'/><rect x='56' y='82' width='8' height='4'/><rect x='54' y='86' width='12' height='4'/><rect x='56' y='90' width='8' height='4'/>", // pencil
+      ai:      "<rect x='58' y='78' width='4' height='16'/><rect x='50' y='84' width='20' height='4'/><rect x='50' y='82' width='4' height='8'/><rect x='66' y='82' width='4' height='8'/>", // node
+      trader:  "<rect x='50' y='90' width='4' height='4'/><rect x='56' y='86' width='4' height='8'/><rect x='62' y='82' width='4' height='12'/><rect x='68' y='78' width='4' height='16'/>", // up-chart
+      sprinter:"<rect x='62' y='78' width='8' height='6'/><rect x='56' y='84' width='10' height='4'/><rect x='50' y='88' width='12' height='6'/>", // lightning
+      sentinel:"<rect x='56' y='84' width='8' height='8'/><rect x='52' y='80' width='16' height='2'/><rect x='52' y='92' width='16' height='2'/>", // radar
+      scout:   "<rect x='52' y='80' width='6' height='6'/><rect x='58' y='84' width='6' height='6'/><rect x='64' y='88' width='6' height='6'/>" // telescope
+    };
+    return "<g fill='"+dk+"'>"+(m[arch]||m.sentinel)+"</g>";
+  }
+  function mascot(a){
+    var ac=a.accent, dk=shade(ac,-46), lt=shade(ac,40), cream='#F4F3EE', ink='#16161c';
+    return ""+
+    "<svg class='sprite' viewBox='0 0 120 130' role='img' aria-label='"+esc(a.name)+" mascot'>"+
+      "<g class='body'>"+
+        // antenna
+        "<rect x='57' y='14' width='6' height='12' fill='"+dk+"'/>"+
+        "<rect class='tip' x='53' y='6' width='14' height='10' rx='2' fill='"+lt+"'/>"+
+        // head/body
+        "<rect x='22' y='26' width='76' height='70' rx='16' fill='"+dk+"'/>"+
+        "<rect x='26' y='30' width='68' height='62' rx='13' fill='"+ac+"'/>"+
+        // face plate
+        "<rect x='33' y='44' width='54' height='30' rx='9' fill='"+shade(ac,-22)+"'/>"+
+        // eyes
+        "<g>"+
+          "<rect x='40' y='50' width='16' height="+"'18' rx='4' fill='"+cream+"'/>"+
+          "<rect x='64' y='50' width='16' height='18' rx='4' fill='"+cream+"'/>"+
+          "<rect class='pupil' x='45' y='55' width='7' height='9' rx='2' fill='"+ink+"'/>"+
+          "<rect class='pupil' x='69' y='55' width='7' height='9' rx='2' fill='"+ink+"'/>"+
+          "<rect class='lid' x='40' y='50' width='16' height='18' rx='4' fill='"+shade(ac,-22)+"'/>"+
+          "<rect class='lid' x='64' y='50' width='16' height='18' rx='4' fill='"+shade(ac,-22)+"'/>"+
+        "</g>"+
+        // cheeks
+        "<rect x='34' y='70' width='7' height='5' rx='2' fill='"+lt+"' opacity='.7'/>"+
+        "<rect x='79' y='70' width='7' height='5' rx='2' fill='"+lt+"' opacity='.7'/>"+
+        // emblem
+        emblem(a.archetype, dk)+
+        // feet
+        "<rect x='38' y='96' width='14' height='8' rx='2' fill='"+dk+"'/>"+
+        "<rect x='68' y='96' width='14' height='8' rx='2' fill='"+dk+"'/>"+
+      "</g>"+
+      // working spark
+      "<g class='spark' fill='"+lt+"'><rect x='96' y='30' width='4' height='4'/><rect x='100' y='26' width='5' height='5'/><rect x='92' y='38' width='3' height='3'/></g>"+
+      // sleeping zzz
+      "<g class='zzz' fill='"+cream+"' font-family='var(--pixel)'><text x='92' y='34' font-size='12'>z</text><text x='100' y='24' font-size='9'>z</text></g>"+
+    "</svg>";
+  }
+
+  /* ── time / schedule ─────────────────────────────────── */
+  function azParts(ms){
+    var d = new Date(ms + TZ*60000);
+    return {y:d.getUTCFullYear(), mon:d.getUTCMonth(), day:d.getUTCDate(),
+            dow:d.getUTCDay(), h:d.getUTCHours(), min:d.getUTCMinutes(),
+            mod:d.getUTCHours()*60+d.getUTCMinutes()};
+  }
+  function azToUtcMs(y,mon,day,h,m){ return Date.UTC(y,mon,day,h,m) - TZ*60000; }
+  function hm(s){ var p=String(s).split(':'); return [+p[0],+p[1]]; }
+
+  // returns {workingNow, nextMs} for an agent given now(ms)
+  function schedStatus(a, now){
+    var sched = a.schedule||[]; var nowP = azParts(now);
+    var workingNow=false, nextMs=Infinity;
+    var est = (a.est_run_min||8)*60000;
+    for(var add=0; add<14; add++){
+      var base = new Date(Date.UTC(nowP.y,nowP.mon,nowP.day) + add*86400000);
+      var Y=base.getUTCFullYear(),M=base.getUTCMonth(),D=base.getUTCDate(),dow=base.getUTCDay();
+      for(var i=0;i<sched.length;i++){
+        var r=sched[i];
+        var dayOk = r.days ? r.days.indexOf(dow)>=0 : false;
+        var monOk = r.months_day ? r.months_day.indexOf(D)>=0 : false;
+        if(!dayOk && !monOk) continue;
+        if(r.every_min && r.window){
+          var ws=hm(r.window[0]), we=hm(r.window[1]);
+          var wsMs=azToUtcMs(Y,M,D,ws[0],ws[1]), weMs=azToUtcMs(Y,M,D,we[0],we[1]);
+          if(now>=wsMs && now<=weMs+est){ workingNow=true; }
+          // next step time
+          if(now < wsMs){ nextMs=Math.min(nextMs,wsMs); }
+          else if(now<=weMs){
+            var elapsed=Math.floor((now-wsMs)/(r.every_min*60000))+1;
+            var nx=wsMs+elapsed*r.every_min*60000;
+            if(nx<=weMs) nextMs=Math.min(nextMs,nx);
+          }
+        } else if(r.at){
+          for(var j=0;j<r.at.length;j++){
+            var t=hm(r.at[j]); var tMs=azToUtcMs(Y,M,D,t[0],t[1]);
+            if(now>=tMs && now<=tMs+est){ workingNow=true; }
+            if(tMs>=now-est){ nextMs=Math.min(nextMs, tMs<now?Infinity:tMs); }
+            if(tMs>=now) nextMs=Math.min(nextMs,tMs);
+          }
+        }
+      }
+      if(workingNow || nextMs!==Infinity) { if(add>=1 && nextMs!==Infinity) break; }
+    }
+    return {workingNow:workingNow, nextMs:nextMs};
+  }
+  function stateOf(a, now){
+    if(a.on_request) return {state:'resting', nextMs:Infinity, label:'On request'};
+    var s=schedStatus(a, now);
+    if(s.workingNow) return {state:'working', nextMs:s.nextMs, label:'Running now'};
+    if(s.nextMs!==Infinity && (s.nextMs-now)<=90*60000) return {state:'soon', nextMs:s.nextMs, label:'Going live '+rel(s.nextMs-now)};
+    return {state:'resting', nextMs:s.nextMs, label:s.nextMs!==Infinity?('Next '+rel(s.nextMs-now)):'Idle'};
+  }
+  function rel(ms){
+    if(ms<=0) return 'now';
+    var m=Math.round(ms/60000); if(m<60) return 'in '+m+'m';
+    var h=Math.floor(m/60), mm=m%60; if(h<24) return 'in '+h+'h'+(mm?' '+mm+'m':'');
+    var d=Math.floor(h/24), hh=h%24; return 'in '+d+'d'+(hh?' '+hh+'h':'');
+  }
+  function ago(iso){
+    if(!iso) return 'no runs yet';
+    var ms=Date.now()-new Date(iso).getTime(); if(ms<0) return 'just now';
+    var m=Math.round(ms/60000); if(m<60) return m+'m ago';
+    var h=Math.floor(m/60); if(h<24) return h+'h ago';
+    var d=Math.floor(h/24); if(d<30) return d+'d ago';
+    return Math.floor(d/30)+'mo ago';
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  /* ── meters ──────────────────────────────────────────── */
+  function barColor(kind,val){
+    if(val==null) return 'var(--faint)';
+    if(kind==='health') return val>=85?'var(--good)':val>=60?'var(--warn)':'var(--bad)';
+    if(kind==='energy') return val<34?'var(--bad)':val<67?'var(--warn)':'var(--good)';
+    return 'var(--ac)';
+  }
+  function segBar(kind,val){
+    if(val==null) return "<div class='bar' aria-hidden='true'><i style='flex:1;background:repeating-linear-gradient(45deg,var(--surface-3) 0 4px,var(--border-2) 4px 8px)'></i></div>";
+    var n=10, on=Math.round(val/100*n), col=barColor(kind,val), html="<div class='bar' aria-hidden='true'>";
+    for(var k=0;k<n;k++){ html+="<i style='background:"+(k<on?col:'var(--surface-3)')+"'></i>"; }
+    return html+"</div>";
+  }
+  function meterRow(label,kind,obj){
+    var v=obj.value;
+    var valhtml = v==null? "<span class='calib'>calibrating</span>" : (kind==='level'? ('Lv '+v) : (v+(kind==='health'||kind==='energy'?'':'')));
+    return "<div class='meter'><span class='mlabel'>"+label+"</span>"+segBar(kind,v)+
+           "<span class='mval'>"+valhtml+"</span></div>";
+  }
+
+  /* ── card ────────────────────────────────────────────── */
+  function weekDots(a){
+    var days={}; (a.schedule||[]).forEach(function(r){ (r.days||[]).forEach(function(d){days[d]=1;}); if(r.months_day) days['m']=1; });
+    var today=azParts(Date.now()).dow, html="<div class='cal' aria-hidden='true'>";
+    for(var d=0;d<7;d++){ html+="<span class='"+(days[d]?'on':'')+(d===today?' today':'')+"'></span>"; }
+    return html+"</div>";
+  }
+  function sizeClass(a){
+    if(a.dept==='boardroom'){ if(a.rank===1) return 'xl'; if(a.rank===2) return 'lg'; return ''; }
+    return '';
+  }
+  function card(a){
+    var st=stateOf(a, Date.now());
+    var lvl=a.level.value, xp=(lvl%10)*10+10;
+    var warn = a.last_run_status==='failed' ? "<span class='warnflag' title='Last run failed'>▲</span>" : "";
+    var aria = a.name+", "+a.title+". "+STATE_WORD[st.state]+". Health "+(a.health.value==null?'calibrating':a.health.value+' percent')+
+               ", energy "+(a.energy.value==null?'idle':a.energy.value+' percent')+", level "+lvl+". "+st.label+".";
+    return "<button class='card m-"+st.state+" "+sizeClass(a)+"' style='--ac:"+a.accent+"' data-id='"+a.id+"' "+
+      "data-name='"+esc((a.name+' '+a.title+' '+a.duty).toLowerCase())+"' data-state='"+st.state+"' data-dept='"+a.dept+"' "+
+      "aria-label='"+esc(aria)+"'>"+
+      "<div class='card-top'>"+
+        "<span class='portrait' aria-hidden='true'>"+mascot(a)+"</span>"+
+        "<div class='who'>"+
+          "<div class='name'>"+esc(a.name)+warn+"</div>"+
+          "<div class='role'>"+esc(a.title)+"</div>"+
+          "<span class='statechip s-"+st.state+"'><span class='ico' aria-hidden='true'>"+STATE_ICON[st.state]+"</span>"+STATE_WORD[st.state]+"</span>"+
+        "</div>"+
+        "<div class='lv'><span class='lv-badge'>LV"+lvl+"</span><div class='lv-xp'><i style='width:"+xp+"%'></i></div></div>"+
+      "</div>"+
+      "<div class='duty'>"+esc(a.duty)+"</div>"+
+      "<div class='meters'>"+
+        meterRow('Health','health',a.health)+
+        meterRow('Energy','energy',a.energy)+
+      "</div>"+
+      "<div class='card-foot'>"+
+        "<span class='foot-next'>"+(st.state==='working'?'◆ live':st.label)+"</span>"+
+        weekDots(a)+
+      "</div>"+
+    "</button>";
+  }
+
+  /* ── render zones ────────────────────────────────────── */
+  var filterState='all', filterDept='all', query='';
+  function render(){
+    var now=Date.now();
+    var zones=document.getElementById('zones'); zones.innerHTML='';
+    var shown=0;
+    FLEET.departments.slice().sort(function(a,b){return a.order-b.order;}).forEach(function(dep){
+      if(filterDept!=='all' && filterDept!==dep.id) return;
+      var list=FLEET.agents.filter(function(a){return a.dept===dep.id;});
+      list.sort(function(a,b){
+        var ra=(a.rank||9)-(b.rank||9); if(ra) return ra; return a.name.localeCompare(b.name);
+      });
+      var cards=list.filter(function(a){
+        var st=stateOf(a,now).state;
+        if(filterState!=='all' && st!==filterState) return false;
+        if(query && (a.name+' '+a.title+' '+a.duty).toLowerCase().indexOf(query)<0) return false;
+        return true;
+      });
+      if(!cards.length) return;
+      shown+=cards.length;
+      var sec=document.createElement('section'); sec.className='zone';
+      sec.innerHTML="<div class='zone-h'><span class='zone-bar' style='background:"+dep.accent+"'></span>"+
+        "<span class='zone-title' style='color:"+dep.accent+"'>"+esc(dep.label)+"</span>"+
+        "<span class='zone-count'>"+cards.length+" agent"+(cards.length>1?'s':'')+"</span></div>"+
+        "<div class='zone-blurb'>"+esc(dep.blurb)+"</div>"+
+        "<div class='grid'>"+cards.map(card).join('')+"</div>";
+      zones.appendChild(sec);
+    });
+    if(!shown){ zones.innerHTML="<div class='empty'>No agents match these filters.</div>"; }
+    bindCards();
+    updateTally();
+  }
+
+  function updateTally(){
+    var now=Date.now(), w=0,s=0,r=0;
+    FLEET.agents.forEach(function(a){var st=stateOf(a,now).state; if(st==='working')w++;else if(st==='soon')s++;else r++;});
+    document.getElementById('tally').innerHTML=
+      "<span class='pill'><span class='dot live'></span><b>"+w+"</b> live</span>"+
+      "<span class='pill'><span class='dot soon'></span><b>"+s+"</b> on deck</span>"+
+      "<span class='pill'><span class='dot rest'></span><b>"+r+"</b> resting</span>"+
+      "<span class='pill'><b>"+FLEET.agents.length+"</b> total</span>";
+  }
+
+  /* ── modal ───────────────────────────────────────────── */
+  var lastFocus=null;
+  function openModal(id){
+    var a=FLEET.agents.filter(function(x){return x.id===id;})[0]; if(!a) return;
+    var st=stateOf(a,Date.now());
+    var dep=FLEET.departments.filter(function(d){return d.id===a.dept;})[0]||{label:a.dept};
+    var sched=a.schedule||[];
+    // week calendar with times
+    var byDay={}; sched.forEach(function(r){ (r.days||[]).forEach(function(d){ byDay[d]=byDay[d]||[]; if(r.at) r.at.forEach(function(t){byDay[d].push(fmt12(t));}); if(r.every_min) byDay[d].push('every '+r.every_min+'m'); }); });
+    var today=azParts(Date.now()).dow, wk="<div class='wkcal'>";
+    for(var d=0;d<7;d++){ var on=byDay[d]&&byDay[d].length; wk+="<div class='d"+(on?' on':'')+(d===today?' today':'')+"'><div class='dn'>"+DAYS[d]+"</div><div class='dt'>"+(on?byDay[d].join('<br>'):'·')+"</div></div>"; }
+    wk+="</div>";
+    if(sched.some(function(r){return r.months_day;})) wk+="<div class='zone-blurb' style='margin-top:8px'>Plus: "+esc(a.schedule_label)+"</div>";
+    var tl=(a.recent&&a.recent.length)? a.recent.map(function(r){return "<div class='tl'><span class='sdot "+r.s+"'></span><span class='when'>"+esc(r.d)+"</span><span class='what'>"+esc(r.s)+"</span></div>";}).join('') : "<div class='zone-blurb'>No runs logged yet — this agent is calibrating.</div>";
+
+    var lvl=a.level.value;
+    document.getElementById('modal').innerHTML=
+      "<button class='modal-x' id='mx' aria-label='Close'>×</button>"+
+      "<div class='modal-head'>"+
+        "<span class='portrait m-"+st.state+"' aria-hidden='true'>"+mascot(a)+"</span>"+
+        "<div><h2 id='m-name'>"+esc(a.name)+"</h2><div class='mrole'>"+esc(a.title)+"</div>"+
+        "<span class='deptchip'><span class='cdot' style='width:8px;height:8px;border-radius:2px;background:"+dep.accent+"'></span>"+esc(dep.label)+" · reports to "+esc(a.reports_to)+"</span></div>"+
+      "</div>"+
+      "<div class='modal-body'>"+
+        "<div class='mduty'>"+esc(a.duty)+"</div>"+
+        "<div class='mgrid'>"+
+          mcell('Status', "<span class='s-"+st.state+"' style='padding:2px 8px;border-radius:6px'>"+STATE_ICON[st.state]+" "+STATE_WORD[st.state]+"</span>", st.label)+
+          mcell('Last run', a.last_run_iso?ago(a.last_run_iso):'—', a.last_run_status?('status: '+a.last_run_status):'no history yet')+
+          mcell('Health', a.health.value==null?'Calibrating':(a.health.value+'% · '+a.health.label), a.health.note)+
+          mcell('Energy', a.energy.value==null?'Idle':(a.energy.value+'% · '+a.energy.label), a.energy.note)+
+          mcell('Level', 'Lv '+lvl+' / 100', a.level.note)+
+          mcell('Platform', esc(a.platform), 'runs · '+esc(a.schedule_label))+
+        "</div>"+
+        "<div class='section-t'>Weekly schedule</div>"+wk+
+        "<div class='section-t'>Recent activity</div><div class='timeline'>"+tl+"</div>"+
+        "<div class='privacy'>"+
+          "<svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='3' y='11' width='18' height='10' rx='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>"+
+          "<span>This view is <b>read-only</b> and shows only schedule &amp; reliability. It never exposes positions, balances, account numbers, or strategy parameters.</span>"+
+        "</div>"+
+      "</div>";
+    var scrim=document.getElementById('scrim');
+    scrim.style.setProperty('--ac', a.accent);
+    document.getElementById('modal').style.setProperty('--ac', a.accent);
+    lastFocus=document.activeElement; scrim.classList.add('show');
+    document.getElementById('mx').focus();
+    document.getElementById('mx').onclick=closeModal;
+  }
+  function mcell(k,v,note){ return "<div class='mcell'><div class='k'>"+k+"</div><div class='v'>"+v+"</div>"+(note?"<div class='note'>"+esc(note)+"</div>":'')+"</div>"; }
+  function fmt12(t){ var p=t.split(':'),h=+p[0],m=p[1]; var ap=h>=12?'p':'a'; var hh=h%12||12; return hh+(m==='00'?'':':'+m)+ap; }
+  function closeModal(){ document.getElementById('scrim').classList.remove('show'); if(lastFocus)lastFocus.focus(); }
+
+  function bindCards(){
+    [].forEach.call(document.querySelectorAll('.card'), function(c){
+      c.onclick=function(){ openModal(c.getAttribute('data-id')); };
+    });
+  }
+
+  /* ── clock + market ──────────────────────────────────── */
+  function tick(){
+    var now=Date.now(), p=azParts(now);
+    var az=pad(p.h)+':'+pad(p.min);
+    var e=new Date(now-(60-0)*0); // ET shown via offset diff from AZ (+3h, ET is UTC-4/-5; AZ no DST). Use stored label.
+    var etP=azParts(now+180*60000); // approx ET = AZ + 3h during DST
+    document.getElementById('clock').innerHTML="<b>"+az+"</b> AZ &nbsp;·&nbsp; "+pad(etP.h)+":"+pad(etP.min)+" ET";
+    var open = (p.dow>=1&&p.dow<=5 && p.mod>=390 && p.mod<=780); // 6:30a–1:00p AZ ≈ market hours
+    var mkt=document.getElementById('mkt');
+    mkt.className='mkt '+(open?'open':'closed'); mkt.textContent=open?'MARKET OPEN':'MARKET CLOSED';
+  }
+  function pad(n){return (n<10?'0':'')+n;}
+
+  /* ── controls ────────────────────────────────────────── */
+  function buildDeptChips(){
+    var el=document.getElementById('deptchips');
+    var html="<button class='chip' data-dept='all' aria-pressed='true'>All depts</button>";
+    FLEET.departments.slice().sort(function(a,b){return a.order-b.order;}).forEach(function(d){
+      html+="<button class='chip' data-dept='"+d.id+"' aria-pressed='false'><span class='cdot' style='background:"+d.accent+"'></span>"+esc(d.label)+"</button>";
+    });
+    el.innerHTML=html;
+    [].forEach.call(el.querySelectorAll('.chip'),function(b){
+      b.onclick=function(){ filterDept=b.getAttribute('data-dept');
+        [].forEach.call(el.querySelectorAll('.chip'),function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+        render(); };
+    });
+  }
+  function init(){
+    document.getElementById('logo').innerHTML=mascot({name:'FleetView',accent:'#D97757',archetype:'ai'});
+    if(FLEET.meta&&FLEET.meta.tagline) document.getElementById('tagline').textContent=FLEET.meta.tagline;
+    document.getElementById('freshness').textContent='Data refreshed '+FLEET.generated_at+' · '+FLEET.counts.agents+' agents · '+FLEET.counts.departments+' departments';
+    buildDeptChips();
+    [].forEach.call(document.querySelectorAll('.segmented button'),function(b){
+      b.onclick=function(){ filterState=b.getAttribute('data-state');
+        [].forEach.call(document.querySelectorAll('.segmented button'),function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+        render(); };
+    });
+    document.getElementById('q').addEventListener('input',function(e){ query=e.target.value.toLowerCase().trim(); render(); });
+    document.getElementById('scrim').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
+    tick(); setInterval(tick,1000*20);
+    render(); setInterval(render, 1000*60); // re-evaluate states each minute
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script></body></html>
